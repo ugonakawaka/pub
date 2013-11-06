@@ -7,6 +7,8 @@
 //
 
 #import "SclDetailViewController.h"
+#import <CouchbaseLite/CouchbaseLite.h>
+#import "Memo.h"
 
 @interface SclDetailViewController ()
 - (void)configureView;
@@ -28,24 +30,37 @@
 
 - (void)configureView
 {
-    // Update the user interface for the detail item.
-
     if (self.detailItem) {
-        self.detailDescriptionLabel.text = [self.detailItem description];
+        
+        Memo *memo = (Memo*)self.detailItem;
+        
+        self.textTitle.text = memo.title;
+        self.textMemo.text = memo.memo;
     }
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
     [self configureView];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)save:(id)sender {
+    if (self.detailItem) {
+        Memo *memo = (Memo*)self.detailItem;
+        memo.title = self.textTitle.text;
+        memo.memo = self.textMemo.text;
+
+        NSError* error;
+        BOOL ok = [memo save: &error];
+        if (ok) {
+            NSLog(@"**** save memo");
+        }
+    }
+}
 @end

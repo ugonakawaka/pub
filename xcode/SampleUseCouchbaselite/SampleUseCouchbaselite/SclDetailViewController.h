@@ -13,4 +13,9 @@
 @property (strong, nonatomic) id detailItem;
 
 @property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
+
+@property (weak, nonatomic) IBOutlet UITextField *textTitle;
+@property (weak, nonatomic) IBOutlet UITextView *textMemo;
+
+- (IBAction)save:(id)sender;
 @end

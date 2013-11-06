@@ -38,6 +38,13 @@
     _database = ((SclAppDelegate*)[[UIApplication sharedApplication] delegate]).database;
 }
 
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    // 再描画させる
+    [self.tableView reloadData];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -53,7 +60,7 @@
     NSError* error;
     BOOL ok = [item save: &error];
     if (ok) {
-        NSLog(@"**** save ok!! document count:[%d]", [_database documentCount]);
+        NSLog(@"**** save ok!! %d", [_database documentCount]);
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
         [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
@@ -80,8 +87,13 @@
 
     cell.textLabel.text =[memo.title description];
     {
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"yyyy-MM-dd(E) HH:mm:ss"];
+
+        static NSDateFormatter *formatter = nil;
+        if (formatter == nil){
+            formatter = [[NSDateFormatter alloc] init];
+            [formatter setDateFormat:@"yyyy-MM-dd(E) HH:mm:ss"];
+        }
+
         NSString *s = [formatter stringFromDate:memo.created_at];
         cell.detailTextLabel.text = s;
     }
@@ -98,6 +110,8 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
+//        [_objects removeObjectAtIndex:indexPath.row];
+//        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
         Memo *memo = [self getMemo:indexPath];
 
@@ -134,6 +148,7 @@
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         
         Memo *memo = [self getMemo:indexPath];
+        
         [[segue destinationViewController] setDetailItem:memo];
     }
 }
