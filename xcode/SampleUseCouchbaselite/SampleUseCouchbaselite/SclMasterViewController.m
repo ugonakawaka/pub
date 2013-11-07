@@ -12,9 +12,7 @@
 #import "Memo.h"
 
 @interface SclMasterViewController () {
-    NSMutableArray *_objects;
     CBLDatabase* _database;
-    CBLLiveQuery* _query;
 }
 @end
 
