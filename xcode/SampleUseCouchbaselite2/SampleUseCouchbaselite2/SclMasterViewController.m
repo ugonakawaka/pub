@@ -32,9 +32,7 @@
 
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
     self.navigationItem.rightBarButtonItem = addButton;
-    
     [self setEditing: NO];
-    [self.tableView setEditing: YES animated: YES];
     _database = ((SclAppDelegate*)[[UIApplication sharedApplication] delegate]).database;
     
     [[_database modelFactory] registerClass: [Memo class] forDocumentType: @"memo"];
@@ -48,6 +46,21 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void) setEditing:(BOOL)editing {
+    [_tableView setEditing: editing animated: YES];
+    
+    UIBarButtonSystemItem item = editing ? UIBarButtonSystemItemDone : UIBarButtonSystemItemEdit;
+    UIBarButtonItem* editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:item
+                                                                                target:self
+                                                                                action:@selector(editLists:)];
+    self.navigationItem.leftBarButtonItem = editButton;
+}
+
+// Handles button command to toggle edit mode for the table view.
+- (IBAction) editLists: (id)sender {
+    [self setEditing: !_tableView.editing];
 }
 
 - (void)insertNewObject:(id)sender
