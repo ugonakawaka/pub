@@ -1,0 +1,15 @@
+
+
+
+$ go build -mod=mod
+-mod=mod not supported (can be '', 'readonly', or 'vendor')
+
+↑このエラーがでる場合は、goのバージョン問題
+コードは、
+golang/go/go1.12.17/src/cmd/go/internal/work/init.go
+  243,16: 		base.Fatalf("-mod=%s not supported (can be '', 'readonly', or 'vendor')", cfg.BuildMod)
+golang/go/go1.13/src/cmd/go/internal/work/init.go
+  249,16: 		base.Fatalf("-mod=%s not supported (can be '', 'readonly', or 'vendor')", cfg.BuildMod)
+golang/go/go1.14/go/src/cmd/go/internal/work/init.go
+  234,16: 		base.Fatalf("-mod=%s not supported (can be '', 'mod', 'readonly', or 'vendor')", cfg.BuildMod)
+
