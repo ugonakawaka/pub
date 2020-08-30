@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option java_package = "z_grpc.grpc";
+option java_outer_classname = "CmdClass";
+
+
+// The greeter service definition.
+service Cmd {
+    rpc doCmd ( CmdRequest ) returns ( CmdReply ) {}
+    rpc startEcho ( CmdRequest ) returns ( CmdReply ) {}
+    rpc stopEcho ( CmdRequest ) returns ( CmdReply ) {}
+
+}
+
+message CmdRequest {
+    string command = 1;
+    string address = 2;
+}
+
+message CmdReply {
+    string message = 1;
+}
+
+

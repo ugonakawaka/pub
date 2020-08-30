@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+option java_package = "z_grpc.grpc";
+option java_outer_classname = "SleepClass";
+
+
+// The Sleeper service definition.
+service Sleeper {
+    // Sends a greeting
+    rpc doSleep ( SleepRequest) returns (  SleepReply) {}
+
+}
+
+
+// The request message containing sleep time.
+message SleepRequest {
+    uint32 time = 1;
+    string name = 2;
+}
+
+// The response message containing the sleeep msg
+message SleepReply {
+    string message = 1;
+}
+
+
