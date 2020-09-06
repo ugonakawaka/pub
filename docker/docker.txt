@@ -1,0 +1,28 @@
+docker
+
+============
+osx
+$ brew install docker
+$ brew cask install docker
+$ docker --version
+$ open /Applications/Docker.app
+
+※cask
+macのGUIもコマンドでインストールしたい
+============
+
+$ docker images
+
+$ docker ps -a
+
+imageの削除
+docker rmi [イメージID]
+============
+https://hub.docker.com/_/redis
+$ docker pull redis
+$ docker run --name some-redis -d -p 6379:6379 redis
+$ docker stop some-redis
+$ docker start some-redis
+$ docker rm some-redis
+
+

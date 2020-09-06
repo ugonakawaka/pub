@@ -1,4 +1,69 @@
+✨✨GO MEMO✨✨
 
+update:2020/09/06
+
+go-gtp clone
+git clone https://github.com/wmnsk/go-gtp
+
+■GO
+パッケージ一覧
+https://golang.org/pkg/
+http://golang.jp/pkg
+
+サンプルコード
+https://gobyexample.com/
+
+
+■その他
+netlink カーネルとユーザー空間で情報をやりとりするためのインタフェース
+
+*osx loopback address
+sudo ifconfig lo0 alias 127.0.0.2 up
+sudo ifconfig lo0 alias 127.0.0.3 up
+sudo ifconfig lo0 alias 127.0.0.5 up
+sudo ifconfig lo0 alias 127.0.0.51 up
+sudo ifconfig lo0 alias 127.0.0.52 up
+sudo ifconfig lo0 alias 127.0.0.53 up
+sudo ifconfig lo0 alias 127.0.0.111 up
+sudo ifconfig lo0 alias 127.0.0.112 up
+
+homebrew 実体は↓
+/usr/local/Cellar
+
+
+■GO 環境
+update
+$ brew upgrade go
+go 1.14.2_1 -> 1.14.6
+$ go version
+$ go env
+$ go env GOROOT
+/usr/local/Cellar/go/1.14.6/libexec
+$ go env GOPATH 
+/Users/nakawakashigeto/go
+GOPATHの下に、bin,pkgがあり、pkg/mod/github.com ができていた
+↓まちがい？
+$ ls $GOPATH
+$ cd $GOPATH/src/github.com/
+
+■GO その他
+メモリ割当の様子
+go build -gcflags -m hello.go
+ソースコード整形(デフォルトでハードタブ)
+go fmt test.go
+
+go list -m              # print path of main module
+go list -m -f={{.Dir}}  # print root directory of main module
+go list -m all          # print build list 現在の依存モジュールを表示
+
+go build
+/a/a/a/a/a/xxx.go
+上にトラバースして、go.mod
+を探しているようだ。ないとビルドエラーになる依存が解決されないからだと思う
+go.sumはgo.modから生成されているようだ
+
+go clean 
+buildとかtestで生成したものとか消してくれる
 
 
 $ go build -mod=mod
@@ -13,3 +78,264 @@ golang/go/go1.13/src/cmd/go/internal/work/init.go
 golang/go/go1.14/go/src/cmd/go/internal/work/init.go
   234,16: 		base.Fatalf("-mod=%s not supported (can be '', 'mod', 'readonly', or 'vendor')", cfg.BuildMod)
 
+
+
+■main
+package main
+import fmt "fmt" // 入出力フォーマットを実装したパッケージ
+func main() {
+    fmt.Printf("Hello, world; or Καλημέρα κόσμε; or こんにちは 世界\n")
+}
+
+■Go Modlue
+Go 1.11 から追加された外部パッケージの管理システム
+
+■GO 基本
+
+・(型)配列型 Array types
+[32]byte
+[2*N] struct { x, y int32 }
+[1000]*float64
+[3][5]int
+[2][2][2]float64  // [2]([2]([2]float64))と同じ
+
+・(型)スライス Slice types
+make([]T, length, capacity) // ※makeは組み込み関数
+make([]int, 50, 100)
+new([100]int)[0:50]
+
+・(型)構造体 Struct types
+// A struct with 6 fields.
+struct {
+	x, y int
+	u float32
+	_ float32  // padding
+	A *[]int
+	F func()
+}
+
+・(型)ポインタ型
+*Point
+*[4]int
+
+・(型)関数型 Function types
+func()
+func(x int) int
+func(a, _ int, z float32) bool
+func(a, b int, z float32) (bool)
+func(prefix string, values ...int)
+func(a, b int, z float64, opt ...interface{}) (success bool)
+func(int, int, float64) (float64, *[]int)
+func(n int) func(p *T)
+
+・(型)インタフェース型 Interface types
+interface { // 単純なFileインタフェース
+	Read(b Buffer) bool
+	Write(b Buffer) bool
+	Close()
+}
+func (p T) Read(b Buffer) bool { return … }
+func (p T) Write(b Buffer) bool { return … }
+func (p T) Close() { … }
+
+type Lock interface { // ロックというインテーフェイス
+	Lock()
+	Unlock()
+}
+type ReadWrite interface { // ReadWrite
+	Read(b Buffer) bool
+	Write(b Buffer) bool
+}
+type File interface {
+	ReadWrite  // ReadWrite内のメソッドを列挙したことと同じ
+	Lock       // Lock内のメソッドを列挙したことと同じ
+	Close()
+}
+
+・(型)マップ型 Map types
+map[K] V型
+
+map[string]int
+map[*T]struct{ x, y float64 }
+map[string]interface{}
+
+make(map[string]int)
+make(map[string]int, 100)
+
+var v, ok = a[x] // インデックス式 (V, bool)型の2つの値
+delete(m, k)  // マップmから要素m[k]を削除
+
+・(型)チャネル型 Channel types 
+チャネルは同時に実行されている2つの関数に、同期実行と特定の要素型の値を受け渡す通信機構を提供
+<-演算子で、チャネルの方向と、送信か受信かを指定 そうでない場合、双方向
+
+chan T          // T型の値を送受信可能
+chan<- float64  // float64の送信のみ
+<-chan int      // intの受信のみ
+
+make(chan int, 100) // キャパシティは要素数 チャネルのバッファサイズ
+close(c) // 今後値が送信されないよう印する
+
+・(演算子)受信演算子 Receive operator
+<-chの値は、チャネルであるchから受信した値
+この式は値が受信できるようになるまでブロック
+v1 := <-ch
+v2 = <-ch
+f(<-ch)
+<-strobe  // クロックパルスを待ち、受信した値を破棄する
+
+初期化で使用されるときは、追加情報が得られる
+x, ok = <-ch
+x, ok := <-ch
+var x, ok = <-ch
+
+・(式)セレクタ Selectors
+x.f // xはパッケージ名ではない
+p.z   // (*p).z
+p.y   // ((*p).T1).y
+p.x   // (*(*p).T0).x
+
+p.M2  // (*p).M2
+p.M1  // ((*p).T1).M1
+p.M0  // ((*p).T0).M0
+
+・(演算子)アドレス演算子 Address operators
+T型であるxをオペランドとするアドレス演算&xは、
+*T型であり、かつxを示すポインタを生成します
+&x
+&a[f(2)]
+
+*T型(ポインタ)であるxをオペランドとするポインタの間接参照*xは、
+xによって指されるT型の値を表します
+*p
+*pf(x)
+
+
+・(宣言)import
+import   "lib/math"         math.Sin
+import M "lib/math"         M.Sin    エイリアス 
+import . "lib/math"         Sin
+
+・(宣言)iota 事前宣言済み識別子
+定数ジェネレータ
+const (
+	zero = iota
+	one
+	-
+	three
+)
+
+・(ステートメント) go 並行実行
+独立した並列スレッドまたはゴルーチン(goroutine)として、
+関数またはメソッドの実行を同一アドレス空間で開始
+※goroutineは軽量スレッド goroutineの仕組みは(あとで補足)
+
+go Server()
+go func(ch chan<- bool) { for { sleep(10); ch <- true; }} (c)
+
+・(ステートメント) select
+selectステートメントは通信可能な集合の中から、実行可能なものを選択
+select」ステートメント内の全てのcaseにおいて、チャネル式が上から下へと順番に評価
+
+
+・ファンクション宣言
+
+・メソッド宣言
+A method is a function with a receiver. 
+func(レシーバ)(引数)(返り値)
+ 
+func (p *Point) Length() float64 {
+	return math.Sqrt(p.x * p.x + p  .y * p.y)
+}
+
+func(p *Point, factor float64)
+However, a function declared this way is not a method.
+
+
+・make
+make関数はパラメータにスライスの型と長さ、オプションでキャパシティをとる
+
+make([]T, length)
+make([]T, length, capacity)
+e.g.)
+make([]int, 50, 100)
+new([100]int)[0:50]
+
+・(制御構造)for
+Go言語のforループは、C言語のforとwhileループを兼ねている
+1.Cのforに相当する形式
+sum := 0
+for i := 0; i < 10; i++ {
+    sum += i
+}
+2.配列、スライス、文字列、マップの内容、もしくはチャネルから読み込んだデータをループ
+rangeを使う
+var m map[string]int
+sum := 0
+for _, value := range m {  // キーは使われません
+    sum += value
+}
+for pos, char := range "日本語" { // 文字列
+    fmt.Printf("character %c starts at byte position %d\n", char, pos)
+}
+
+・(関数)defer
+実行した関数がリターンする直前に、指定した関数の呼び出しが行われるようにスケジューリングする
+ミューテックスのアンロックや、ファイルのクローズに使う
+// Contentsは、ファイルの内容を文字列として返します。
+
+func Contents(filename string) (string, os.Error) {
+    f, err := os.Open(filename)
+    if err != nil {
+        return "", err
+    }
+    defer f.Close()  // f.Closeは、完了時に実行される
+
+    var result []byte
+    buf := make([]byte, 100)
+    for {
+        n, err := f.Read(buf[0:])
+        rresult = append(result, buf[0:n]...) // appendについては後述します。
+        if err != nil {
+            if err == os.EOF {
+                break
+            }
+            return "", err  // ここでリターンしたときに、fはクローズされる
+        }
+    }
+    return string(result), nil // ここでリターンしたときに、fはクローズされる
+}
+
+
+■GO パッケージ
+・context
+e.g.)
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+・flag flagパッケージ flag.String(),flag.Int(), etc.
+import "flag"
+var ip = flag.Int("flagname", 1234, "help message for flagname")
+flag.Parse()
+
+・sync syncパッケージ 
+基本的な同期プリミティブ
+
+・testing  _test.go で終わる名前のファイルにテストコードを書く assertは用意されていない
+$ go test xxx_test.go 
+$ go test -v xxx_test.go ※詳細な結果表示
+$ go test ./dir
+$ go test $(go list ./... | grep -v /vendor) ※（1.9より以前のバージョン
+-cover -coverprofile カバレッジoption
+
+func TestXxx(*testing.T)
+func BenchmarkXxx(*testing.B)
+func TestMain(m *testing.M) // mainのテスト
+
+if actual != expected {
+    t.Errorf(
+func TestFoo(t *testing.T) { // sub test
+    // <setup code>
+    t.Run("A=1", func(t *testing.T) { ... })
+    // <tear-down code>
+}
