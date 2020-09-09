@@ -1,6 +1,6 @@
 ✨✨GO MEMO✨✨
 
-update:2020/09/06
+update:2020/09/10
 
 go-gtp clone
 git clone https://github.com/wmnsk/go-gtp
@@ -91,6 +91,10 @@ func main() {
 Go 1.11 から追加された外部パッケージの管理システム
 
 ■GO 基本
+
+・(宣言)ブランク識別子
+アンダースコア(_) 
+x, _ = f()  // f()から返される2番目の値を無視
 
 ・(型)配列型 Array types
 [32]byte
@@ -242,6 +246,8 @@ select」ステートメント内の全てのcaseにおいて、チャネル式�
 
 ・メソッド宣言
 A method is a function with a receiver. 
+メソッドは、レシーバを持った関数
+
 func(レシーバ)(引数)(返り値)
  
 func (p *Point) Length() float64 {
