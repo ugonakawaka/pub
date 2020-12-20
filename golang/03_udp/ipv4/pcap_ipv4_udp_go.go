@@ -23,29 +23,22 @@ import (
 
 //export callbackPcap
 func callbackPcap(useless *C.uchar, pkthdr *C.struct_pcap_pkthdr, packet *C.uchar) {
-	// PrintTime2("loop")
 	caplen := uint(pkthdr.caplen)
 	len := uint(pkthdr.len)
 	processPcap(caplen, len, packet)
-
 }
 
 //export callOnMeGo
 func callOnMeGo(caplen uint, len uint, packet *C.uchar) int {
-	// PrintTime2("next")
 	processPcap(caplen, len, packet)
 	return 0
 }
 
 func processPcap(caplen uint, len uint, packet *C.uchar) {
+	// copy first
+	clen := C.int(len)
+	buf := C.GoBytes(unsafe.Pointer(packet), clen)
 	go func() {
-		// fmt.Printf("Go.callOnMeGo(): called with caplen = %d, len = %d\n", caplen, len)
-
-		// fmt.Printf("%s", hex.Dump(buf))
-		// fmt.Println("")
-
-		clen := C.int(len)
-		buf := C.GoBytes(unsafe.Pointer(packet), clen)
 		iph, err := ipv4.ParseHeader(buf[EthernetFrameHeaderLen:])
 		if err != nil {
 			// do nothing

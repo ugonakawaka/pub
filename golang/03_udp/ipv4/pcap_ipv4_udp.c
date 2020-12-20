@@ -67,7 +67,7 @@ int start(char *dev, char *filter, int bufsize, callback_fcn callback) {
     return -1;
   }
 
-  printf("ok5\n");
+  // printf("ok5\n");
 
   while (1) {
     
@@ -150,7 +150,7 @@ int start2(char *dev, char *filter, int bufsize, callback_fcn2 callback) {
     return -1;
   }
 
-  printf("ok7\n");
+  // printf("ok7\n");
   pcap_loop(handle, 0, callback, NULL);
   
   return 0;
