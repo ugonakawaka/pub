@@ -33,3 +33,6 @@ https://github.com/osrg/goplane/blob/master/netlink/pf_packet.go
 https://oraccha.hatenadiary.org/entry/20100108/1262886720  
 
 https://blog.tiqwab.com/2019/06/03/socket-domain-type.html  
+
+java  
+https://docs.oracle.com/javase/jp/8/docs/api/java/net/DatagramSocket.html#getTrafficClass--  
