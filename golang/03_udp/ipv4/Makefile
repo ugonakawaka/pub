@@ -1,7 +1,12 @@
 #
-all:
+java:
+	javac UDPIPV4TosClient.java
+clean:
+	rm -f UDPIPV4TosClient*class
+	rm -f *_tm.txt
 	rm -f pcap_ipv4_udp
 	go clean
+go:
 	go build -o raw_conn_ipv4_udp comm.go raw_conn_ipv4_udp.go
 	go build -o raw_sock_ipv4_udp comm.go raw_sock_ipv4_udp.go
 	go build -o pkt_dtgrm_ipv4_udp comm.go pkt_dtgrm_ipv4_udp.go
