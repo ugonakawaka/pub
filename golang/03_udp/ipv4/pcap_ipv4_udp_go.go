@@ -5,8 +5,9 @@ package main
 #cgo LDFLAGS: -L . -lpcap_ipv4_udp -lpcap
 
 #include "pcap_ipv4_udp.h"
-
-int callOnMeGo_cgo(int caplen, int len, const unsigned char *p); // Forward declaration.
+// Forward declaration.
+void callbackPcap_cgo(unsigned char* useless, const struct pcap_pkthdr* pkthdr, const unsigned char* packet);
+int callOnMeGo_cgo(uint caplen, uint len, const unsigned char *p);
 */
 import "C"
 
@@ -20,9 +21,23 @@ import (
 	"golang.org/x/net/ipv4"
 )
 
-//export callOnMeGo
-func callOnMeGo(caplen int, len int, packet *C.uchar) int {
+//export callbackPcap
+func callbackPcap(useless *C.uchar, pkthdr *C.struct_pcap_pkthdr, packet *C.uchar) {
+	// PrintTime2("loop")
+	caplen := uint(pkthdr.caplen)
+	len := uint(pkthdr.len)
+	processPcap(caplen, len, packet)
 
+}
+
+//export callOnMeGo
+func callOnMeGo(caplen uint, len uint, packet *C.uchar) int {
+	// PrintTime2("next")
+	processPcap(caplen, len, packet)
+	return 0
+}
+
+func processPcap(caplen uint, len uint, packet *C.uchar) {
 	go func() {
 		// fmt.Printf("Go.callOnMeGo(): called with caplen = %d, len = %d\n", caplen, len)
 
@@ -54,9 +69,7 @@ func callOnMeGo(caplen int, len int, packet *C.uchar) int {
 		PrintEvi(*AppName, *Addr, uDPHeader.DestinationPort, iph.TOS, udpPayload)
 
 	}()
-	return 0
 }
-
 func main() {
 
 	flag.Parse()
@@ -70,5 +83,10 @@ func main() {
 	fmt.Println(sfilter)
 	var dev *C.char = C.CString(*Dev)
 	var filter *C.char = C.CString(sfilter)
+	// go func() {
+	// 	C.start2(dev, filter, 1500, (C.callback_fcn2)(unsafe.Pointer(C.callbackPcap_cgo)))
+	// }()
+	// go func() {
 	C.start(dev, filter, 1500, (C.callback_fcn)(unsafe.Pointer(C.callOnMeGo_cgo)))
+	// }()
 }

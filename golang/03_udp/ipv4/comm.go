@@ -6,6 +6,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"net"
 	"time"
 )
 
@@ -16,12 +17,14 @@ import (
 
 var (
 	// AppName application name
-	AppName = flag.String("app", "TEST UDP SERVER", "application name")
+	AppName = flag.String("name", "TEST UDP SERVER", "application name")
 	// Port port
-	Port = flag.Int("int", 55501, "message receive port")
+	Port = flag.Int("port", 55501, "message receive port")
 	// Addr address
 	Addr = flag.String("addr", "127.0.0.1", "message receive address")
-	b    = flag.Bool("bool", false, "bool flag")
+	// Dev target device
+	Dev = flag.String("dev", "eth0", "libpcap use target device")
+	b   = flag.Bool("b", false, "payload trim right side LF")
 )
 
 // NanoFormat japanese like this format
@@ -36,10 +39,43 @@ func PrintTime() {
 	fmt.Printf("%s\n", t.Format(NanoFormat))
 }
 
+// PrintTime2 report func
+func PrintTime2(s string) {
+
+	t := time.Now()
+	// RFC3339Nano = "2006-01-02T15:04:05.999999999Z07:00"
+
+	fmt.Printf("%s\t%s\n", t.Format(NanoFormat), s)
+}
+
 // PrintEvi taa sss
 func PrintEvi(name string, addr string, port int, tos int, payload string) {
 	t := time.Now()
-	fmt.Printf("%s\t%s\t%s\t%d\t%d\t[%s]", t.Format(NanoFormat), name, addr, port, tos, payload)
+	fmt.Printf("%s\t%s\t%s\t%d\t%d\t[%s]\n", t.Format(NanoFormat), name, addr, port, tos, payload)
+}
+
+// HavyWait blocking process check
+func HavyWait() {
+	var t = time.Now()
+	fmt.Printf("%s *** HavyWait start\n", t.Format(NanoFormat))
+	j := 0
+	for i := 0; i < 100000000000; i++ {
+		j = j + 1
+	}
+	t = time.Now()
+	fmt.Printf("%s *** HavyWait %f end\n", t.Format(NanoFormat), j)
+
+}
+
+// ===================
+// helper functions
+
+// ParseIPV4Addr byte4 addr
+func ParseIPV4Addr(saddr string) [4]byte {
+	ip := net.ParseIP(saddr)
+	b4 := [4]byte{}
+	copy(b4[:], ip)
+	return b4
 }
 
 // ===================
@@ -47,7 +83,8 @@ func PrintEvi(name string, addr string, port int, tos int, payload string) {
 
 // header
 const (
-	UDPHeaderLen = 8
+	EthernetFrameHeaderLen = 14
+	UDPHeaderLen           = 8
 )
 
 // UDPHeader udp header

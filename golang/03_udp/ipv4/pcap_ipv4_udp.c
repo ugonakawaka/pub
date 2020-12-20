@@ -26,7 +26,12 @@ int start(char *dev, char *filter, int bufsize, callback_fcn callback) {
     exit(EXIT_FAILURE);
   }
 
-  // if (pcap_set_timeout(handle, -1) != 0) {
+  // if (pcap_set_promisc(handle, 0) != 0) {
+  //   fprintf(stderr, "Failed pcap_set_promisc: %s\n", pcap_geterr(handle));
+  //   exit(EXIT_FAILURE);
+  // }
+
+  // if (pcap_set_timeout(handle, 1) != 0) {
   //   fprintf(stderr, "Failed pcap_set_timeout: %s\n", pcap_geterr(handle));
   //   exit(EXIT_FAILURE);
   // }
@@ -36,13 +41,19 @@ int start(char *dev, char *filter, int bufsize, callback_fcn callback) {
     exit(EXIT_FAILURE);
   }
 
-  if (pcap_activate(handle) != 0) {
-    fprintf(stderr, "Failed pcap_activate: %s\n", pcap_geterr(handle));
+  // PCAP_TSTAMP_HOST_LOWPREC relatively cheap to fetch
+  if (pcap_set_tstamp_precision(handle, PCAP_TSTAMP_HOST_LOWPREC) != 0) {
+    fprintf(stderr, "Failed pcap_set_tstamp_precision: %s\n", pcap_geterr(handle));
     exit(EXIT_FAILURE);
   }
 
-  if (pcap_set_datalink(handle, DLT_EN10MB) != 0) {
-    fprintf(stderr, "Failed pcap_set_datalink: %s\n", pcap_geterr(handle));
+  // if (pcap_set_datalink(handle, DLT_EN10MB) != 0) {
+  //   fprintf(stderr, "Failed pcap_set_datalink: %s\n", pcap_geterr(handle));
+  //   exit(EXIT_FAILURE);
+  // }
+
+  if (pcap_activate(handle) != 0) {
+    fprintf(stderr, "Failed pcap_activate: %s\n", pcap_geterr(handle));
     exit(EXIT_FAILURE);
   }
 
@@ -70,5 +81,77 @@ int start(char *dev, char *filter, int bufsize, callback_fcn callback) {
   }
 
   pcap_close(handle);
+  return 0;
+}
+
+int start2(char *dev, char *filter, int bufsize, callback_fcn2 callback) {
+  pcap_t *handle;
+  const unsigned char *packet;
+  char errbuf[PCAP_ERRBUF_SIZE];
+  struct pcap_pkthdr header;
+  struct bpf_program bpfp;
+  bpf_u_int32 net;
+
+  if ((handle = pcap_create(dev, errbuf)) == NULL) {
+    fprintf(stderr, "Failed pcap_create %s: %s\n", dev, errbuf);
+    exit(EXIT_FAILURE);
+  }
+
+  // if (pcap_set_promisc(handle, 1) != 0) {
+  //   fprintf(stderr, "Failed pcap_set_promisc: %s\n", pcap_geterr(handle));
+  //   exit(EXIT_FAILURE);
+  // }
+
+  // if (pcap_set_timeout(handle, -100) != 0) {
+  //   fprintf(stderr, "Failed pcap_set_timeout: %s\n", pcap_geterr(handle));
+  //   exit(EXIT_FAILURE);
+  // }
+
+  if (pcap_set_immediate_mode(handle, 1) != 0) {
+    fprintf(stderr, "Failed pcap_set_immediate_mode: %s\n", pcap_geterr(handle));
+    exit(EXIT_FAILURE);
+  }
+
+  // PCAP_TSTAMP_HOST_LOWPREC relatively cheap to fetch
+  if (pcap_set_tstamp_precision(handle, PCAP_TSTAMP_HOST_LOWPREC) != 0) {
+    fprintf(stderr, "Failed pcap_set_tstamp_precision: %s\n", pcap_geterr(handle));
+    exit(EXIT_FAILURE);
+  }
+
+  // if (pcap_set_snaplen(handle, 100) != 0) {
+  //   fprintf(stderr, "Failed pcap_set_snaplen: %s\n", pcap_geterr(handle));
+  //   exit(EXIT_FAILURE);
+  // }
+
+
+  // if (pcap_set_datalink(handle, DLT_EN10MB) != 0) {
+  //   fprintf(stderr, "Failed pcap_set_datalink: %s\n", pcap_geterr(handle));
+  //   exit(EXIT_FAILURE);
+  // }
+
+  // if (pcap_setnonblock(handle, 1, errbuf) != 0) {
+  //   fprintf(stderr, "Failed pcap_setnonblock: %s, %s\n", pcap_geterr(handle), errbuf);
+  //   exit(EXIT_FAILURE);
+  // }
+
+
+  if (pcap_activate(handle) != 0) {
+    fprintf(stderr, "Failed pcap_activate: %s\n", pcap_geterr(handle));
+    exit(EXIT_FAILURE);
+  }
+
+  if (pcap_compile(handle, &bpfp, filter, 0, net) != 0) {
+    fprintf(stderr, "Failed pcap_compile: %s\n", pcap_geterr(handle));
+    return -1;
+  }
+
+  if (pcap_setfilter(handle, &bpfp) != 0) {
+    fprintf(stderr, "Failed pcap_setfilter: %s\n", pcap_geterr(handle));
+    return -1;
+  }
+
+  printf("ok7\n");
+  pcap_loop(handle, 0, callback, NULL);
+  
   return 0;
 }

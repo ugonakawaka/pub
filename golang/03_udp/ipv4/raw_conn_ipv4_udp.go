@@ -5,17 +5,18 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"strings"
 
 	"golang.org/x/net/ipv4"
 )
 
 // build
-// go build raw_conn_ipv4_udp.go comm.go
+// go build -o raw_conn_ipv4_udp comm.go raw_conn_ipv4_udp.go
 
 // このサンプルは、
 func main() {
 	flag.Parse()
-	fmt.Println(*Port, *Addr, *b)
+	fmt.Println(*AppName, *Port, *Addr, *b)
 
 	PrintTime()
 	fmt.Println("start udp server")
@@ -44,7 +45,6 @@ func main() {
 	}
 
 	buf := make([]byte, 1500)
-
 	for {
 		iph, p /*cm *ControlMessage*/, _, err := raw.ReadFrom(buf)
 
@@ -67,7 +67,11 @@ func main() {
 			}
 			// log.Printf("From: %v Reciving data: %s", h, string(p))
 			udpPayload := string(p[UDPHeaderLen:])
+			if *b {
+				udpPayload = strings.TrimRight(udpPayload, "\n")
+			}
 			PrintEvi(*AppName, *Addr, uDPHeader.DestinationPort, iph.TOS, udpPayload)
 		}()
+
 	}
 }
