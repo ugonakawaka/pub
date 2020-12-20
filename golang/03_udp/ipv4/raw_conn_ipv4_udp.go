@@ -44,8 +44,8 @@ func main() {
 		panic(err)
 	}
 
-	buf := make([]byte, 1500)
 	for {
+		buf := make([]byte, 1500)
 		iph, p /*cm *ControlMessage*/, _, err := raw.ReadFrom(buf)
 
 		if err != nil {

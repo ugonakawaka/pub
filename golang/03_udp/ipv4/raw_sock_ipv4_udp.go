@@ -32,8 +32,8 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	buf := make([]byte, 1500)
 	for {
+		buf := make([]byte, 1500)
 		n, _, err := syscall.Recvfrom(fd, buf, syscall.MSG_TRUNC)
 		if err != nil {
 			log.Fatalln(err)
