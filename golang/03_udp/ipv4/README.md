@@ -31,3 +31,5 @@ https://github.com/osrg/goplane/blob/master/netlink/pf_packet.go
 
 
 https://oraccha.hatenadiary.org/entry/20100108/1262886720  
+
+https://blog.tiqwab.com/2019/06/03/socket-domain-type.html  
