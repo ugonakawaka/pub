@@ -5,6 +5,12 @@
 `./pcap_ipv4_udp -addr 192.168.1.6 -name pcap_ipv4_udp -dev enp0s3 -b true`  
 `./pkt_dtgrm_ipv4_udp -addr 192.168.1.6 -name pkt_dtgrm_ipv4_udp -dev enp0s3 -b true`  
 
+`./raw_sock_ipv4_udp  -addr 192.168.1.6 -name "raw_sock_udp      " -b true |tee  raw_sock_udp_tm.txt`  
+`./raw_conn_ipv4_udp  -addr 192.168.1.6 -name "raw_conn_ipv4_udp " -b true |tee  raw_conn_ipv4_udp_tm.txt`  
+`./pcap_ipv4_udp      -addr 192.168.1.6 -name "pcap_ipv4_udp     " -dev enp0s3 -b true |tee  pcap_ipv4_udp_tm.txt`  
+`./pkt_dtgrm_ipv4_udp -addr 192.168.1.6 -name "pkt_dtgrm_ipv4_udp" -dev enp0s3 -b true |tee  pkt_dtgrm_ipv4_udp_tm.txt`  
+
+
 ### nc command
 $ nc -4 -u 192.168.1.6 55501 -T 7  
 
