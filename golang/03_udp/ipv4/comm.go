@@ -71,16 +71,16 @@ func PrintEvi(name string, addr string, port int, tos int, payload string) {
 	fmt.Printf("%s\t%s\t%s\t%d\t%d\t[%s]\n", t.Format(NanoFormat), name, addr, port, tos, payload)
 }
 
-// HavyWait blocking process check
-func HavyWait() {
+// HeavyWeight blocking process check
+func HeavyWeight() {
 	var t = time.Now()
-	fmt.Printf("%s *** HavyWait start\n", t.Format(NanoFormat))
+	fmt.Printf("%s *** HeavyWeight start\n", t.Format(NanoFormat))
 	j := 0
 	for i := 0; i < 100000000000; i++ {
 		j = j + 1
 	}
 	t = time.Now()
-	fmt.Printf("%s *** HavyWait %f end\n", t.Format(NanoFormat), j)
+	fmt.Printf("%s *** HeavyWeight %f end\n", t.Format(NanoFormat), j)
 
 }
 
