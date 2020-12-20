@@ -1,1 +1,13 @@
 .DS_Store
+# https://github.com/github/gitignore/blob/master/C.gitignore
+# Object files
+*.o
+*.ko
+*.obj
+*.elf
+
+# Libraries
+*.lib
+*.a
+*.la
+*.lo
