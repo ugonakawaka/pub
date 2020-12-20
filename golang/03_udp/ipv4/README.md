@@ -8,6 +8,10 @@
 ### nc command
 $ nc -4 -u 192.168.1.6 55501 -T 7  
 
+### find process
+ps aux|egrep "raw|pkt|pcap"  
+
+
 ### link
 http://www5d.biglobe.ne.jp/stssk/rfc/rfc2553j.html  
 http://www5d.biglobe.ne.jp/stssk/rfc/rfc2292j.html  
