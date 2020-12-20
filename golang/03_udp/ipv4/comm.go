@@ -12,6 +12,23 @@ import (
 
 /* このソースは共通だよー */
 
+const (
+	// PF_PACKET linux/if_ether.h
+	PF_PACKET = 17
+	// PACKET_BROADCAST
+	PACKET_BROADCAST = 1 //
+	// PACKET_MR_PROMISC
+	PACKET_MR_PROMISC = 1 //
+	// ETH_P_ALL
+	ETH_P_ALL = 0x0003
+	// ETH_P_IP
+	ETH_P_IP = 0x0800
+)
+
+func htons(host uint16) uint16 {
+	return (host&0xff)<<8 | (host >> 8)
+}
+
 // ===================
 // run application
 
