@@ -29,6 +29,7 @@ public class UDPIPV4TosClient {
 
 		// final int[] tos = { TOS.IPTOS_LOWCOST, TOS.IPTOS_RELIABILITY,
 		// TOS.IPTOS_THROUGHPUT, TOS.IPTOS_LOWDELAY, };
+		final long start = System.currentTimeMillis();
 		intStream.forEach(i -> {
 			System.out.print(".");
 			byte[] buf = ("" + i).getBytes();
@@ -44,7 +45,8 @@ public class UDPIPV4TosClient {
 			if ((i % 30) == 0)
 				System.out.println();
 		});
-
+		final long end = System.currentTimeMillis();
+		System.out.printf("%nms:%f", ((end - start) / 1000.));
 	}
 
 }
