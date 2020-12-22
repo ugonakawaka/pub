@@ -21,18 +21,19 @@ public class UDPIPV4TosClient {
 	public static void main(String[] args) throws UnknownHostException, SocketException {
 
 		final int port = 55501;
-		final InetAddress laddr = InetAddress.getByName("192.168.1.6");
+		final InetAddress laddr = InetAddress.getByName(args[1]);
 
 		final DatagramSocket socket = new DatagramSocket();
 
-		final IntStream intStream = IntStream.range(1, 101/* exclusive */);
+		final int max = Integer.parseInt(args[0]);
+		final IntStream intStream = IntStream.range(1, max/* exclusive */);
 
 		// final int[] tos = { TOS.IPTOS_LOWCOST, TOS.IPTOS_RELIABILITY,
 		// TOS.IPTOS_THROUGHPUT, TOS.IPTOS_LOWDELAY, };
 		final long start = System.currentTimeMillis();
 		intStream.forEach(i -> {
 			System.out.print(".");
-			byte[] buf = ("" + i).getBytes();
+			byte[] buf = (String.format("%04d", i)).getBytes();
 			final DatagramPacket p = new DatagramPacket(buf, buf.length, laddr, port);
 			final int j = new Random(System.nanoTime()).nextInt(256/* exclusive */);
 
