@@ -10,6 +10,7 @@
 `./pcap_ipv4_udp      -addr 192.168.1.6 -name "pcap_ipv4_udp     " -dev enp0s3 -b true |tee  pcap_ipv4_udp_tm.txt`  
 `./pkt_dtgrm_ipv4_udp -addr 192.168.1.6 -name "pkt_dtgrm_ipv4_udp" -dev enp0s3 -b true |tee  pkt_dtgrm_ipv4_udp_tm.txt`  
 
+`java -cp . UDPIPV4TosClient 101 192.168.1.6`  
 
 ### nc command
 $ nc -4 -u 192.168.1.6 55501 -T 7  
