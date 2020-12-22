@@ -1,10 +1,6 @@
 #include <pcap.h>
 #ifndef PCAP_UDP6_H
 #define PCAP_UDP6_H
-typedef void (*callback_fcn)(uint, uint, const unsigned char*);
-typedef void (*callback_fcn2)(unsigned char*, const struct pcap_pkthdr*, const unsigned char*);
-// void some_c_func(callback_fcn);
-// void some_c_func2(callback_fcn2);
-int start(char*, char*, int, callback_fcn);
-int start2(char*, char*, int, callback_fcn2);
+typedef void (*callback_fcn)(unsigned char*, const struct pcap_pkthdr*, const unsigned char*);
+int start(char*, char*, int, int, callback_fcn);
 #endif

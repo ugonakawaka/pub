@@ -7,7 +7,6 @@ package main
 #include "pcap_udp6.h"
 // Forward declaration.
 void callbackPcap_cgo(unsigned char* useless, const struct pcap_pkthdr* pkthdr, const unsigned char* packet);
-int callOnMeGo_cgo(uint caplen, uint len, const unsigned char *p);
 */
 import "C"
 
@@ -26,12 +25,6 @@ func callbackPcap(useless *C.uchar, pkthdr *C.struct_pcap_pkthdr, packet *C.ucha
 	caplen := uint(pkthdr.caplen)
 	len := uint(pkthdr.len)
 	processPcap(caplen, len, packet)
-}
-
-//export callOnMeGo
-func callOnMeGo(caplen uint, len uint, packet *C.uchar) int {
-	processPcap(caplen, len, packet)
-	return 0
 }
 
 func processPcap(caplen uint, len uint, packet *C.uchar) {
@@ -90,9 +83,7 @@ func main() {
 	var dev *C.char = C.CString(*Dev)
 	var filter *C.char = C.CString(sfilter)
 	// go func() {
-	// 	C.start2(dev, filter, 1500, (C.callback_fcn2)(unsafe.Pointer(C.callbackPcap_cgo)))
+	C.start(dev, filter, 1500, 1, (C.callback_fcn)(unsafe.Pointer(C.callbackPcap_cgo)))
 	// }()
-	// go func() {
-	C.start(dev, filter, 1500, (C.callback_fcn)(unsafe.Pointer(C.callOnMeGo_cgo)))
-	// }()
+
 }
