@@ -7,3 +7,10 @@ nc -6 -u fe80::a00:27ff:fecd:b9ac%en1 55501
 
 ### ip
 ip address show dev enp0s3  
+
+
+
+### link url
+
+net/ipv6/header.go
+https://github.com/golang/net/blob/986b41b23924a168277bf3df55a4fd462154f916/ipv6/header.go  
