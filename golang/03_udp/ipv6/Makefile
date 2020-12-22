@@ -1,8 +1,8 @@
 #
 java:
-	javac UDPIPV6TosClient.java
+	javac UDPTosClient.java
 clean:
-	rm -f UDPIPV6TosClient*class
+	rm -f UDP*class
 	rm -f *_tm.txt
 	rm -f pcap_udp6
 	go clean
