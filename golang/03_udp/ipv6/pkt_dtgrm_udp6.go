@@ -29,7 +29,9 @@ func main() {
 	ifname := *Dev
 	intf, err := net.InterfaceByName(ifname)
 
-	fd, err := syscall.Socket(PF_PACKET, syscall.SOCK_DGRAM, int(htons(ETH_P_IP)))
+	// fd, err := syscall.Socket(PF_PACKET, syscall.SOCK_DGRAM, int(htons(ETH_P_IPV6)))
+	fd, err := syscall.Socket(syscall.AF_PACKET, syscall.SOCK_DGRAM, syscall.ETH_P_IPV6)
+
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -40,9 +42,8 @@ func main() {
 	// }
 
 	sll := syscall.RawSockaddrLinklayer{
-		Family: PF_PACKET,
-		// bug? Protocol: htons(ETH_P_IP),
-		Protocol: htons(ETH_P_ALL),
+		Family:   syscall.AF_PACKET,
+		Protocol: htons(syscall.ETH_P_IPV6),
 		Ifindex:  int32(intf.Index),
 	}
 

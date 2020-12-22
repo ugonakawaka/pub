@@ -13,6 +13,7 @@ import (
 
 /* このソースは共通だよー */
 
+// https://github.com/torvalds/linux/blob/master/include/uapi/linux/if_ether.h
 const (
 	// PF_PACKET linux/if_ether.h
 	PF_PACKET = 17
@@ -24,6 +25,8 @@ const (
 	ETH_P_ALL = 0x0003
 	// ETH_P_IP
 	ETH_P_IP = 0x0800
+	// ETH_P_IPV6
+	ETH_P_IPV6 = 0x86DD
 )
 
 func htons(host uint16) uint16 {
