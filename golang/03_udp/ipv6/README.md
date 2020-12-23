@@ -17,5 +17,8 @@ AF_PACKET
 http://ja.manpages.org/af_packet/7
 
 golang  
+syscall  
+https://golang.org/pkg/syscall/  
+
 net/ipv6/header.go  
 https://github.com/golang/net/blob/master/ipv6/header.go  
