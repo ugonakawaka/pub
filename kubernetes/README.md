@@ -12,3 +12,7 @@ https://ubuntu.com/tutorials/install-a-local-kubernetes-with-microk8s?&_ga=2.343
 ### その他(よくわかっていない...)
 
 https://qiita.com/MahoTakara/items/83ea38e32987457ebbf4  
+
+
+### 1つのPODにどうコンテナを同居させるのかとかデザインパターン
+https://kubernetes.io/blog/2015/06/the-distributed-system-toolkit-patterns/  
