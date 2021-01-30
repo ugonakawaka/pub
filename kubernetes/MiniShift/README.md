@@ -12,3 +12,6 @@ minishift start --vm-driver virtualbox
 
 minishift oc-env  
 
+oc login -u system:admin
+
+
