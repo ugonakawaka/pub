@@ -7,6 +7,9 @@ https://github.com/minishift
 - [OpenShift と Kubernetes の違いを理解するためのサンプル演習](https://developer.ibm.com/jp/technologies/containers/tutorials/examples-differentiate-openshift-kubernetes/)  
 - [MiniShiftに関する疑問の整理、「 Dockerから入るKubernetes」執筆打明け話とか、OKDやCRCとの整理など](https://qiita.com/MahoTakara/items/3c1c208640518e832660)  
 
+### チュートリアル
+https://github.com/IBM/minishift101  
+
 
 #### osx
 起動する  
