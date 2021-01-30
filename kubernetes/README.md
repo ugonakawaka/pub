@@ -16,3 +16,7 @@ https://qiita.com/MahoTakara/items/83ea38e32987457ebbf4
 
 ### 1つのPODにどうコンテナを同居させるのかとかデザインパターン
 https://kubernetes.io/blog/2015/06/the-distributed-system-toolkit-patterns/  
+
+### 記事
+[Kubernetes 1.20から始まるDockerランタイムの非推奨化に備えよう！我々が知っておくべきこと・すべきこと](https://thinkit.co.jp/article/18024)
+  
