@@ -22,3 +22,4 @@ https://kubernetes.io/blog/2015/06/the-distributed-system-toolkit-patterns/
   
 ### 記事 オープンシフト関連
 [Projectとアプリケーションデプロイ](https://thinkit.co.jp/article/15696?page=0%2C1)
+[OpenShift と Kubernetes の違いを理解するためのサンプル演習](https://developer.ibm.com/jp/technologies/containers/tutorials/examples-differentiate-openshift-kubernetes/)
