@@ -2,6 +2,9 @@
 https://docs.okd.io/  
 https://github.com/minishift  
 
+### 本家
+- [Command-Line Walkthrough | Getting Started | OKD 3.11](https://docs.okd.io/3.11/getting_started/developers_cli.html)  
+
 ### 記事 オープンシフト関連
 - [Product Documentation for OpenShift Container Platform 3.11](https://access.redhat.com/documentation/ja-jp/openshift_container_platform/3.11/)  
 - [Projectとアプリケーションデプロイ](https://thinkit.co.jp/article/15696?page=0%2C1)  
