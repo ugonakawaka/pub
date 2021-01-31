@@ -29,7 +29,10 @@ minishift oc-env
 
 ログイン忘れずに  
 権限がないユーザでアプリをつくらないように!!  
+
+oc whoami  
 oc login -u system:admin
+oc login -u developer  
 
 minishiftでのdocker imageの確認をすること  
 
