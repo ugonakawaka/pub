@@ -2,8 +2,11 @@
 https://docs.okd.io/  
 https://github.com/minishift  
 
-### 本家
+### 本家(OKD)
 - [Command-Line Walkthrough | Getting Started | OKD 3.11](https://docs.okd.io/3.11/getting_started/developers_cli.html)  
+
+### 本家(redhat)
+[イメージの使用 3 | Red Hat Customer Portal](https://access.redhat.com/documentation/ja-jp/openshift_online/3/html-single/using_images/index#using-images-s2i-images-java)  
 
 ### 記事 オープンシフト関連
 - [Product Documentation for OpenShift Container Platform 3.11](https://access.redhat.com/documentation/ja-jp/openshift_container_platform/3.11/)  
