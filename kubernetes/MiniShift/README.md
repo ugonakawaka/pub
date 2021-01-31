@@ -36,3 +36,5 @@ oc login -u developer
 
 minishiftでのdocker imageの確認をすること  
 
+s2i install  
+brew install source-to-image  
