@@ -31,5 +31,5 @@ minishift oc-env
 権限がないユーザでアプリをつくらないように!!  
 oc login -u system:admin
 
-ocでのdocker
+minishiftでのdocker imageの確認をすること  
 
