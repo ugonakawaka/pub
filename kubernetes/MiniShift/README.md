@@ -38,3 +38,11 @@ minishiftでのdocker imageの確認をすること
 
 s2i install  
 brew install source-to-image  
+
+systemユーザでないと編集できないことに注意
+oc edit scc privileged -n default  
+
+
+
+
+
