@@ -18,6 +18,8 @@ minishift start --vm-driver virtualbox
 
 minishift oc-env  
 
+ログイン忘れずに  
+権限がないユーザでアプリをつくらないように!!  
 oc login -u system:admin
 
 
