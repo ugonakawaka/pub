@@ -7,6 +7,7 @@ https://github.com/minishift
 - [Projectとアプリケーションデプロイ](https://thinkit.co.jp/article/15696?page=0%2C1)  
 - [OpenShift と Kubernetes の違いを理解するためのサンプル演習](https://developer.ibm.com/jp/technologies/containers/tutorials/examples-differentiate-openshift-kubernetes/)  
 - [MiniShiftに関する疑問の整理、「 Dockerから入るKubernetes」執筆打明け話とか、OKDやCRCとの整理など](https://qiita.com/MahoTakara/items/3c1c208640518e832660)  
+- [Minishift環境でWildFlyとMySQL構成のmaven-webappをデプロイする - Qiita](https://qiita.com/zaki-lknr/items/867d858ccb7430521a8a) 
 
 ### チュートリアル
 https://github.com/IBM/minishift101  
