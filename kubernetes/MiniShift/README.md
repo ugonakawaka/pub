@@ -24,6 +24,8 @@ https://github.com/IBM/minishift101
 #### osx
 起動する  
 minishift start --vm-driver virtualbox  
+止める  
+minishift stop  
 
 minishift oc-env  
 
