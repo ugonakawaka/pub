@@ -6,6 +6,7 @@ https://github.com/minishift
 ### 本家(OKD)
 - [Command-Line Walkthrough | Getting Started | OKD 3.11](https://docs.okd.io/3.11/getting_started/developers_cli.html)  
 - [Minishift Docker Daemon - Using Minishift | Minishift | OKD 3.11](https://docs.okd.io/3.11/minishift/using/docker-daemon.html)  
+- [Java - Source-to-Image (S2I) | Using Images | OKD 3.11](https://docs.okd.io/3.11/using_images/s2i_images/java.html#s2i-images-java-deploy-applications-from-source)  
 
 ### 本家(redhat)
 [イメージの使用 3 | Red Hat Customer Portal](https://access.redhat.com/documentation/ja-jp/openshift_online/3/html-single/using_images/index#using-images-s2i-images-java)  
