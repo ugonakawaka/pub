@@ -21,6 +21,8 @@ https://github.com/minishift
 ### チュートリアル
 https://github.com/IBM/minishift101  
 
+#### dockerのコマンド
+Usage:	docker rmi [OPTIONS] IMAGE [IMAGE...]  
 
 #### osx
 起動する  
