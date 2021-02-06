@@ -37,6 +37,10 @@ oc whoami
 oc login -u system:admin  
 oc login -u developer  
 
+全て消す  
+oc delete all --all  
+
+
 minishiftでのdocker imageの確認をすること  
 
 s2i install  
