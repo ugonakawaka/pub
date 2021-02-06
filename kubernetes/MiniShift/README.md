@@ -10,6 +10,7 @@ https://github.com/minishift
 
 ### 本家(redhat)
 [イメージの使用 3 | Red Hat Customer Portal](https://access.redhat.com/documentation/ja-jp/openshift_online/3/html-single/using_images/index#using-images-s2i-images-java)  
+8.5.1.2. 増分ビルド](https://access.redhat.com/documentation/ja-jp/openshift_container_platform/3.11/html/developer_guide/builds)  
 
 ### 記事 オープンシフト関連
 - [Product Documentation for OpenShift Container Platform 3.11](https://access.redhat.com/documentation/ja-jp/openshift_container_platform/3.11/)  
