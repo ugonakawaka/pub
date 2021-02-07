@@ -36,8 +36,14 @@ oc start-build mybuilder --from-dir=. --follow
 oc new-app mybuilder  
 oc expose svc mybuilder  
 oc edit bc mybuilder  
+
+
+チェーンビルド(マルチステージビルド)
+
+oc delete all -l app=mybuilder  
+
 ```
-cat <<EOS | oc new-build --name=runtime --source-image=mybuilder \
+cat <<EOS | oc new-build --name=myruntime --source-image=mybuilder \
   --source-image-path=/deployments/sample-jetty-1.0-SNAPSHOT.jar:. \
   --dockerfile=-
 FROM fedora
@@ -49,6 +55,9 @@ EXPOSE 8080
 CMD java -jar /deployments/runtime.jar
 EOS
 ```  
+oc expose svc myruntime  
+oc get route myruntime  
+
 
 #### dockerのコマンド
 Usage:	docker rmi [OPTIONS] IMAGE [IMAGE...]  
