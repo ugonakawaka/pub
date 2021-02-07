@@ -9,8 +9,9 @@ https://github.com/minishift
 - [Java - Source-to-Image (S2I) | Using Images | OKD 3.11](https://docs.okd.io/3.11/using_images/s2i_images/java.html#s2i-images-java-deploy-applications-from-source)  
 
 ### 本家(redhat)
-[イメージの使用 3 | Red Hat Customer Portal](https://access.redhat.com/documentation/ja-jp/openshift_online/3/html-single/using_images/index#using-images-s2i-images-java)  
-8.5.1.2. 増分ビルド](https://access.redhat.com/documentation/ja-jp/openshift_container_platform/3.11/html/developer_guide/builds)  
+- [イメージの使用 3 | Red Hat Customer Portal](https://access.redhat.com/documentation/ja-jp/openshift_online/3/html-single/using_images/index#using-images-s2i-images-java)  
+- [8.5.1.2. 増分ビルド](https://access.redhat.com/documentation/ja-jp/openshift_container_platform/3.11/html/developer_guide/builds)  
+- [CLI リファレンス OpenShift Container Platform 3.11 | Red Hat Customer Portal](https://access.redhat.com/documentation/ja-jp/openshift_container_platform/3.11/html-single/cli_reference/index)  
 
 ### 記事 オープンシフト関連
 - [Product Documentation for OpenShift Container Platform 3.11](https://access.redhat.com/documentation/ja-jp/openshift_container_platform/3.11/)  
