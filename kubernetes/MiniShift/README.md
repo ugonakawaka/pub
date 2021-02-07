@@ -36,9 +36,19 @@ oc start-build mybuilder --from-dir=. --follow
 oc new-app mybuilder  
 oc expose svc mybuilder  
 oc edit bc mybuilder  
-
-
-
+```
+cat <<EOS | oc new-build --name=runtime --source-image=mybuilder \
+  --source-image-path=/deployments/sample-jetty-1.0-SNAPSHOT.jar:. \
+  --dockerfile=-
+FROM fedora
+RUN dnf -y update \
+ && dnf -y install java-1.8.0-openjdk-headless \
+ && dnf clean all
+COPY sample-jetty-1.0-SNAPSHOT.jar /deployments/runtime.jar
+EXPOSE 8080
+CMD java -jar /deployments/runtime.jar
+EOS
+```  
 
 #### dockerのコマンド
 Usage:	docker rmi [OPTIONS] IMAGE [IMAGE...]  
