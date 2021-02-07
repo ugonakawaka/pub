@@ -23,7 +23,22 @@ https://github.com/minishift
 - [OpenShift v3 と source-to-image (s2i) - Qiita](https://qiita.com/nak3/items/6407c01cc2d1f153c0f1)  
 
 ### チュートリアル
+- ibm
 https://github.com/IBM/minishift101  
+
+- この記事参考(記事内ではbuilderとしているところをmybuilderとしている,runtimeもmyruntimeで読み替え)
+[Projectとアプリケーションデプロイ](https://thinkit.co.jp/article/15696?page=0%2C1)  
+
+####$ ビルダー(s2i)
+oc new-project my-javatest  
+oc new-build registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift --strategy=source --binary=true --name=mybuilder  
+oc start-build mybuilder --from-dir=. --follow  
+oc new-app mybuilder  
+oc expose svc mybuilder  
+oc edit bc mybuilder  
+
+
+
 
 #### dockerのコマンド
 Usage:	docker rmi [OPTIONS] IMAGE [IMAGE...]  
