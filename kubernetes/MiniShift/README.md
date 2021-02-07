@@ -59,6 +59,7 @@ EOS
 ```  
 oc expose svc myruntime  
 oc get route myruntime  
+oc delete project my-javatest  
 
 ---
 #### dockerのコマンド
