@@ -58,7 +58,7 @@ EOS
 oc expose svc myruntime  
 oc get route myruntime  
 
-====
+---
 #### dockerのコマンド
 Usage:	docker rmi [OPTIONS] IMAGE [IMAGE...]  
 
