@@ -57,6 +57,7 @@ EXPOSE 8080
 CMD java -jar /deployments/runtime.jar
 EOS
 ```  
+oc new-app myruntime  
 oc expose svc myruntime  
 oc get route myruntime  
 oc delete project my-javatest  
