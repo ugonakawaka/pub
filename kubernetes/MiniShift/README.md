@@ -29,7 +29,7 @@ https://github.com/IBM/minishift101
 - この記事参考(記事内ではbuilderとしているところをmybuilderとしている,runtimeもmyruntimeで読み替え)
 [Projectとアプリケーションデプロイ](https://thinkit.co.jp/article/15696?page=0%2C1)  
 
-####$ ビルダー(s2i)
+##### ビルダー(s2i)
 oc new-project my-javatest  
 oc new-build registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift --strategy=source --binary=true --name=mybuilder  
 oc start-build mybuilder --from-dir=. --follow  
