@@ -22,6 +22,8 @@ https://github.com/minishift
 - [Minishift環境でWildFlyとMySQL構成のmaven-webappをデプロイする - Qiita](https://qiita.com/zaki-lknr/items/867d858ccb7430521a8a) 
 - [OpenShift v3 と source-to-image (s2i) - Qiita](https://qiita.com/nak3/items/6407c01cc2d1f153c0f1)  
 
+---
+
 ### チュートリアル
 - ibm
 https://github.com/IBM/minishift101  
@@ -62,6 +64,7 @@ oc get route myruntime
 #### dockerのコマンド
 Usage:	docker rmi [OPTIONS] IMAGE [IMAGE...]  
 
+---
 #### osx
 起動する  
 minishift start --vm-driver virtualbox  
