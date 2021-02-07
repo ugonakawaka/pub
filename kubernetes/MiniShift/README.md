@@ -12,6 +12,7 @@ https://github.com/minishift
 - [イメージの使用 3 | Red Hat Customer Portal](https://access.redhat.com/documentation/ja-jp/openshift_online/3/html-single/using_images/index#using-images-s2i-images-java)  
 - [8.5.1.2. 増分ビルド](https://access.redhat.com/documentation/ja-jp/openshift_container_platform/3.11/html/developer_guide/builds)  
 - [CLI リファレンス OpenShift Container Platform 3.11 | Red Hat Customer Portal](https://access.redhat.com/documentation/ja-jp/openshift_container_platform/3.11/html-single/cli_reference/index)  
+- [redhat-openjdk-18/openjdk18-openshift - Certified Container Image - Red Hat Ecosystem Catalog](https://catalog.redhat.com/software/containers/redhat-openjdk-18/openjdk18-openshift/58ada5701fbe981673cd6b10?container-tabs=overview&gti-tabs=unauthenticated)  
 
 ### 記事 オープンシフト関連
 - [Product Documentation for OpenShift Container Platform 3.11](https://access.redhat.com/documentation/ja-jp/openshift_container_platform/3.11/)  
