@@ -1,0 +1,67 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  annotations:
+    openshift.io/generated-by: OpenShiftNewBuild
+  creationTimestamp: 2021-02-11T09:00:00Z
+  labels:
+    build: myruntime
+  name: myruntime
+  namespace: my-job
+  resourceVersion: "1176020"
+  selfLink: /apis/build.openshift.io/v1/namespaces/my-job/buildconfigs/myruntime
+  uid: 855d15c3-6c47-11eb-9e97-0800271b2964
+spec:
+  failedBuildsHistoryLimit: 5
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: myruntime:latest
+  postCommit: {}
+  resources: {}
+  runPolicy: Serial
+  source:
+    dockerfile: |
+      FROM fedora
+      RUN dnf -y update  && dnf -y install java-1.8.0-openjdk-headless  && dnf clean all
+      COPY SpringBatchDayo-0.0.1-SNAPSHOT.jar /deployments/app.jar
+      CMD java -jar /deployments/app.jar
+    images:
+    - as: null
+      from:
+        kind: ImageStreamTag
+        name: mybuilder:latest
+        namespace: my-job
+      paths:
+      - destinationDir: .
+        sourcePath: /deployments/SpringBatchDayo-0.0.1-SNAPSHOT.jar
+    type: Dockerfile
+  strategy:
+    dockerStrategy:
+      from:
+        kind: ImageStreamTag
+        name: fedora:latest
+        namespace: my-job
+    type: Docker
+  successfulBuildsHistoryLimit: 5
+  triggers:
+  - github:
+      secret: aaHnbju2uEf4W_oY58Mi
+    type: GitHub
+  - generic:
+      secret: o3-XsSHKdFvTF5gUU29A
+    type: Generic
+  - imageChange:
+      from:
+        kind: ImageStreamTag
+        name: mybuilder:latest
+        namespace: my-job
+      lastTriggeredImageID: 172.30.1.1:5000/my-job/mybuilder@sha256:8eede9d74a2397e0c7552b03a977db5616e28e8b25f71500e0da3a295ab23115
+    type: ImageChange
+  - type: ConfigChange
+  - imageChange:
+      lastTriggeredImageID: fedora@sha256:11216ef546b5bb072f662a8194bff719a954169c2cac3794489391ac5016c655
+    type: ImageChange
+status:
+  lastVersion: 4
