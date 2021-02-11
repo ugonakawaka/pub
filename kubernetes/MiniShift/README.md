@@ -72,9 +72,10 @@ Usage:	docker rmi [OPTIONS] IMAGE [IMAGE...]
 minishift start --vm-driver virtualbox  
 止める  
 minishift stop  
+minishift oc-env
+minishift docker-env  
 
-minishift oc-env  
-
+##### 1
 ログイン忘れずに  
 権限がないユーザでアプリをつくらないように!!  
 
@@ -82,7 +83,7 @@ oc whoami
 oc login -u system:admin  
 oc login -u developer  
 
-全て消す  
+#### 全て消す  
 oc delete all --all  
 
 
@@ -93,8 +94,15 @@ brew install source-to-image
 
 systemユーザでないと編集できないことに注意
 oc edit scc privileged -n default  
+#### ログ  
+oc logs xxxxxx
+oc logs xxxxxx -f
 
-イメージストリーム  
+#### 調べる 
+oc help  
+oc describe  
+
+#### イメージストリーム  
 oc get is -n openshift  
 oc get is --all-namespaces=true  
 oc set image-lookup STREAMNAME  
