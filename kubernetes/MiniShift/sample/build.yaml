@@ -1,0 +1,43 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  annotations:
+    openshift.io/generated-by: OpenShiftNewBuild
+  creationTimestamp: 2021-02-11T07:54:36Z
+  labels:
+    build: mybuilder
+  name: mybuilder
+  namespace: my-job
+  resourceVersion: "1175694"
+  selfLink: /apis/build.openshift.io/v1/namespaces/my-job/buildconfigs/mybuilder
+  uid: 62efe754-6c3e-11eb-9e97-0800271b2964
+spec:
+  failedBuildsHistoryLimit: 5
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: mybuilder:latest
+  postCommit: {}
+  resources: {}
+  runPolicy: Serial
+  source:
+    binary: {}
+    type: Binary
+  strategy:
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: openjdk18-openshift:latest
+      incremental: true
+    type: Source
+  successfulBuildsHistoryLimit: 5
+  triggers:
+  - github:
+      secret: gDqXnxcqlL3yZxymqh61
+    type: GitHub
+  - generic:
+      secret: hIn6AzGkfvWEg4aIqV1b
+    type: Generic
+status:
+  lastVersion: 5
