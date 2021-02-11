@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: myjob
+spec:
+  parallelism: 1
+  completions: 1
+  template:
+    metadata:
+      name: myjob
+    spec:
+      containers:
+      - name: myjob
+        image: myruntime:latest
+        imagePullPolicy: IfNotPresent
+        command: ["java","-jar", "/deployments/app.jar"]
+      restartPolicy: Never
