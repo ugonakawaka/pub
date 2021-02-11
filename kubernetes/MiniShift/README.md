@@ -97,5 +97,5 @@ oc edit scc privileged -n default
 イメージストリーム  
 oc get is -n openshift  
 oc get is --all-namespaces=true  
-
+oc set image-lookup STREAMNAME  
 
