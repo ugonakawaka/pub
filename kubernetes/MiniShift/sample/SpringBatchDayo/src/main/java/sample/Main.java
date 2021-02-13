@@ -7,6 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Main {
 
 	public static void main(String[] args) {
+		System.out.println("*** OK");
+		
+		
 		System.exit(SpringApplication.exit(SpringApplication.run(Main.class, args)));
 
 	}

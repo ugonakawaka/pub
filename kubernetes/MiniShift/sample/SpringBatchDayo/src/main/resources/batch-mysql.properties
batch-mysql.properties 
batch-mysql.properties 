@@ -1,0 +1,13 @@
+batch.db01.jdbc.driver=com.mysql.jdbc.Driver
+batch.db01.jdbc.url=jdbc:mysql://localhost/test
+batch.db01.jdbc.user=test
+batch.db01.jdbc.password=test
+batch.db01.jdbc.testWhileIdle=true
+batch.db01.jdbc.validationQuery=SELECT 1
+
+batch.db02.jdbc.driver=com.mysql.jdbc.Driver
+batch.db02.jdbc.url=jdbc:mysql://localhost/test
+batch.db02.jdbc.user=test
+batch.db02.jdbc.password=test
+batch.db02.jdbc.testWhileIdle=true
+batch.db02.jdbc.validationQuery=SELECT 1
