@@ -33,12 +33,8 @@ public class BaseJobConfigMaker {
 	@Value("file:xml/output.xml")
 	private Resource outputXml;
 
-	
 	ItemProcessor processor = new IamConverter();
-	
-	
-	
-	
+
 //	@Bean
 //	public ItemReader<Transaction> itemReader() throws UnexpectedInputException, ParseException {
 //		FlatFileItemReader<Transaction> reader = new FlatFileItemReader<Transaction>();
@@ -100,6 +96,7 @@ public class BaseJobConfigMaker {
 			}
 		};
 	}
+
 	@Bean
 	public ItemWriter<Integer> itemWriter() {
 		return items -> {
@@ -109,22 +106,23 @@ public class BaseJobConfigMaker {
 			}
 		};
 	}
+
 	@Bean
-	public Step step1(ItemReader reader, 
-			ItemWriter writer) {
-		return steps.get("step1").chunk(10).reader(reader).processor(processor).writer(writer)
-				.build();
+	public Step step1(ItemReader reader, ItemWriter writer) {
+		return steps.get("step1").chunk(10).reader(reader).processor(processor).writer(writer).build();
 	}
-	
-	public Step step1(String name, ItemReader reader, 
-			ItemWriter writer) {
-		return steps.get(name).chunk(10).reader(reader).processor(processor).writer(writer)
-				.build();
+
+	public Step step1(String name, ItemReader reader, ItemWriter writer) {
+		return steps.get(name).chunk(10).reader(reader).processor(processor).writer(writer).build();
 	}
+
+	public Step step(String name, ItemReader reader, ItemProcessor processor, ItemWriter writer) {
+		return steps.get(name).chunk(10).reader(reader).processor(processor).writer(writer).build();
+	}
+
 	@Bean(name = "firstBatchJob")
 	public Job job(@Qualifier("step1") Step step1) {
-		
-	
+
 		System.out.println("*************************");
 		return jobs.get("firstBatchJob").start(step1).build();
 		// return jobs.get("firstBatchJob").start(step1).build();

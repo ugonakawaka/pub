@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import sample.IProcessor;
 
 
-@Component
+@Component("iamconverter")
 @Scope("prototype")
 public class IamConverter implements IProcessor<Object, Object> {
 
