@@ -15,7 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
 import org.springframework.core.io.Resource;
+
+import sample.custom.IamConverter;
 
 public class BaseJobConfigMaker {
 	@Autowired
@@ -31,7 +34,7 @@ public class BaseJobConfigMaker {
 	private Resource outputXml;
 
 	
-	ItemProcessor processor;
+	ItemProcessor processor = new IamConverter();
 	
 	
 	
@@ -107,20 +110,24 @@ public class BaseJobConfigMaker {
 		};
 	}
 	@Bean
-	protected Step step1(ItemReader reader, 
+	public Step step1(ItemReader reader, 
 			ItemWriter writer) {
 		return steps.get("step1").chunk(10).reader(reader).processor(processor).writer(writer)
 				.build();
 	}
 	
+	public Step step1(String name, ItemReader reader, 
+			ItemWriter writer) {
+		return steps.get(name).chunk(10).reader(reader).processor(processor).writer(writer)
+				.build();
+	}
 	@Bean(name = "firstBatchJob")
 	public Job job(@Qualifier("step1") Step step1) {
+		
+	
+		System.out.println("*************************");
 		return jobs.get("firstBatchJob").start(step1).build();
 		// return jobs.get("firstBatchJob").start(step1).build();
 	}
-	@Bean(name = "firstBatchJob2")
-	public Job job2(@Qualifier("step1") Step step1) {
-		return jobs.get("firstBatchJob2").start(step1).build();
-		// return jobs.get("firstBatchJob").start(step1).build();
-	}
+
 }

@@ -2,9 +2,14 @@ package sample.custom;
 
 
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import sample.IProcessor;
 
 
+@Component
+@Scope("prototype")
 public class IamConverter implements IProcessor<Object, Object> {
 
 	@Override
