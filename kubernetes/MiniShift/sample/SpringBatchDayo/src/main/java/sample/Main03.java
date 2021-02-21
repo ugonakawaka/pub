@@ -27,6 +27,7 @@ public class Main03 {
 		final AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
 		context.register(SpringConfig.class);
 		context.register(BaseJobConfigMaker.class);
+		context.register(DataSourceConfiguration.class);
 		context.scan("sample.custom");
 		context.refresh();
 
@@ -49,6 +50,7 @@ public class Main03 {
 
 		class DataHolder {
 			String name;
+			@SuppressWarnings("rawtypes")
 			IProcessor processor;
 		}
 
