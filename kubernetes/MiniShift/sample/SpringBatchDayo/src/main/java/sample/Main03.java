@@ -19,6 +19,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.ResourceUtils;
 
 import sample.custom.IamConverter;
+import sample.infra.IProcessor;
 
 public class Main03 {
 

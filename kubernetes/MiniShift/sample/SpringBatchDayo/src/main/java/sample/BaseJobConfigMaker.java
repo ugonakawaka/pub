@@ -1,6 +1,8 @@
 package sample;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -9,24 +11,28 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.support.ListItemReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Scope;
 import org.springframework.core.io.Resource;
 
 import sample.custom.IamConverter;
+import sample.defaults.IBaseProcessor;
+import sample.defaults.IBaseReader;
+import sample.defaults.IBaseWriter;
 
 public class BaseJobConfigMaker {
 	@Autowired
-	private JobBuilderFactory jobs;
+	JobBuilderFactory jobs;
 
 	@Autowired
-	private StepBuilderFactory steps;
+	StepBuilderFactory steps;
 
+	
+	
+	
 	@Value("input/record.csv")
 	private Resource inputCsv;
 
@@ -107,7 +113,12 @@ public class BaseJobConfigMaker {
 		};
 	}
 
-	@Bean
+	public Step step(String name, int chunkSize, IBaseReader reader, IBaseProcessor processor, IBaseWriter writer) {
+		return steps.get(name).<List<Map<String, Object>>, List<Map<String, Object>>>chunk(chunkSize).reader(reader)
+				.processor(processor).writer(writer).build();
+	}
+
+	
 	public Step step1(ItemReader reader, ItemWriter writer) {
 		return steps.get("step1").chunk(10).reader(reader).processor(processor).writer(writer).build();
 	}
@@ -120,7 +131,7 @@ public class BaseJobConfigMaker {
 		return steps.get(name).chunk(10).reader(reader).processor(processor).writer(writer).build();
 	}
 
-	@Bean(name = "firstBatchJob")
+	//@Bean(name = "firstBatchJob")
 	public Job job(@Qualifier("step1") Step step1) {
 
 		System.out.println("*************************");

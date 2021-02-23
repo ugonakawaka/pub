@@ -58,7 +58,8 @@ public class SpringConfig {
 		return (JobRepository) factory.getObject();
 	}
 
-	private PlatformTransactionManager getTransactionManager() {
+	@Bean(name = "transactionManager")
+	public PlatformTransactionManager getTransactionManager() {
 		return new ResourcelessTransactionManager();
 	}
 

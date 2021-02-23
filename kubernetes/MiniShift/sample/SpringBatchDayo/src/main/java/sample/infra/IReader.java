@@ -1,4 +1,4 @@
-package sample;
+package sample.infra;
 
 import org.springframework.batch.item.ItemReader;
 

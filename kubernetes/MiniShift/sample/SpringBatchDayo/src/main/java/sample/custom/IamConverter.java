@@ -5,7 +5,7 @@ package sample.custom;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import sample.IProcessor;
+import sample.infra.IProcessor;
 
 
 @Component("iamconverter")
