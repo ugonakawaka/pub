@@ -33,12 +33,30 @@ func (a *MyAddr) String() string {
 func main() {
 	// golangのインターフェイスの実験
 	// net.Addrを満たすものを用意する
-	var addr net.Addr
-	myaddr := new(MyAddr)
-	myaddr.Version = 4
-	myaddr.Port = 55501
-	myaddr.Addr = "127.0.0.1"
 
-	addr = myaddr
-	fmt.Println(addr)
+	{
+		var addr net.Addr
+		myaddr := new(MyAddr)
+		myaddr.Version = 4
+		myaddr.Port = 55501
+		myaddr.Addr = "127.0.0.1"
+
+		addr = myaddr
+		fmt.Println(addr)
+		udp, err := net.ResolveUDPAddr("udp", addr.String())
+		fmt.Println(udp)
+		fmt.Println(err)
+	}
+	{
+		var addr net.Addr
+		myaddr := new(MyAddr)
+		myaddr.Version = 6
+		myaddr.Port = 55501
+		myaddr.Addr = "::1"
+		addr = myaddr
+		fmt.Println(addr)
+		udp, err := net.ResolveUDPAddr("udp", addr.String())
+		fmt.Println(udp)
+		fmt.Println(err)
+	}
 }
