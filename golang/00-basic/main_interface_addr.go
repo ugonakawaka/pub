@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net"
+	"strconv"
 )
 
 // MyAddr my addr
@@ -11,16 +12,19 @@ type MyAddr struct {
 	Port int
 }
 
+// Network これは、net.Addrをみたす
 func (a *MyAddr) Network() string {
-	return "ok"
+	return a.Addr + ":" + strconv.Itoa(a.Port)
 }
 
+// String これは、net.Addrをみたす
 func (a *MyAddr) String() string {
-	return a.Addr + ":" + string(a.Port)
+	return a.Network()
 }
 
 func main() {
-
+	// golangのインターフェイスの実験
+	// net.Addrを満たすものを用意する
 	var addr net.Addr
 	myaddr := new(MyAddr)
 	myaddr.Port = 55501
