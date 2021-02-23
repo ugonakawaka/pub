@@ -8,18 +8,26 @@ import (
 
 // MyAddr my addr
 type MyAddr struct {
-	Addr string
-	Port int
+	Version int
+	Addr    string
+	Port    int
 }
 
 // Network これは、net.Addrをみたす
 func (a *MyAddr) Network() string {
-	return a.Addr + ":" + strconv.Itoa(a.Port)
+	return "udp"
 }
 
 // String これは、net.Addrをみたす
 func (a *MyAddr) String() string {
-	return a.Network()
+
+	if a.Version == 4 {
+		return a.Addr + ":" + strconv.Itoa(a.Port)
+	} else if a.Version == 6 {
+		return "[" + a.Addr + "]:" + strconv.Itoa(a.Port)
+	}
+
+	return "error"
 }
 
 func main() {
@@ -27,6 +35,7 @@ func main() {
 	// net.Addrを満たすものを用意する
 	var addr net.Addr
 	myaddr := new(MyAddr)
+	myaddr.Version = 4
 	myaddr.Port = 55501
 	myaddr.Addr = "127.0.0.1"
 
