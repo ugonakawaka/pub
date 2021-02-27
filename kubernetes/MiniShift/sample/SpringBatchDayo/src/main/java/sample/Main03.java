@@ -18,6 +18,8 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.ResourceUtils;
 
+import sample.config.DataSourceConfiguration;
+import sample.config.SpringBatchConfig;
 import sample.custom.IamConverter;
 import sample.infra.IProcessor;
 
@@ -26,7 +28,7 @@ public class Main03 {
 	public static void main(String[] args) throws ClassNotFoundException {
 		// Spring Java config
 		final AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-		context.register(SpringConfig.class);
+		context.register(SpringBatchConfig.class);
 		context.register(BaseJobConfigMaker.class);
 		context.register(DataSourceConfiguration.class);
 		context.scan("sample.custom");

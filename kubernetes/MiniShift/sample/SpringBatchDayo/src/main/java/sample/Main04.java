@@ -7,6 +7,8 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import sample.config.DataSourceConfiguration;
+import sample.config.SpringBatchConfig;
 import sample.defaults.IBaseProcessor;
 import sample.defaults.IBaseReader;
 import sample.defaults.IBaseWriter;
@@ -16,7 +18,7 @@ public class Main04 {
 	public static void main(String[] args) throws ClassNotFoundException {
 		// Spring Java config
 		final AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-		context.register(SpringConfig.class);
+		context.register(SpringBatchConfig.class);
 		context.register(BaseJobConfigMaker.class);
 		context.register(DataSourceConfiguration.class);
 		context.scan("sample.custom", "sample.defaults");

@@ -17,8 +17,8 @@ import org.springframework.context.annotation.Configuration;
 /**
  * @author Mahmoud Ben Hassine
  */
-@Configuration
-@EnableBatchProcessing
+// @Configuration
+// @EnableBatchProcessing
 public class SkippableExceptionDuringProcessSample {
 
 	private final JobBuilderFactory jobBuilderFactory;

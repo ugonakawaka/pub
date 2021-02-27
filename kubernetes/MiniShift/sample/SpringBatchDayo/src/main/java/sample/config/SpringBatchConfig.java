@@ -1,8 +1,12 @@
-package sample;
+package sample.config;
 
 import javax.sql.DataSource;
 
+import org.springframework.batch.core.configuration.ListableJobLocator;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
+import org.springframework.batch.core.configuration.support.MapJobRegistry;
+import org.springframework.batch.core.explore.JobExplorer;
+import org.springframework.batch.core.explore.support.JobExplorerFactoryBean;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.support.SimpleJobLauncher;
 import org.springframework.batch.core.repository.JobRepository;
@@ -18,8 +22,7 @@ import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
-@EnableBatchProcessing
-public class SpringConfig {
+public class SpringBatchConfig {
 
 //	@Value("org/springframework/batch/core/schema-drop-sqlite.sql")
 //	private Resource dropReopsitoryTables;
@@ -50,7 +53,8 @@ public class SpringConfig {
 //		return initializer;
 //	}
 
-	private JobRepository getJobRepository() throws Exception {
+	@Bean
+	public JobRepository getJobRepository() throws Exception {
 		JobRepositoryFactoryBean factory = new JobRepositoryFactoryBean();
 		factory.setDataSource(dataSource());
 		factory.setTransactionManager(getTransactionManager());
@@ -58,13 +62,15 @@ public class SpringConfig {
 		return (JobRepository) factory.getObject();
 	}
 
+//
 	@Bean(name = "transactionManager")
 	public PlatformTransactionManager getTransactionManager() {
 		return new ResourcelessTransactionManager();
 	}
 
-	@Bean(name = "jobLauncher")
-	public JobLauncher getJobLauncher() throws Exception {
+//
+	@Bean
+	public JobLauncher getJobLauncher2() throws Exception {
 		final SimpleJobLauncher jobLauncher = new SimpleJobLauncher();
 		jobLauncher.setJobRepository(getJobRepository());
 		jobLauncher.afterPropertiesSet();
@@ -72,13 +78,28 @@ public class SpringConfig {
 	}
 
 	@Bean
+	public JobExplorer getJobExplorer() throws Exception {
+		JobExplorerFactoryBean factory = new JobExplorerFactoryBean();
+		factory.setDataSource(dataSource());
+
+		factory.afterPropertiesSet();
+		return factory.getObject();
+	}
+
+	@Bean
+	public ListableJobLocator getListableJobLocator () {
+		// org.springframework.batch.core.configuration.ListableJobLocator
+		return new MapJobRegistry();
+		
+	}
+	@Bean
 	public PlatformTransactionManager transactionManager() {
 		return new DataSourceTransactionManager(dataSource());
 	}
 
 	@Bean
 	public DataSource dataSource() {
-
+		// in-memory db
 		return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.HSQL)
 				.addScript("classpath:/org/springframework/batch/core/schema-hsqldb.sql").build();
 	}
