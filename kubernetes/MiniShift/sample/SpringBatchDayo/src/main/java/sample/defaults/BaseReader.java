@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 @Component("baseReader")
 public class BaseReader implements IBaseReader {
 
+	
 	@Override
 	public List<Map<String, Object>> read()
 			throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {

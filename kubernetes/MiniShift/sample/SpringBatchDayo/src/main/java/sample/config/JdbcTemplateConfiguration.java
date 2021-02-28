@@ -5,6 +5,7 @@ import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 @Configuration
 public class JdbcTemplateConfiguration {
@@ -13,10 +14,10 @@ public class JdbcTemplateConfiguration {
 	public JdbcTemplate jdbcTemplate01(DataSource dataSource01) {
 		return new JdbcTemplate(dataSource01);
 	}
-	
+
 	@Bean
 	public JdbcTemplate jdbcTemplate02(DataSource dataSource02) {
 		return new JdbcTemplate(dataSource02);
 	}
-	
+
 }
