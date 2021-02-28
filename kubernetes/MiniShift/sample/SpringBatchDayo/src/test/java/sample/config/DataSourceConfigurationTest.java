@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import sample.config.DataSourceConfiguration.DataSource001Property;
+import sample.config.DataSourceConfiguration.Property01;
 
 @SpringBootTest
 class DataSourceConfigurationTest {
@@ -15,7 +15,7 @@ class DataSourceConfigurationTest {
 	DataSourceConfiguration dataSourceConfiguration;
 
 	@Autowired
-	DataSource001Property prop;
+	Property01 prop;
 
 	@Test
 	void test() {

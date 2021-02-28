@@ -3,9 +3,6 @@ package sample.defaults;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.batch.item.NonTransientResourceException;
-import org.springframework.batch.item.ParseException;
-import org.springframework.batch.item.UnexpectedInputException;
 import org.springframework.stereotype.Component;
 
 @Component("baseWriter")

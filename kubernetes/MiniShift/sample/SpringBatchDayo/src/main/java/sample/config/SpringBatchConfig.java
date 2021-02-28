@@ -100,7 +100,7 @@ public class SpringBatchConfig {
 	@Bean
 	public DataSource dataSource() {
 		// in-memory db
-		return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.HSQL)
-				.addScript("classpath:/org/springframework/batch/core/schema-hsqldb.sql").build();
+		return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2)
+				.addScript("classpath:/org/springframework/batch/core/schema-h2.sql").build();
 	}
 }

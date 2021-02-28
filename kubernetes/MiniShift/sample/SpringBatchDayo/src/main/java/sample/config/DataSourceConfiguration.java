@@ -5,65 +5,56 @@ import javax.sql.DataSource;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
-import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
-
-import sample.config.EnvironmentConfiguration.BatchEnvironment;
 
 @Configuration
 @PropertySource("classpath:/datasource.properties")
 public class DataSourceConfiguration {
 
-	
 	@Component
-	public static class DataSource001Property {
-		final static String PREFIX = "sample.db001.";
-		
-		@Value("${" + PREFIX +"driver" + "}")
+	public static class Property01 {
+		final static String PREFIX = "sample.db01.";
+
+		@Value("${" + PREFIX + "driver" + "}")
 		public String driver;
-		@Value("${" + PREFIX +"name" + "}")
+		@Value("${" + PREFIX + "name" + "}")
 		public String name;
-		@Value("${" + PREFIX +"url" + "}")
+		@Value("${" + PREFIX + "url" + "}")
 		public String url;
-		@Value("${" + PREFIX +"user" + "}")
+		@Value("${" + PREFIX + "user" + "}")
 		public String user;
-		@Value("${" + PREFIX +"password" + "}")
+		@Value("${" + PREFIX + "password" + "}")
 		public String password;
 	}
-	
+
 	@Component
-	public static class DataSource002Property {
-		final static String PREFIX = "sample.db002.";
-		
-		@Value("${" + PREFIX +"driver" + "}")
+	public static class Property02 {
+		final static String PREFIX = "sample.db02.";
+
+		@Value("${" + PREFIX + "driver" + "}")
 		public String driver;
-		@Value("${" + PREFIX +"name" + "}")
+		@Value("${" + PREFIX + "name" + "}")
 		public String name;
-		@Value("${" + PREFIX +"url" + "}")
+		@Value("${" + PREFIX + "url" + "}")
 		public String url;
-		@Value("${" + PREFIX +"user" + "}")
+		@Value("${" + PREFIX + "user" + "}")
 		public String user;
-		@Value("${" + PREFIX +"password" + "}")
+		@Value("${" + PREFIX + "password" + "}")
 		public String password;
 	}
-	
+
 	@Autowired
 	private Environment environment;
 
 	@Autowired
 	private ResourceLoader resourceLoader;
 
-	
 	@PostConstruct
 	protected void initialize() {
 
@@ -87,10 +78,8 @@ public class DataSourceConfiguration {
 
 	}
 
-
-	
 	@Bean(destroyMethod = "close")
-	public DataSource dataSource01(DataSource001Property property) {
+	public DataSource dataSource01(Property01 property) {
 		final BasicDataSource dataSource = new BasicDataSource();
 		dataSource.setDriverClassName(property.driver);
 		dataSource.setUrl(property.url);
@@ -100,7 +89,7 @@ public class DataSourceConfiguration {
 	}
 
 	@Bean(destroyMethod = "close")
-	public DataSource dataSource02(DataSource002Property property) {
+	public DataSource dataSource02(Property02 property) {
 		final BasicDataSource dataSource = new BasicDataSource();
 		dataSource.setDriverClassName(property.driver);
 		dataSource.setUrl(property.url);
@@ -108,5 +97,5 @@ public class DataSourceConfiguration {
 		dataSource.setPassword(property.password);
 		return dataSource;
 	}
-	
+
 }
