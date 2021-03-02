@@ -1,4 +1,4 @@
-package sample;
+package sample.func;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -13,7 +13,7 @@ import org.springframework.jdbc.core.RowMapper;
 import lombok.Data;
 import sample.Main10.COLUMNS;
 
-public class JobBase {
+public class MysqlSqlFunc {
 
 	public interface GenerateSql {
 		public String get(JdbcTemplate jdbcTemplate, String schemaeName, String tableName);

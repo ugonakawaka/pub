@@ -8,12 +8,13 @@ import java.util.stream.IntStream;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import sample.JobBase.GenerateSql;
 import sample.config.DataSourceConfiguration;
 import sample.config.EnvironmentConfiguration;
 import sample.config.JdbcTemplateConfiguration;
 import sample.config.SpringBatchConfig;
-import sample.utils.JdbcTemplateHelperUtils;
+import sample.func.JdbcTemplateFunc;
+import sample.func.MysqlSqlFunc;
+import sample.func.MysqlSqlFunc.GenerateSql;
 
 public class Main13 {
 
@@ -31,8 +32,8 @@ public class Main13 {
 		final JdbcTemplate jdbcTemplate01 = (JdbcTemplate) context.getBean("jdbcTemplate01");
 		final JdbcTemplate jdbcTemplate02 = (JdbcTemplate) context.getBean("jdbcTemplate02");
 
-		final GenerateSql generateSelectSql = JobBase.getGenerateSelectSql();
-		final GenerateSql generateInsertSql = JobBase.getGenerateInsertSql();
+		final GenerateSql generateSelectSql = MysqlSqlFunc.getGenerateSelectSql();
+		final GenerateSql generateInsertSql = MysqlSqlFunc.getGenerateInsertSql();
 	
 
 		final int FETCH_SIZE = 1000;
@@ -52,7 +53,7 @@ public class Main13 {
 			System.out.println("==========>" + sqlInsert);
 
 			List<Map<String, Object>> list = selectFrom.apply(sqlSelect);
-			int[] is = JdbcTemplateHelperUtils.namedParameterJdbcTemplate().apply(jdbcTemplate02, sqlInsert, list);
+			int[] is = JdbcTemplateFunc.namedParameterJdbcTemplate().apply(jdbcTemplate02, sqlInsert, list);
 			System.out.println(is.length);
 		});
 		
