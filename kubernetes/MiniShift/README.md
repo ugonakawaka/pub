@@ -72,7 +72,7 @@ Usage:	docker rmi [OPTIONS] IMAGE [IMAGE...]
 minishift start --vm-driver virtualbox  
 止める  
 minishift stop  
-minishift oc-env
+minishift oc-env  
 minishift docker-env  
 
 ##### 1
