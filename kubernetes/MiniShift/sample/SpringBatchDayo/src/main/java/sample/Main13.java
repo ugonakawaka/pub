@@ -5,8 +5,11 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.IntStream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
+
 
 import sample.config.DataSourceConfiguration;
 import sample.config.EnvironmentConfiguration;
@@ -17,7 +20,8 @@ import sample.func.MysqlSqlFunc;
 import sample.func.MysqlSqlFunc.GenerateSql;
 
 public class Main13 {
-
+	private static final Logger logger = LoggerFactory.getLogger(Main13.class);
+    
 
 	public static void main(String[] args) throws ClassNotFoundException {
 
