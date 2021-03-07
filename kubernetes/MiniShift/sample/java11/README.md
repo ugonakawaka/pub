@@ -8,6 +8,17 @@ Jobの実行後の状態を確認したい。それで、アプリケーショ�
 あと、Jobが失敗した場合、再実行をしないことも要件となります。
 javaが返すexit codeはconfig mapに定義しておいて、環境変数を読み込みそれを返すようにします。  
 
+java内で設定するSystem.exitとjobが受け取るexit codeは↓となりました。  
+えーと256で割って余りがexit codeとなる理解でよいようです。  
+```
+EXIT_CODE:  255 → Exit Code:    255
+EXIT_CODE:  256 → Exit Code:    0
+EXIT_CODE:  257 → Exit Code:    1
+EXIT_CODE:  511 → Exit Code:    255
+EXIT_CODE:  512 → Exit Code:    0
+EXIT_CODE:  513 → Exit Code:    1
+```
+
 ### ⭐️参考⭐️  
 docker images -a | grep "my-javatest" | awk '{print $3}' | xargs docker rmi  
 oc get bc myruntime -o yaml> runtime.yaml  
@@ -15,7 +26,7 @@ docker run --rm -it 172.30.1.1:5000/my-job11/myjob11-runtime /bin/bash
 
 https://catalog.redhat.com/software/containers/openjdk/openjdk-11-rhel7/5bf57185dd19c775cddc4ce5
 
-#### あとかたづけ  
+#### 👍あとかたづけ  
 oc delete all -l app=mybuilder11  
 docker images -a | grep "myjob11" | awk '{print $3}' | xargs docker rmi  
 docker images -a | grep "myjob11-runtime" | awk '{print $3}' | xargs docker rmi 
@@ -23,13 +34,13 @@ docker images -a | grep "myjob11-builder" | awk '{print $3}' | xargs docker rmi
 
 oc delete project my-job11  
 
-#### イメージの取得
+#### 👍イメージの取得
 oc import-image ubi8/openjdk-11 --from=registry.access.redhat.com/ubi8/openjdk-11 --confirm  
 
-#### プロジェクト作成  
+#### 👍プロジェクト作成  
 oc new-project myjob11  
 
-#### ビルダーコンパイルよう  
+#### 👍ビルダーコンパイルよう  
 
 ビルドコンフィグの作成
 oc new-build registry.access.redhat.com/ubi8/openjdk-11 --strategy=source --binary=true --name=myjob11-builder  
@@ -57,7 +68,7 @@ oc start-build myjob11-builder --from-dir=. --follow
 
 再ビルドしてダウンロードしてないことを確認  
 
-#### ランタイムを作成する  
+#### 👍ランタイムを作成する  
 これが、チェーンビルドのふたつめとなる  
 一段目で作成したjarファイルをリネームしてコピーしてdocker imageを作成する  
 
@@ -72,7 +83,7 @@ RUN dnf -y update \
 COPY SpringBatchDayo-0.0.1-SNAPSHOT.jar /deployments/app.jar
 EOS
 ```
-#### docker imageがみつかるようにする  
+#### 👍docker imageがみつかるようにする  
 ランタイムを作成後では、lookupができないのでできるようにしておく  
 imageをローカルからみつけるようになっていないことを確認  
 oc describe is myjob11-runtime  
@@ -82,7 +93,7 @@ Image Lookup:		local=false
 変更する  
 oc set image-lookup myjob11-runtime  
 
-#### jobのyamlを適用する  
+#### 👍jobのyamlを適用する  
 これはコマンドでなくyamlで定義しています  
 
 ```
@@ -105,7 +116,7 @@ spec:
         command: ["java","-jar", "/deployments/app.jar"]
       restartPolicy: Never
 ```
-#### その他(再ビルド)
+#### 👍その他(再ビルド)
 
 再ビルド  
 oc start-build mybuilder11 --follow  
