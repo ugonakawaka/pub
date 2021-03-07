@@ -91,7 +91,25 @@
 							<goal>repackage</goal>
 						</goals>
 					</execution>
+
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy_sh</id>
+						<phase>repackage</phase>
+						<!-- <phase>generate-test-sources</phase> -->
+						<goals>
+							<goal>exec</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<executable>cp sh/a.sh /deployments/</executable>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
