@@ -3,6 +3,7 @@ kind: Job
 metadata:
   name: myjob11
 spec:
+  backoffLimit: 0
   parallelism: 1
   completions: 1
   template:
@@ -14,5 +15,4 @@ spec:
         image: myjob11-runtime
         imagePullPolicy: IfNotPresent
         command: ["java","-jar", "/deployments/app.jar"]
-        command: ["sh","/deployments/batch.sh"]
       restartPolicy: Never

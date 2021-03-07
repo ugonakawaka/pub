@@ -1,34 +1,48 @@
 ### 目標
 - MiniShift上でSpringBatchのjobを動かす    
 - チェーンビルドでビルドする  
-- java11でビルドする
+- java11でビルドする  
+- java実行のexit codeの取得の確認
 
+Jobの実行後の状態を確認したい。それで、アプリケーションの失敗が、Jobの失敗として確認できることが目標となります。  
+あと、Jobが失敗した場合、再実行をしないことも要件となります。
+javaが返すexit codeはconfig mapに定義しておいて、環境変数を読み込みそれを返すようにします。  
 
-https://catalog.redhat.com/software/containers/openjdk/openjdk-11-rhel7/5bf57185dd19c775cddc4ce5
-
+### ⭐️参考⭐️  
 docker images -a | grep "my-javatest" | awk '{print $3}' | xargs docker rmi  
 oc get bc myruntime -o yaml> runtime.yaml  
 docker run --rm -it 172.30.1.1:5000/my-job11/myjob11-runtime /bin/bash
 
-### 目標  
-java11でバッチをビルドすること  
+https://catalog.redhat.com/software/containers/openjdk/openjdk-11-rhel7/5bf57185dd19c775cddc4ce5
+
+#### あとかたづけ  
+oc delete all -l app=mybuilder11  
+docker images -a | grep "myjob11" | awk '{print $3}' | xargs docker rmi  
+docker images -a | grep "myjob11-runtime" | awk '{print $3}' | xargs docker rmi 
+docker images -a | grep "myjob11-builder" | awk '{print $3}' | xargs docker rmi 
+
+oc delete project my-job11  
 
 #### イメージの取得
 oc import-image ubi8/openjdk-11 --from=registry.access.redhat.com/ubi8/openjdk-11 --confirm  
 
-#### あとかたづけ  
-oc delete all -l app=mybuilder11  
-docker images -a | grep "my-job11" | awk '{print $3}' | xargs docker rmi  
-oc delete project my-job11  
-
 #### プロジェクト作成  
-oc new-project my-job11  
+oc new-project myjob11  
 
 #### ビルダーコンパイルよう  
-oc new-build registry.access.redhat.com/ubi8/openjdk-11 --strategy=source --binary=true --name=mybuilder11  
 
+ビルドコンフィグの作成
+oc new-build registry.access.redhat.com/ubi8/openjdk-11 --strategy=source --binary=true --name=myjob11-builder  
+
+成功したらyamlを変更してビルド履歴を減らす
 成功したらyamlを変更してincrementalを有効にすること  
-oc edit bc mybuilder11  
+oc edit bc myjob11-builder  
+```
+  failedBuildsHistoryLimit: 1
+```
+```
+  successfulBuildsHistoryLimit: 1
+```
 ```
       from:
         kind: ImageStreamTag
@@ -36,14 +50,19 @@ oc edit bc mybuilder11
       incremental: true
 ```
 確認  
-oc get bc mybuilder11 -o yaml  
+oc get bc myjob11-builder -o yaml  
+
+ビルド実行
+oc start-build myjob11-builder --from-dir=. --follow  
 
 再ビルドしてダウンロードしてないことを確認  
-oc start-build mybuilder11 --from-dir=. --follow  
 
 #### ランタイムを作成する  
+これが、チェーンビルドのふたつめとなる  
+一段目で作成したjarファイルをリネームしてコピーしてdocker imageを作成する  
+
 ```
-cat <<EOS | oc new-build --name=myjob11-runtime --source-image=mybuilder11 \
+cat <<EOS | oc new-build --name=myjob11-runtime --source-image=myjob11-builder \
   --source-image-path=/deployments/SpringBatchDayo-0.0.1-SNAPSHOT.jar:. \
   --dockerfile=-
 FROM fedora
@@ -53,12 +72,55 @@ RUN dnf -y update \
 COPY SpringBatchDayo-0.0.1-SNAPSHOT.jar /deployments/app.jar
 EOS
 ```
-
+#### docker imageがみつかるようにする  
+ランタイムを作成後では、lookupができないのでできるようにしておく  
+imageをローカルからみつけるようになっていないことを確認  
+oc describe is myjob11-runtime  
+```
+Image Lookup:		local=false
+```
+変更する  
 oc set image-lookup myjob11-runtime  
 
-#### シェルをはさんでを実行する  
+#### jobのyamlを適用する  
+これはコマンドでなくyamlで定義しています  
+
 ```
-cat <<EOS | oc new-build --name=myjob11-runtime --source-image=mybuilder11 \
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: myjob11
+spec:
+  backoffLimit: 0
+  parallelism: 1
+  completions: 1
+  template:
+    metadata:
+      name: myjob11
+    spec:
+      containers:
+      - name: myjob11
+        image: myjob11-runtime
+        imagePullPolicy: IfNotPresent
+        command: ["java","-jar", "/deployments/app.jar"]
+      restartPolicy: Never
+```
+#### その他(再ビルド)
+
+再ビルド  
+oc start-build mybuilder11 --follow  
+
+jobの削除
+oc delete job myjob11  
+
+
+### 以下、おまけ  
+
+#### シェルをはさんでを実行する 
+java実行の間にシェルをはさむパターンを試してみました。  
+
+```
+cat <<EOS | oc new-build --name=myjob11-runtime --source-image=myjob11-builder \
   --source-image-path=/deployments/SpringBatchDayo-0.0.1-SNAPSHOT.jar:. \
   --dockerfile=-
 FROM fedora
@@ -69,4 +131,9 @@ COPY SpringBatchDayo-0.0.1-SNAPSHOT.jar /deployments/app.jar
 RUN echo -e '#!/bin/bash\\njava -jar /deployments/app.jar\\nexit $? '> /deployments/batch.sh && \
     chmod +x /deployments/batch.sh
 EOS
+```
+
+job.yamlのcommandを↓のものにさしかえる  
+```
+        command: ["sh","/deployments/batch.sh"]
 ```

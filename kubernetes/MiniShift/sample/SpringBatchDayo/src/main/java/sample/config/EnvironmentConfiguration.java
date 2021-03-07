@@ -18,14 +18,14 @@ public class EnvironmentConfiguration {
 			return configurableEnvironment.getSystemEnvironment();
 		}
 
-		public default Map<String, Object> getEnv(String regex) {
+		public default Map<String, String> getEnv(String regex) {
 
-			final Map<String, Object> map = new TreeMap<String, Object>();
+			final Map<String, String> map = new TreeMap<>();
 
 			configurableEnvironment.getSystemEnvironment().forEach((k, v) -> {
 
 				if (k.matches(regex))
-					map.put(k, v);
+					map.put(k, String.valueOf(v));
 
 			});
 
