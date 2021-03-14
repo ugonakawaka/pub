@@ -9,7 +9,15 @@ keyの生成
 ssh-keygen -t rsa -C xxxx@xxx.xxx
 ```
 
+configの編集  
+```
+vi ~/.ssh/config 
+```
 
+確認(yyyyの部分は、configで設定したhostname)  
+```
+ssh -T git@yyyy
+```
 
 #### 参考  
 [ssh-keygen -l -f ~/.ssh/id_rsa.pub](https://qiita.com/suthio/items/2760e4cff0e185fe2db9)
