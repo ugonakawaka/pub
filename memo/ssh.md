@@ -1,4 +1,15 @@
 
+keyの暗号強度の確認  
+```
+ssh-keygen -l -f ~/.ssh/id_rsa.pub
+```
+
+keyの生成  
+```
+ssh-keygen -t rsa -C xxxx@xxx.xxx
+```
+
+
 
 #### 参考  
 [ssh-keygen -l -f ~/.ssh/id_rsa.pub](https://qiita.com/suthio/items/2760e4cff0e185fe2db9)
