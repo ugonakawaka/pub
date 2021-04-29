@@ -24,7 +24,7 @@ public class Test01 {
 
 	}
 
-	static void b(final int nano_sleep) throws InterruptedException {
+	static void b(final int nano_sleep) {
 
 		final long l1 = System.nanoTime();
 
