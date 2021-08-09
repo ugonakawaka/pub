@@ -8,6 +8,10 @@ keyの生成
 ```
 ssh-keygen -t rsa -C xxxx@xxx.xxx
 ```
+```
+ssh-keygen -t rsa -b 4096 -C xxxx@xxx.xxx
+```
+
 
 configの編集  
 ```
