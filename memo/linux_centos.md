@@ -9,4 +9,7 @@ NETWORKING_IPV6=no
 reboot  
 systemctl restart network  
 
+=====
+ifconfigがない場合  
+$ yum install net-tools  
 
