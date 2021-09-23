@@ -1,4 +1,4 @@
 
 デフォルト  
-# root user  
+\# root user  
 $ 一般ユーザー  
