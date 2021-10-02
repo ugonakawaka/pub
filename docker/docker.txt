@@ -20,10 +20,10 @@ docker rmi [イメージID]
 
 tagにnoneがついているものを削除
 
-↓だと１つだけ消す
+↓パターン１
 docker rmi -f $(docker images | grep none | awk '{print $3}')
 
-↓だとまるっと消す
+↓パターン２
 docker images|grep none|awk '{print $3}'|xargs docker rmi -f 
 
 docer image prune
