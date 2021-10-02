@@ -14,9 +14,22 @@ macのGUIもコマンドでインストールしたい
 $ docker images
 
 $ docker ps -a
-
+============
 imageの削除
 docker rmi [イメージID]
+
+tagにnoneがついているものを削除
+docker rmi -f $(docker images | grep none | awk '{print $3}')
+
+docer image prune
+============
+ファイル名(Dockerfile)を指定しての実行()
+
+# docker build -t my-server:multistage -f Dockerfile-multistage-go-sample .
+# docker images
+REPOSITORY                                TAG           IMAGE ID       CREATED         SIZE
+my-server                                 multistage    240ad214dc7c   6 minutes ago   25.4MB
+
 ============
 https://hub.docker.com/_/redis
 $ docker pull redis

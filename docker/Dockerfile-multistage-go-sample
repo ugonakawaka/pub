@@ -1,0 +1,31 @@
+# syntax=docker/dockerfile:1
+
+## docker build -t my-server:multistage -f Dockerfile-multistage-go-sample .
+##
+## Build
+##
+FROM golang:1.16-buster AS build
+
+WORKDIR /app
+#RUN pwd
+
+COPY *.go ./
+#RUN ls -l
+
+RUN go build -o /server server.go
+#RUN ls -l
+
+##
+## Deploy
+##
+FROM gcr.io/distroless/base-debian10
+
+WORKDIR /
+
+COPY --from=build /server /server
+
+EXPOSE 8080
+
+USER nonroot:nonroot
+
+ENTRYPOINT ["/server"]
