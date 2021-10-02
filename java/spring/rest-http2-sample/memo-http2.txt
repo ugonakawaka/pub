@@ -1,0 +1,105 @@
+curl http://localhost:8081/hi -v --http2
+curl http://localhost:8081/hi -v --http2-prior-knowledge
+
+server.http2.enabled=false
+===========
+% curl http://localhost:8081/hi -v --http2                
+*   Trying ::1...
+* TCP_NODELAY set
+* Connected to localhost (::1) port 8081 (#0)
+> GET /hi HTTP/1.1
+> Host: localhost:8081
+> User-Agent: curl/7.64.1
+> Accept: */*
+> Connection: Upgrade, HTTP2-Settings
+> Upgrade: h2c
+> HTTP2-Settings: AAMAAABkAARAAAAAAAIAAAAA
+> 
+< HTTP/1.1 200 
+< Content-Type: text/plain;charset=UTF-8
+< Content-Length: 3
+< Date: Sat, 02 Oct 2021 03:51:24 GMT
+< 
+* Connection #0 to host localhost left intact
+hi!* Closing connection 0
+
+===========
+% curl http://localhost:8081/hi -v --http2-prior-knowledge
+*   Trying ::1...
+* TCP_NODELAY set
+* Connected to localhost (::1) port 8081 (#0)
+* Using HTTP2, server supports multi-use
+* Connection state changed (HTTP/2 confirmed)
+* Copying HTTP/2 data in stream buffer to connection buffer after upgrade: len=0
+* Using Stream ID: 1 (easy handle 0x7fadec810000)
+> GET /hi HTTP/2
+> Host: localhost:8081
+> User-Agent: curl/7.64.1
+> Accept: */*
+> 
+* Empty reply from server
+* Connection #0 to host localhost left intact
+curl: (52) Empty reply from server
+* Closing connection 0
+
+
+
+
+
+
+
+server.http2.enabled=true
+===========
+
+% curl http://localhost:8081/hi -v --http2                
+*   Trying ::1...
+* TCP_NODELAY set
+* Connected to localhost (::1) port 8081 (#0)
+> GET /hi HTTP/1.1
+> Host: localhost:8081
+> User-Agent: curl/7.64.1
+> Accept: */*
+> Connection: Upgrade, HTTP2-Settings
+> Upgrade: h2c
+> HTTP2-Settings: AAMAAABkAARAAAAAAAIAAAAA
+> 
+< HTTP/1.1 101 
+< Connection: Upgrade
+< Upgrade: h2c
+< Date: Sat, 02 Oct 2021 03:52:20 GMT
+* Received 101
+* Using HTTP2, server supports multi-use
+* Connection state changed (HTTP/2 confirmed)
+* Copying HTTP/2 data in stream buffer to connection buffer after upgrade: len=0
+* Connection state changed (MAX_CONCURRENT_STREAMS == 100)!
+< HTTP/2 200 
+< content-type: text/plain;charset=UTF-8
+< content-length: 3
+< date: Sat, 02 Oct 2021 03:52:20 GMT
+< 
+* Connection #0 to host localhost left intact
+hi!* Closing connection 0
+
+
+===========
+% curl http://localhost:8081/hi -v --http2-prior-knowledge
+*   Trying ::1...
+* TCP_NODELAY set
+* Connected to localhost (::1) port 8081 (#0)
+* Using HTTP2, server supports multi-use
+* Connection state changed (HTTP/2 confirmed)
+* Copying HTTP/2 data in stream buffer to connection buffer after upgrade: len=0
+* Using Stream ID: 1 (easy handle 0x7ff55680e800)
+> GET /hi HTTP/2
+> Host: localhost:8081
+> User-Agent: curl/7.64.1
+> Accept: */*
+> 
+* Connection state changed (MAX_CONCURRENT_STREAMS == 100)!
+< HTTP/2 200 
+< content-type: text/plain;charset=UTF-8
+< content-length: 3
+< date: Sat, 02 Oct 2021 03:52:39 GMT
+< 
+* Connection #0 to host localhost left intact
+hi!* Closing connection 0
