@@ -5,6 +5,9 @@ https://access.redhat.com/sites/default/files/attachments/rh_yum_cheatsheet_1214
 epel  
 CentOSの標準では用意されていないパッケージをインストールすることができるようにするためのリポジトリらしい  
 
+yum list installed|grep epel-release  
+
+
 
 
 サブコマンド   
