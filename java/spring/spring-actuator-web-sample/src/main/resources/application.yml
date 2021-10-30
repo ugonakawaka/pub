@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: spring-actuator-web-sample
+  main:
+    lazy-initialization: true
+server:
+  port : 9090
+  http2:
+    enabled: true
+management:
+  server:
+    port: 9091
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: "*"
+#        exclude: "env,beans"
+  endpoint:
+    info:
+      enabled: true
+    shutdown:
+      enabled: true
