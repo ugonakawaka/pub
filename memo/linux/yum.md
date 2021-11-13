@@ -22,3 +22,5 @@ yum search fuser
 パッケージがわかったらinstallする
 yum -y install psmisc  
 
+インストール・アップデートの履歴がわかる  
+yum history list
