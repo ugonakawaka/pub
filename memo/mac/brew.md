@@ -10,3 +10,7 @@ brew install openjdk@14
 
 
 brew install jenv  
+
+brew自身の更新  
+brew update  
+
