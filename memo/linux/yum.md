@@ -28,3 +28,5 @@ yum history list
 インストール済みのパッケージ  
 yum list installed  
 
+インストール可能なもの(バージョン違い)  
+yum search kubernetes --showduplicates  
