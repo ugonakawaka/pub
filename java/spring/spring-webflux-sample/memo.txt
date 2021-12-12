@@ -1,0 +1,19 @@
+
+
+Caused by: org.springframework.boot.autoconfigure.r2dbc.ConnectionFactoryOptionsInitializer$ConnectionFactoryBeanCreationException: Failed to determine a suitable R2DBC Connection URL
+
+↓excludeする
+R2dbcAutoConfiguration.class
+
+
+理解していない設定は設定しないようにしよう
+
+
+https://ik.am/entries/417
+
+
+http://localhost:8080/dummy
+
+curl -v localhost:8080/dummy
+curl -v localhost:8080/dummy -H 'Accept: application/stream+json'
+ 

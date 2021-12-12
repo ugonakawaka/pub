@@ -1,0 +1,8 @@
+
+
+auto-configurationがじゃまする場合
+@EnableAutoConfiguration を使うとよいと思う
+https://www.baeldung.com/spring-boot-exclude-auto-configuration-test
+
+
+
