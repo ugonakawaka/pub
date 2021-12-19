@@ -1,0 +1,240 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>generator_javaspring</groupId>
+	<artifactId>generator_javaspring</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<properties>
+		<java.version>11</java.version>
+		<openapitools.version>5.3.0</openapitools.version>
+
+		<!-- -->
+		<swagger-annotations-version>1.5.8</swagger-annotations-version>
+		<spring-boot-starter-web.version>2.2.1.RELEASE</spring-boot-starter-web.version>
+		<springfox-version>2.9.2</springfox-version>
+
+	</properties>
+
+
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
+				<configuration>
+					<release>16</release>
+				</configuration>
+			</plugin>
+
+
+			<plugin>
+				<groupId>org.openapitools</groupId>
+				<artifactId>openapi-generator-maven-plugin</artifactId>
+				<version>${openapitools.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<engine>handlebars</engine>
+						
+						
+							<!--  -->
+							<templateResourcePath>${project.basedir}/JavaSpring</templateResourcePath>
+							
+							<!--  -->
+							<inputSpec>${project.basedir}/spec/TS29510_Nnrf_NFManagement.yaml</inputSpec>
+
+							<!-- java/spring -->
+							<generatorName>spring</generatorName>
+
+
+							<!-- https://openapi-generator.tech/docs/generators/spring/ -->
+							<configOptions>
+
+								<!-- <additionalEnumTypeAnnotations></additionalEnumTypeAnnotations> -->
+								<!-- <additionalModelTypeAnnotations></additionalModelTypeAnnotations> -->
+
+								<allowUnicodeIdentifiers>false</allowUnicodeIdentifiers>
+
+								<apiFirst>false</apiFirst>
+								<!-- default: org.openapitools.api -->
+								<apiPackage>oreore.nrf.api</apiPackage>
+								<!-- default: OpenAPI Java -->
+								<artifactDescription>OreOre NRF openapi Java</artifactDescription>
+
+								<!-- openapi-java-client openapi-spring -->
+								<artifactId>openapi-java-client</artifactId>
+								<!-- default:https://github.com/openapitools/openapi-generator -->
+								<artifactUrl>https://github.com/openapitools/openapi-generator </artifactUrl>
+								<artifactVersion>1.0.0</artifactVersion>
+
+								<async>false</async>
+								<!-- default: org.openapitools -->
+								<basePackage>oreore.nrf</basePackage>
+								<bigDecimalAsString>false</bigDecimalAsString>
+								<booleanGetterPrefix>get</booleanGetterPrefix>
+								<!-- default:org.openapitools.configuration -->
+								<configPackage>oreore.nrf.config</configPackage>
+
+								<!-- default: threetenbp -->
+								<dateLibrary>java8</dateLibrary>
+								<!-- default: false -->
+								<delegatePattern>true</delegatePattern>
+								<!-- default: team@openapitools.org -->
+								<developerEmail>team@openapitools.org </developerEmail>
+								<!-- default: OpenAPI-Generator Contributors -->
+								<developerName>OpenAPI-Generator Contributors</developerName>
+								<!-- default: OpenAPITools.org -->
+								<developerOrganization>OpenAPITools.org</developerOrganization>
+								<!-- default: http://openapitools.org -->
+								<developerOrganizationUrl>http://openapitools.org </developerOrganizationUrl>
+								<disableHtmlEscaping>false</disableHtmlEscaping>
+
+								<!-- default: true -->
+								<disallowAdditionalPropertiesIfNotPresent>true</disallowAdditionalPropertiesIfNotPresent>
+								<discriminatorCaseSensitive>true</discriminatorCaseSensitive>
+								<ensureUniqueParams>true</ensureUniqueParams>
+								<fullJavaUtil>false</fullJavaUtil>
+								<hateoas>false</hateoas>
+								<hideGenerationTimestamp>false</hideGenerationTimestamp>
+								<!-- default: false -->
+								<ignoreAnyOfInEnum>false</ignoreAnyOfInEnum>
+								<implicitHeaders>false</implicitHeaders>
+								<!-- default: false -->
+								<interfaceOnly>true</interfaceOnly>
+								<invokerPackage>org.openapitools.api</invokerPackage>
+								<java8>true</java8>
+								<!-- default: true -->
+								<legacyDiscriminatorBehavior>false</legacyDiscriminatorBehavior>
+								<!-- spring:spring-boot -->
+								<!-- java:okhttp-gson -->
+								<library>spring-boot</library>
+								<licenseName>Unlicense</licenseName>
+								<licenseUrl>http://unlicense.org</licenseUrl>
+								<!-- default: org.openapitools.model -->
+								<modelPackage>oreore.nrf.model</modelPackage>
+								<openApiNullable>true</openApiNullable>
+								<parentArtifactId>null</parentArtifactId>
+								<parentVersion>null</parentVersion>
+								<performBeanValidation>false</performBeanValidation>
+								<prependFormOrBodyParameters>false</prependFormOrBodyParameters>
+								<reactive>true</reactive>
+
+								<!-- <responseWrapper>null</responseWrapper> -->
+								<!-- default: false -->
+								<returnSuccessCode>true</returnSuccessCode>
+								<scmConnection>scm:git:git@github.com:openapitools/openapi-generator.git</scmConnection>
+								<scmDeveloperConnection>scm:git:git@github.com:openapitools/openapi-generator.git</scmDeveloperConnection>
+								<scmUrl>https://github.com/openapitools/openapi-generator</scmUrl>
+								<serializableModel>true</serializableModel>
+								<singleContentTypes>false</singleContentTypes>
+								<skipDefaultInterface>false</skipDefaultInterface>
+								<snapshotVersion>null</snapshotVersion>
+								<sortModelPropertiesByRequiredFlag>true</sortModelPropertiesByRequiredFlag>
+								<sortParamsByRequiredFlag>true</sortParamsByRequiredFlag>
+
+								<!-- default: src/main/java -->
+								<sourceFolder>src/gen/java/main</sourceFolder>
+								<swaggerDocketConfig>false</swaggerDocketConfig>
+
+								<!-- default: OpenAPI Spring -->
+								<title>OpenAPI NRF</title>
+								<unhandledException>false</unhandledException>
+
+								<!-- default: true -->
+								<useBeanValidation>true</useBeanValidation>
+								<useOptional>false</useOptional>
+								<useTags>false</useTags>
+								<virtualService>false</virtualService>
+								<withXml>false</withXml>
+							</configOptions>
+						</configuration>
+					</execution>
+				</executions>
+
+
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+
+		<!-- https://mvnrepository.com/artifact/org.yaml/snakeyaml -->
+		<dependency>
+			<groupId>org.yaml</groupId>
+			<artifactId>snakeyaml</artifactId>
+			<version>1.29</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.13.0</version>
+		</dependency>
+
+
+
+		<!-- ====================== -->
+
+		<!-- ====================== -->
+
+		<!-- ====================== -->
+		<!-- dependencies are needed for the client being generated -->
+
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-annotations</artifactId>
+			<version>${swagger-annotations-version}</version>
+		</dependency>
+
+		<!-- You can find the dependencies for the library configuation you chose 
+			by looking in JavaClientCodegen. Then find the corresponding dependency on 
+			Maven Central, and set the versions in the property section below -->
+
+
+
+		<!--SpringFox dependencies -->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${springfox-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${springfox-version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.3.1</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310 -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+			<version>2.13.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.openapitools</groupId>
+			<artifactId>jackson-databind-nullable</artifactId>
+			<version>0.1.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>2.0.1.Final</version>
+		</dependency>
+
+	</dependencies>
+
+
+</project>
