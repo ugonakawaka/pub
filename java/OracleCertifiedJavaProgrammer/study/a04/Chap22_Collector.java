@@ -11,6 +11,7 @@ import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
+import java.util.stream.Stream;
 
 public class Chap22_Collector {
 
@@ -45,6 +46,7 @@ public class Chap22_Collector {
 		@Override
 		public Set<Characteristics> characteristics() {
 			return Collections.emptySet();
+			// return EnumSet.of(Characteristics.CONCURRENT);
 			// return EnumSet.of(Characteristics.UNORDERED);
 			// return EnumSet.of(Characteristics.IDENTITY_FINISH,
 			// Characteristics.UNORDERED);
@@ -75,6 +77,17 @@ public class Chap22_Collector {
 			});
 			System.out.println(builder); // A,B,C,D,E
 		}
+		{
+			var builder = new StringBuilder();
+			list.parallelStream().forEach(x -> {
+				if (builder.length() != 0) {
+					builder.append(",");
+				}
+				builder.append(x);
+			});
+			System.out.println(builder); // unordered
+		}
+		
 		{ // empty list
 			var result = new ArrayList<String>().stream().collect(new Joinner());
 
@@ -88,7 +101,10 @@ public class Chap22_Collector {
 			var result = list.stream().parallel().collect(new Joinner());
 			System.out.println(result); // A,B,C,D,E
 		}
-
+		{ // test BinaryOperator
+			var result = list.parallelStream().collect(new Joinner());
+			System.out.println(result); // A,B,C,D,E
+		}
 	}
 
 }
