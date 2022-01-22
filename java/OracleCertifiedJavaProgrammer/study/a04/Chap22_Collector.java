@@ -36,10 +36,9 @@ public class Chap22_Collector {
 		@Override
 		public Function<StringBuilder, String> finisher() {
 			return (sb) -> {
-				if (0 < sb.length() ) {
-					return sb.substring(0, sb.length() - 1);
-				}
-				return sb.toString();
+				if (0 == sb.length())
+					return "";
+				return sb.substring(0, sb.length() - 1);
 			};
 		}
 
@@ -47,7 +46,8 @@ public class Chap22_Collector {
 		public Set<Characteristics> characteristics() {
 			return Collections.emptySet();
 			// return EnumSet.of(Characteristics.UNORDERED);
-			// return EnumSet.of(Characteristics.IDENTITY_FINISH, Characteristics.UNORDERED);
+			// return EnumSet.of(Characteristics.IDENTITY_FINISH,
+			// Characteristics.UNORDERED);
 		}
 
 	}
@@ -62,24 +62,33 @@ public class Chap22_Collector {
 			// do nothing
 		}
 	}
-	
+
 	public static void main(String[] args) {
 
-		{ // empty list 
+		{
+			var builder = new StringBuilder();
+			list.stream().forEach(x -> {
+				if (builder.length() != 0) {
+					builder.append(",");
+				}
+				builder.append(x);
+			});
+			System.out.println(builder); // A,B,C,D,E
+		}
+		{ // empty list
 			var result = new ArrayList<String>().stream().collect(new Joinner());
 
-			System.out.println(result);
+			System.out.println(result); // empty
 		}
-		{ // test  BiConsumer
+		{ // test BiConsumer
 			var result = list.stream().collect(new Joinner());
-
-			System.out.println(result);
+			System.out.println(result); // A,B,C,D,E
 		}
 		{ // test BinaryOperator
 			var result = list.stream().parallel().collect(new Joinner());
-			System.out.println(result);
+			System.out.println(result); // A,B,C,D,E
 		}
-		
+
 	}
 
 }
