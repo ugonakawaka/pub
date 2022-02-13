@@ -1,4 +1,4 @@
-package a04;
+package a04_streamapi;
 
 import java.util.Optional;
 
@@ -22,9 +22,7 @@ public class Chap07_Optional_map {
 		{
 			String s = null;
 			var s2 = Optional.ofNullable(s);
-			s2.ifPresent(a -> {
-				System.out.println(a);
-			});
+			s2.ifPresent(System.out::println);
 		}
 
 		{
@@ -32,9 +30,7 @@ public class Chap07_Optional_map {
 			var s2 = Optional.ofNullable(s).map(a -> {
 				return a.toUpperCase();
 			});
-			s2.ifPresent(a -> {
-				System.out.println(a);
-			});
+			s2.ifPresent(System.out::println);
 		}
 
 		{
@@ -42,7 +38,7 @@ public class Chap07_Optional_map {
 			var opt = Optional.ofNullable(s).map(a -> {
 				return a.toUpperCase();
 			});
-			opt.ifPresent(a -> System.out.println(a));
+			opt.ifPresent(System.out::println);
 		}
 
 		{
@@ -50,7 +46,7 @@ public class Chap07_Optional_map {
 			var opt = Optional.ofNullable(s).map(a -> {
 				return new Result().set(a);
 			});
-			opt.ifPresent(a -> System.out.println(a));
+			opt.ifPresent(System.out::println);
 
 		}
 
@@ -58,7 +54,7 @@ public class Chap07_Optional_map {
 			var arr = new String[] { "a", "b" };
 			Optional.ofNullable(arr).map(a -> {
 				return a.length;
-			}).ifPresent(a -> System.out.println(a));
+			}).ifPresent(System.out::println);
 		}
 
 	}

@@ -1,4 +1,4 @@
-package a04;
+package a04_streamapi;
 
 import java.util.Arrays;
 import java.util.List;

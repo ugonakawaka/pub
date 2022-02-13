@@ -65,7 +65,7 @@ public class Chap16_newBufferedxxx {
 					try {
 						// WatchKey watchKey = watcher.poll(100, TimeUnit.MILLISECONDS);
 						WatchKey watchKey = watcher.take();
-						
+
 						for (WatchEvent<?> event : watchKey.pollEvents()) {
 							Kind<?> kind = event.kind();
 							Object context = event.context();
@@ -83,33 +83,4 @@ public class Chap16_newBufferedxxx {
 		new Thread(runnable).start();
 	}
 
-	static void aシナリオ2(Path fpath) throws IOException {
-		// 引数で指定されたファイルひらく
-		// ファイルがなければ作成する
-		// ファイルをリーダーでひらく
-		// 入力したらファイルに出力
-		{
-			boolean b = Files.exists(fpath);
-			if (!b) {
-				Files.createFile(fpath);
-			}
-		}
-
-		try (var bufw = Files.newBufferedWriter(fpath, StandardOpenOption.APPEND)) {
-
-			Console console = null;
-			if ((console = System.console()) != null) {
-				do {
-					String line = console.readLine(">");
-					bufw.write(line);
-					bufw.newLine();
-					bufw.flush();
-				} while (true);
-			} else {
-				throw new RuntimeException("*** failed get console...");
-			}
-
-		}
-
-	}
 }

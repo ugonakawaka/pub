@@ -12,9 +12,10 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
 import java.util.stream.Collector.Characteristics;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class Chap22_Collector {
+public class Chap22_Collector2 {
 
 	public static class Joinner implements Collector<String, StringBuilder, String> {
 
@@ -55,7 +56,13 @@ public class Chap22_Collector {
 
 	}
 
-	static final List<String> list = Arrays.asList("A", "B", "C", "D", "E");
+	static final List<String> list = new ArrayList<>();
+	static {
+		IntStream.range(0, 1000).forEach(a->{
+			list.add("" + a);
+		});
+		
+	}
 
 	static void sleep() {
 		// Zzzz...
@@ -78,16 +85,16 @@ public class Chap22_Collector {
 			});
 			System.out.println(builder); // A,B,C,D,E
 		}
-		{ // ng
-			var builder = new StringBuilder();
-			list.parallelStream().forEach(x -> {
-				if (builder.length() != 0) {
-					builder.append(",");
-				}
-				builder.append(x);
-			});
-			System.out.println(builder); // unordered
-		}
+//		{ // ng
+//			var builder = new StringBuilder();
+//			list.parallelStream().forEach(x -> {
+//				if (builder.length() != 0) {
+//					builder.append(",");
+//				}
+//				builder.append(x);
+//			});
+//			System.out.println(builder); // unordered
+//		}
 
 		{ // empty list
 			var result = new ArrayList<String>().stream().collect(new Joinner());
@@ -123,8 +130,7 @@ public class Chap22_Collector {
 			System.out.println(result); // A,B,C,D,E
 		}
 		{
-			
-			
+
 		}
 
 	}

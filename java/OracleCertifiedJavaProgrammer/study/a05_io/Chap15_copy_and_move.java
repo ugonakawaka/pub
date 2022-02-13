@@ -22,10 +22,11 @@ public class Chap15_copy_and_move {
 		Consumer<PrintStream> consumer2 = ps -> ps.println("DEF");
 		consumer1.andThen(consumer2).accept(System.out);
 
-		Path src = Paths.get("tmp", "src.txt");
-		Path dst = Paths.get("tmp", "dst.txt");
-		test(src, dst);
-
+		{
+			Path src = Paths.get("tmp", "src.txt");
+			Path dst = Paths.get("tmp", "dst.txt");
+			test(src, dst);	
+		}
 	}
 
 	@FunctionalInterface
@@ -33,7 +34,6 @@ public class Chap15_copy_and_move {
 		void exec() throws Throwable;
 
 		default SideEffectDoit0 andThen(SideEffectDoit0 after) {
-			System.out.println("** ok2");
 			Objects.requireNonNull(after);
 			return () -> {
 				exec();
@@ -44,9 +44,7 @@ public class Chap15_copy_and_move {
 	}
 
 	static SideEffectDoit0 ifThen(boolean b, SideEffectDoit0 a1) throws Throwable {
-
 		return () -> {
-
 			if (b)
 				a1.exec();
 		};
