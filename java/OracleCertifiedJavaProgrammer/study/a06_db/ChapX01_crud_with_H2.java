@@ -4,15 +4,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.Arrays;
+import java.util.function.Consumer;
+import java.util.stream.IntStream;
 
-import org.h2.jdbc.JdbcConnection;
 import org.h2.jdbcx.JdbcConnectionPool;
-import org.h2.jdbcx.JdbcXAConnection;
 import org.h2.tools.RunScript;
 
 // 簡単なサンプル
@@ -66,6 +65,18 @@ public class ChapX01_crud_with_H2 {
 		select("select id, comment, time from aaa", print);
 		delete("delete from aaa", $pstatement());
 		select("select id, comment, time from aaa", print);
+
+		// executeBatch
+		// 10件 insert
+		insertBatch("insert into aaa(comment, time) values(?, CURRENT_TIMESTAMP())", pstatement -> {
+			for (int i = 0; i < 10; i++) {
+				pstatement.setString(1, "こめんどだよ" + 1);
+				pstatement.addBatch();
+			}
+		});
+
+		select("select id, comment, time from aaa", print);
+
 	}
 
 	@FunctionalInterface
@@ -110,6 +121,17 @@ public class ChapX01_crud_with_H2 {
 		}
 	}
 
+	static int[] executeBatch(String sql, $pstatement $) throws SQLException, IOException {
+		try (Connection conn = connect()) {
+			try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+				$.exec(preparedStatement);
+				return preparedStatement.executeBatch();
+			}
+
+		}
+	}
+	// ================
+
 	static int update(String sql, $pstatement $) throws SQLException, IOException {
 		return executeUpdate(sql, $);
 	}
@@ -120,5 +142,10 @@ public class ChapX01_crud_with_H2 {
 
 	static int insert(String sql, $pstatement $) throws SQLException, IOException {
 		return executeUpdate(sql, $);
+	}
+
+	// ================
+	static int[] insertBatch(String sql, $pstatement $) throws SQLException, IOException {
+		return executeBatch(sql, $);
 	}
 }
