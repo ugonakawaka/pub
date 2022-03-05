@@ -1,4 +1,4 @@
-package aaa;
+package sidestory;
 
 public class A002_メソッド名の取得 {
 	static class Utils {

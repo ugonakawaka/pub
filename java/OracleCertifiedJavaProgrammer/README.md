@@ -8,4 +8,9 @@ https://github.com/katohideyuki/JavaGold
 
 2022年現在、まだJava17まで資格のアップデートはされていないみたいだけど、ちょっとがんばってみたいと思ったのでした。
 
-study11ディレクトリが、ソースフォルダとしています。
+
+ディレクトリ構成  
+https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html
+
+
+

@@ -76,10 +76,14 @@ public class Chap17_comparator {
 		
 		{
 			var c1 = Objects.compare(item("a", 0), item("b", 0), comparator);
-			var c2 = Objects.compare(item("b", 0), item("a", 0), comparator);
-			
+			var c2 = Objects.compare(item("b", 0), item("a", 0), comparator);			
 			System.out.printf("%d %d %n", c1, c2 );
 		}
-		
+		{ // reversed
+			var c1 = Objects.compare(item("a", 0), item("b", 0), comparator.reversed());
+			var c2 = Objects.compare(item("b", 0), item("a", 0), comparator.reversed());
+			System.out.printf("%d %d %n", c1, c2 );
+		}
+
 	}
 }
