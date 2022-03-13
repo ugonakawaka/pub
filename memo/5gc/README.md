@@ -12,3 +12,6 @@ https://www.3gpp.org/DynaReport/29-series.htm
 
 openapi  
 https://www.3gpp.org/ftp/Specs/archive/OpenAPI/  
+
+yaml  
+https://forge.3gpp.org/rep/all/5G_APIs  
