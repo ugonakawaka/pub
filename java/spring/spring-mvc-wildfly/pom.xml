@@ -6,7 +6,7 @@
 	<packaging>war</packaging>
 	<properties>
 		<java-version>11</java-version>
-		<org.springframework-version>5.2.19.RELEASE</org.springframework-version>
+		<org.springframework-version>5.3.18</org.springframework-version>
 		<org.aspectj-version>1.9.9</org.aspectj-version>
 
 		<version.wildfly.maven.plugin>2.1.0.Beta1</version.wildfly.maven.plugin>
