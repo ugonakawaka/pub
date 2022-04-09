@@ -1,5 +1,6 @@
 package a01_basic;
 
+// https://openjdk.java.net/projects/amber/guides/lvti-style-guide
 public class ChapXx06_var {
 
 	public static void main(String[] args) {
@@ -54,5 +55,6 @@ public class ChapXx06_var {
 			}
 
 		}
+
 	}
 }
