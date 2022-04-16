@@ -145,16 +145,16 @@ public class ChapXx_sample {
 		assert listOfItem != null && listOfItem.size() > 0 && defaultCode != null;
 
 		Item[] items = { null, null };
-		for (Item item : listOfItem) {
+		for (var item : listOfItem) {
 
-			final boolean isOverprice = item.price >= overPrice;
+			var isOverprice = item.price >= overPrice;
 			if (items[0] == null && isOverprice) {
 				items[0] = item;
 			} else if (items[0] != null && isOverprice && items[0].priority > item.priority) {
 				items[0] = item;
 			}
 
-			final boolean isDefaultCode = defaultCode.equals(item.code);
+			var isDefaultCode = defaultCode.equals(item.code);
 			if (items[1] == null && isDefaultCode) {
 				items[1] = item;
 			} else if (items[1] != null && isDefaultCode && items[1].priority > item.priority) {
