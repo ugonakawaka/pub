@@ -44,9 +44,14 @@ public class ChapXx_sample {
 
 		@Override
 		public String toString() {
-			return String.format(" code : %s, name : %s, price : %s, priority : %s%n", this.code, this.name, this.price,
+			return String.format(" code : %s, name : %s, price : %s, priority : %s", this.code, this.name, this.price,
 					this.priority);
 		}
+
+	}
+
+	@SuppressWarnings("serial")
+	public static class NotFoundDefaultItemException extends RuntimeException {
 
 	}
 
@@ -95,8 +100,14 @@ public class ChapXx_sample {
 				var item2 = time(() -> {
 					return serchItems2(list, 5000, /* default code */"ITEM-0000999");
 				}).get();
+				var item3 = time(() -> {
+					return serchItems3(list, 5000, /* default code */"ITEM-0000999");
+				}).get();
+
 				System.out.println(item1);
 				System.out.println(item2);
+				System.out.println(item3);
+
 			}
 
 		}
@@ -171,5 +182,37 @@ public class ChapXx_sample {
 		}
 		return items[0];
 
+	}
+
+	public static Item serchItems3(List<Item> list, int overPrice, String defaultCode)
+			throws NotFoundDefaultItemException {
+
+		// 事前にデフォルトがあるかチェックしておく
+		var b = list.stream().anyMatch(item -> defaultCode.equals(item.code));
+		if (!b) {
+			throw new NotFoundDefaultItemException();
+		}
+
+		// １番下にデフォルトがくるようにする
+		Comparator<Item> comparator = (o1, o2) -> {
+			if (!o1.code.equals(defaultCode) && !o2.code.equals(defaultCode))
+				return Integer.compare(o1.getPriority(), o2.getPriority());
+
+			if (o2.code.equals(defaultCode)) {
+				return -1;
+			}
+			return 1;
+		};
+
+		var result = list.stream().sorted(comparator).filter(item -> item.getPrice() >= overPrice || defaultCode.equals(item.getCode()))
+				.collect(Collectors.toList());
+
+		// System.out.println("*********** " + result.get(result.size() - 1));
+		// sizeが０の場合は、デフォルトもなし、件数があるが、最下位がデフォルトでなければ、デフォルトが設定されていない
+		if (result.size() == 0 || !result.get(result.size() - 1).code.equals(defaultCode)) {
+			throw new NotFoundDefaultItemException();
+		}
+
+		return result.get(0);
 	}
 }
