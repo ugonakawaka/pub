@@ -1,3 +1,5 @@
+
+
 目次
 ------
 第１章	はじめの第一歩
@@ -16,3 +18,25 @@
 第１４章	もうちょっとだけモナド
 第１５章	Zipper
 
+------
+
+https://learnyouahaskell.github.io/chapters.html
+
+------
+https://stackoverflow.com/questions/5417623/ghci-not-in-scope-message
+
+ghciで宣言？
+
+ghci> let lucky x = show (x + 1)
+ghci> :t lucky
+lucky :: (Num a) => a -> String
+
+
+use multi-line command block
+:{
+lucky :: Int -> String
+lucky a = show(a)
+:}
+
+:type lucky 
+lucky :: Int -> String
