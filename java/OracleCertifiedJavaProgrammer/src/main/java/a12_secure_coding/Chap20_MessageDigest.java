@@ -38,11 +38,14 @@ public class Chap20_MessageDigest {
 
 		byte[] bs = digest("SHA-256", text);
 
-		System.out.println(bs.length);
+		System.out.println(bs.length);// 32バイト
 		System.out.println(new String(bs));
 		System.out.println(sdigest0(bs));
 		System.out.println(sdigest1(bs));
 		System.out.println(sdigest2(bs));
+		System.out.println(sdigest3(bs));
+		
+		// ↓そうていしていたものと違う...
 		System.out.println(commons_sha256Hex(bs));
 
 		// System.out.println(sdigest0(bs).length());
@@ -77,7 +80,7 @@ public class Chap20_MessageDigest {
 		var builder = new StringBuilder();
 		for (int i = 0; i < bs.length; i++) {
 			builder.append(Integer.toString((0xF0 & bs[i]) >> 4, 16));
-			builder.append(Integer.toString((0x0F & bs[i]), 16));
+			builder.append(Integer.toString((0xF & bs[i]), 16));
 
 		}
 
@@ -86,6 +89,17 @@ public class Chap20_MessageDigest {
 
 	static String sdigest2(byte[] bs) {
 		return String.format("%020x", new BigInteger(1, bs));
+	}
+
+	static String sdigest3(byte[] bs) {
+		final byte[] LOWERCASE_DIGITS = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e',
+				'f', };
+		var builder = new StringBuilder();
+		for (int i = 0; i < bs.length; i++) {
+			builder.append((char) LOWERCASE_DIGITS[(bs[i] >> 4) & 0xf]); // high
+			builder.append((char) LOWERCASE_DIGITS[bs[i] & 0xf]); // low
+		}
+		return builder.toString();
 	}
 
 //	static String varchar(int size) {
