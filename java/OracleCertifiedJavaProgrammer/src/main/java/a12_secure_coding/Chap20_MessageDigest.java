@@ -1,0 +1,98 @@
+package a12_secure_coding;
+
+import java.io.FilePermission;
+import java.math.BigInteger;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.security.AccessControlException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.Permission;
+import java.security.PermissionCollection;
+import java.security.Permissions;
+import java.security.Policy;
+import java.security.ProtectionDomain;
+import java.util.Random;
+import java.util.stream.IntStream;
+
+import org.apache.commons.codec.digest.DigestUtils;
+
+/*
+ * https://docs.oracle.com/javase/jp/11/docs/api/java.base/java/security/MessageDigest.html
+ * https://docs.oracle.com/javase/jp/11/docs/specs/security/standard-names.html#messagedigest-algorithms
+ * 
+ * achage commons codecも使ってみる
+ * https://commons.apache.org/proper/commons-codec/
+ * https://github.com/apache/commons-codec
+ * 
+ */
+public class Chap20_MessageDigest {
+
+	public static void main(String[] args) throws NoSuchAlgorithmException {
+		a();
+	}
+
+	static void a() throws NoSuchAlgorithmException {
+
+		var text = "テストだよ";
+
+		byte[] bs = digest("SHA-256", text);
+
+		System.out.println(bs.length);
+		System.out.println(new String(bs));
+		System.out.println(sdigest0(bs));
+		System.out.println(sdigest1(bs));
+		System.out.println(sdigest2(bs));
+		System.out.println(commons_sha256Hex(bs));
+
+		// System.out.println(sdigest0(bs).length());
+	}
+
+	static String commons_sha256Hex(byte[] bs) {
+		return DigestUtils.sha256Hex(bs);
+	}
+
+	static byte[] digest(String algorithm, String text) throws NoSuchAlgorithmException {
+		var messageDigest = MessageDigest.getInstance(algorithm);
+		return messageDigest.digest(text.getBytes());
+	}
+
+	static String sdigest0(byte[] bs) {
+		// 参考)むちゃくちゃ古い記事から
+		// https://atmarkit.itmedia.co.jp/bbs/phpBB/viewtopic.php?topic=19942&forum=12
+		var builder = new StringBuilder();
+		for (int i = 0; i < bs.length; i++) {
+			int val = bs[i] & 0xFF;
+			if (val < 16) {
+				builder.append("0");
+			}
+			builder.append(Integer.toString(val, 16));
+		}
+		return builder.toString();
+	}
+
+	static String sdigest1(byte[] bs) {
+		// 参考)むちゃくちゃ古い記事から
+		// https://atmarkit.itmedia.co.jp/bbs/phpBB/viewtopic.php?topic=19942&forum=12
+		var builder = new StringBuilder();
+		for (int i = 0; i < bs.length; i++) {
+			builder.append(Integer.toString((0xF0 & bs[i]) >> 4, 16));
+			builder.append(Integer.toString((0x0F & bs[i]), 16));
+
+		}
+
+		return builder.toString();
+	}
+
+	static String sdigest2(byte[] bs) {
+		return String.format("%020x", new BigInteger(1, bs));
+	}
+
+//	static String varchar(int size) {
+//		var builder = new StringBuilder();
+//		// 32
+//		// 127
+//
+//	}
+
+}
