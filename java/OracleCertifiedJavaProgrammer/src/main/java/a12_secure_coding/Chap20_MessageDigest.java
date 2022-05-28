@@ -44,7 +44,7 @@ public class Chap20_MessageDigest {
 		System.out.println(sdigest1(bs));
 		System.out.println(sdigest2(bs));
 		System.out.println(sdigest3(bs));
-		
+
 		// ↓そうていしていたものと違う...
 		System.out.println(commons_sha256Hex(bs));
 
@@ -79,16 +79,16 @@ public class Chap20_MessageDigest {
 		// https://atmarkit.itmedia.co.jp/bbs/phpBB/viewtopic.php?topic=19942&forum=12
 		var builder = new StringBuilder();
 		for (int i = 0; i < bs.length; i++) {
+
 			builder.append(Integer.toString((0xF0 & bs[i]) >> 4, 16));
 			builder.append(Integer.toString((0xF & bs[i]), 16));
-
 		}
 
 		return builder.toString();
 	}
 
 	static String sdigest2(byte[] bs) {
-		return String.format("%020x", new BigInteger(1, bs));
+		return String.format("%02x", new BigInteger(1, bs));
 	}
 
 	static String sdigest3(byte[] bs) {
@@ -96,6 +96,18 @@ public class Chap20_MessageDigest {
 				'f', };
 		var builder = new StringBuilder();
 		for (int i = 0; i < bs.length; i++) {
+			// 考え方メモ
+			// byteビットは、aaaabbbb という感じ
+			// aは、ここでいうhighのイメージ
+			// bは、ここでいうlowのイメージ
+			// HIGH
+			// 1) 4シフトで、aaaabbbb→0000aaaaになる
+			// 2) 論理積で0xfでマスクする 0xfは、ビットにすると00001111となって、aaaaだけが残る
+			// 3) 残ったaaaaを１６進数表記に置き換える
+			// LOW
+			// 1) 論理積で0xfでマスクする 0xfは、ビットにすると00001111となって、bbbbだけが残る
+			// 2) bbbbを１６進数表記に置き換える
+			// 結果文字列として、HIGHTビットの16進数表記とLOWビットの16進数表記の結合した文字列を得る
 			builder.append((char) LOWERCASE_DIGITS[(bs[i] >> 4) & 0xf]); // high
 			builder.append((char) LOWERCASE_DIGITS[bs[i] & 0xf]); // low
 		}
