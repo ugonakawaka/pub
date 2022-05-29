@@ -1,19 +1,8 @@
 package a12_secure_coding;
 
-import java.io.FilePermission;
 import java.math.BigInteger;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.security.AccessControlException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.Permission;
-import java.security.PermissionCollection;
-import java.security.Permissions;
-import java.security.Policy;
-import java.security.ProtectionDomain;
-import java.util.Random;
-import java.util.stream.IntStream;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -88,7 +77,7 @@ public class Chap20_MessageDigest {
 	}
 
 	static String sdigest2(byte[] bs) {
-		return String.format("%02x", new BigInteger(1, bs));
+		return String.format("%x", new BigInteger(1, bs));
 	}
 
 	static String sdigest3(byte[] bs) {
