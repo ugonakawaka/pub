@@ -1,8 +1,8 @@
 package base.example;
 
-import base.func.AbstractBase;
+import base.utils.UBase;
 
-public class TestAbstractBase extends AbstractBase {
+public class TestAbstractBase extends UBase {
 
 	public static void main(String[] args) {
 		
