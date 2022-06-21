@@ -16,7 +16,7 @@
 		<java.version>11</java.version>
 
 		<commons-dbcp2.version>2.8.0</commons-dbcp2.version>
-		<mysql.version>8.0.23</mysql.version>
+		<mysql.version>8.0.28</mysql.version>
 		<lombok.version>1.18.18</lombok.version>
 
 		<!-- repckage main class -->
