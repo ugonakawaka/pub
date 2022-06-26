@@ -4,7 +4,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.Executors;
-
+import java.util.concurrent.TimeUnit;
+import java.util.function.BiConsumer;
 
 public class ChapXx12_simpledateformat_notthreadsafe {
 
@@ -25,6 +26,15 @@ public class ChapXx12_simpledateformat_notthreadsafe {
 		};
 	}
 
+	static void time(String title, BiConsumer<Runnable, Integer> consumer, Runnable command, int numberOfThreads) {
+		final var start = System.currentTimeMillis();
+		try {
+			consumer.accept(command, numberOfThreads);
+		} finally {
+			System.out.printf("%s\t%f sec%n", title, (System.currentTimeMillis() - start) / 1000.);
+		}
+	}
+
 	public static void main(String[] args) {
 
 		//
@@ -38,7 +48,7 @@ public class ChapXx12_simpledateformat_notthreadsafe {
 				int i = 0;
 				try {
 
-					for (; i < 100; i++) {
+					for (; i < 10000; i++) {
 						new SimpleDateFormat(PATTERN).parse(DATE_SRC);
 					}
 
@@ -49,7 +59,48 @@ public class ChapXx12_simpledateformat_notthreadsafe {
 				}
 
 			};
-			c(silentRunnable("この使い方はスレッド安全(スレッドセーフ)", command), 10);
+			var title = "parse この使い方はスレッド安全(スレッドセーフ)";
+			time(title, ChapXx12_simpledateformat_notthreadsafe::cexecute, command, 20);
+
+		}
+
+		{ // formatメソッドがスレッドセーフではない検証
+			// ThreadLocalを使ってみる
+			// こちらのほうが若干、性能はいいとは思う..
+			// スレッド数分しかnewが発生しない
+			// ThreadLocalの実装をみておいたほうがよい
+			// getの内部で、内部に保持された値があれば返すように実装されているはず...
+			final var TITLE = "ThreadLocalを使ってみる こちらのほうが俄然、性能はよいはず";
+			var threadLocal = new ThreadLocal<SimpleDateFormat>() {
+				@Override
+				protected SimpleDateFormat initialValue() {
+					// このメソッドは、getする際、内部に保持していない場合に呼び出されて、
+					// はじめてスレッド内のキャッシュとして設定れるようになっているはず...
+					// 生成する数分しか呼ばれない
+					// System.out.println(Thread.currentThread());
+					return new SimpleDateFormat(PATTERN);
+				}
+
+			};
+			var command = (Runnable) () -> {
+				// この使い方はスレッド安全(スレッドセーフ)
+				int i = 0;
+				try {
+
+					for (; i < 10000; i++) {
+						threadLocal.get().parse(DATE_SRC);
+					}
+
+				} catch (ParseException e) {
+					throw new RuntimeException(e);
+				} finally {
+					System.out.printf("%s 試行回数%d%n", TITLE, i);
+				}
+
+			};
+
+			var title = "parse threadLocal この使い方はスレッド安全(スレッドセーフ)";
+			time(title, ChapXx12_simpledateformat_notthreadsafe::cexecute, command, 20);
 		}
 
 		{
@@ -69,9 +120,13 @@ public class ChapXx12_simpledateformat_notthreadsafe {
 				}
 
 			};
-			c(silentRunnable("この使い方はスレッド安全(スレッドセーフ)ではない ", command), 10);
+			cexecute(silentRunnable("この使い方はスレッド安全(スレッドセーフ)ではない ", command), 10);
 
 		}
+
+		// ===============
+		// ===============
+		// ===============
 		{//
 
 			var command = (Runnable) () -> {
@@ -99,9 +154,48 @@ public class ChapXx12_simpledateformat_notthreadsafe {
 
 			};
 
-			c(silentRunnable("format検証", command), 10);
+			cexecute(silentRunnable("format検証", command), 10);
 		}
+		{//
+			final var TITLE = "ThreadLocalを使ってみる こちらのほうが俄然、性能はよいはず";
+			var threadLocal = new ThreadLocal<SimpleDateFormat>() {
+				@Override
+				protected SimpleDateFormat initialValue() {
+					// このメソッドは、getする際、内部に保持していない場合に呼び出されて、
+					// はじめてスレッド内のキャッシュとして設定れるようになっているはず...
+					// 生成する数分しか呼ばれない
+					System.out.println(Thread.currentThread());
+					return new SimpleDateFormat(PATTERN);
+				}
 
+			};
+			var command = (Runnable) () -> {
+				// この使い方はスレッド安全(スレッドセーフ)
+				// 都度インスタンスを作成している
+
+				int i = 0;
+				try {
+					for (; i < 100; i++) {
+						// 1. 日付を生成
+						// 2. インスタンスを作成したSimpleDateFormatでフォーマット
+						// 3. インスタンスを作成したSimpleDateFormatでフォーマット
+						// 4. 2と3で比較して同じになればOK そうでないならRuntimeを発生させる
+						final var NOW = new Date();
+
+						var s0 = new SimpleDateFormat(PATTERN).format(NOW);
+						var s1 = threadLocal.get().format(NOW);
+						if (!s0.equals(s1)) {
+							throw new RuntimeException(String.format("%s != %s ", s0, s1));
+						}
+					}
+				} finally {
+					System.out.printf("%s 試行回数%d%n", TITLE, i);
+				}
+
+			};
+
+			cexecute(silentRunnable("format検証", command), 10);
+		}
 		{//
 			final var FORMAT = new SimpleDateFormat(PATTERN);
 			var command = (Runnable) () -> {
@@ -126,23 +220,33 @@ public class ChapXx12_simpledateformat_notthreadsafe {
 					System.out.printf("試行回数%d%n", i);
 				}
 			};
-			c(silentRunnable("format検証 インスタンスの使い回し", command), 40);
+			cexecute(silentRunnable("format検証 インスタンスの使い回し", command), 40);
 		}
 
 	}
 
-	static void c(Runnable command, int numberOfThreads) {
+	static void cexecute(Runnable command, int numberOfThreads) {
 
+		// var executor = Executors.newFixedThreadPool(30);
 		var executor = Executors.newCachedThreadPool();
-
 		for (int i = 0; i < numberOfThreads; i++) {
 			executor.execute(command);
 		}
 		executor.shutdown();
+
+		// ↓このコードだめっぽい?
 		// 終わるまでまつつもり
-		while (!executor.isShutdown())
-			;
-		System.out.println("ok");
+		// while (!executor.isShutdown())
+		;
+
+		try {
+			if (!executor.awaitTermination(60, TimeUnit.SECONDS)) { // 60秒もかからないだろう...
+				executor.shutdownNow();
+			}
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+
 	}
 
 }
