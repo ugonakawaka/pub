@@ -26,58 +26,74 @@ import javax.crypto.NoSuchPaddingException;
 
 public class TestRensyu {
 
+	final static String TARGET_STRING = "1234うまくできたかな are you ok?";
+	final static String PASSWORD = "test";
+	final static String PATH_P12 = "cert/forTest.p12";
+
 	public static void main(String[] args) throws KeyStoreException, UnrecoverableKeyException,
 			NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, SignatureException {
+
 		// 練習)
 		// PKCSを扱う流れをいろいろ試してみる
 		//
 		// 参考)
 		// https://one-it-thing.com/5624/
 
-		final var TARGET_STRING = "うまくできたかな are you ok?";
+		var bs = sign();
+		var b = verify(bs);
 
-		Path path = Path.of("cert/forTest.p12");
-		var keystore = getKeyStorePkcs12(path, "test");
-		System.out.println(keystore.getType());
-		var type = KeyStore.getDefaultType();
-		KeyStore.getDefaultType();
+		System.out.printf("result=> %s%n", b);
 
-		final var PASSWORD = "test";
+	}
+
+	static byte[] sign() throws KeyStoreException, UnrecoverableKeyException, NoSuchAlgorithmException,
+			InvalidKeyException, SignatureException {
+
+		// 1.keystore
+		// 2.aliasname
+		// 3.privatekey sign
+
+		var path = Path.of(PATH_P12);
+		var keystore = getKeyStorePkcs12(path, PASSWORD);
 
 		{
 			// 証明書から公開鍵をロード
 			Enumeration<String> e = keystore.aliases();
 			var alias = e.nextElement();
-			var aX509Certificate = getCertificate(keystore, alias);
-			System.out.println(aX509Certificate.getSigAlgName());
-			var publicKey = aX509Certificate.getPublicKey();
-			System.out.println(publicKey);
-
-//			// 署名対象データをバイナリに変換
-//			byte[] sigByte = Hex.decodeHex(sigVal);
-
 			{ //
-				// PKCS12Attribute
 				var key = keystore.getKey(alias, PASSWORD.toCharArray());
 				var privateKey = (PrivateKey) key;
-				var keyPair = new KeyPair(publicKey, privateKey);
-
-//				Cipher cipher = Cipher.getInstance(key.getAlgorithm());
-//				cipher.init(Cipher.ENCRYPT_MODE, key);
-
 				var signature = Signature.getInstance("SHA256WithRSA");
 				signature.initSign(privateKey);
 				signature.update(TARGET_STRING.getBytes());
-				byte[] bs = signature.sign();
-
-				signature.initVerify(publicKey);
-
-				signature.update(TARGET_STRING.getBytes());
-				var b = signature.verify(bs);
-				System.out.println(b);
-
+				return signature.sign();
 			}
 
+		}
+
+	}
+
+	static boolean verify(byte[] bs) throws KeyStoreException, UnrecoverableKeyException, NoSuchAlgorithmException,
+			InvalidKeyException, SignatureException {
+
+		// 1.keystore
+		// 2.aliasname, X509Certificate, publickey
+		// 3.verify
+
+		var path = Path.of(PATH_P12);
+		var keystore = getKeyStorePkcs12(path, PASSWORD);
+
+		{
+			Enumeration<String> enumeration = keystore.aliases();
+			var alias = enumeration.nextElement();
+			var aX509Certificate = getCertificate(keystore, alias);
+			var publicKey = aX509Certificate.getPublicKey();
+			{
+				var signature = Signature.getInstance("SHA256WithRSA");
+				signature.initVerify(publicKey);
+				signature.update(TARGET_STRING.getBytes());
+				return signature.verify(bs);
+			}
 		}
 	}
 
