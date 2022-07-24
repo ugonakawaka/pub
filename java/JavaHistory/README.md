@@ -10,3 +10,10 @@
 [https://docs.oracle.com/javase/jp/17/language/](https://docs.oracle.com/javase/jp/17/language/)    
 [https://docs.oracle.com/javase/jp/18/language/](https://docs.oracle.com/javase/jp/18/language/)    
 [https://docs.oracle.com/javase/jp/19/language/](https://docs.oracle.com/javase/jp/19/language/)   
+
+ダウンロード方法(oracle)  
+https://www.oracle.com/java/technologies/jdk-script-friendly-urls/  
+
+wget https://download.oracle.com/java/18/latest/jdk-18_linux-x64_bin.tar.gz  
+
+https://download.oracle.com/java/18/latest/jdk-18_linux-x64_bin.tar.gz.sha256  
