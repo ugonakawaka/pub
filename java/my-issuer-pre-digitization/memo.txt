@@ -1,0 +1,39 @@
+2022-07-24
+
+
+=======
+↓のサイトを参考
+https://one-it-thing.com/5624/
+openssl genrsa -aes256 -out ./prvkey.pem 2048
+openssl req -new -key ./prvkey.pem -out req.csr
+openssl x509 -req -in req.csr -signkey prvkey.pem -out pubkey.crt -days 36500
+openssl pkcs12 -export -in pubkey.crt -inkey prvkey.pem -out forTest.p12
+    
+openssl x509 -outform der -in pubkey.crt -out pubkey.der
+ 
+ 
+ ======
+ https://qiita.com/yasushi-jp/items/240590b26a2a5696cf33
+ 使用可能な楕円曲線暗号の種類を確認
+ openssl ecparam -list_curves
+ openssl ecparam -list_curves|grep NIST
+ 
+openssl ecparam -name prime256v1 -genkey -out curves_key.pem
+openssl ec -text -noout -in curves_key.pem
+openssl req -new -key curves_key.pem -out curves_csr.pem -subj "/C=JP/ST=KANAGAWA/L=YOKOHAMA/O=SAMPLE CORP/OU=DEV1/CN=yasushi.local"
+openssl req -text -noout -in curves_csr.pem
+openssl x509 -req -in curves_csr.pem -out curves_cert.pem -signkey curves_key.pem -days 366 -sha256
+
+ ======
+https://christina04.hatenablog.com/entry/openssl-command
+
+
+ ======
+https://qiita.com/rawr/items/e356f765122637df3dea
+openssl ecparam -genkey -name secp256r1 -out keypair.pem
+openssl ec -in keypair.pem -outform PEM -pubout -out public.pem
+openssl ec -in keypair.pem -outform PEM -out private2.pem
+openssl pkcs8 -topk8 -nocrypt -in private2.pem -out private.pem
+
+
+
