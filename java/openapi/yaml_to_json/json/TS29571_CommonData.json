@@ -150,9 +150,7 @@
         "type" : "string",
         "allOf" : [ {
           "pattern" : "^((:|(0?|([1-9a-f][0-9a-f]{0,3}))):)((0?|([1-9a-f][0-9a-f]{0,3})):){0,6}(:|(0?|([1-9a-f][0-9a-f]{0,3})))$"
-        }, {
-          "pattern" : "^((([^:]+:){7}([^:]+))|((([^:]+:)*[^:]+)?::(([^:]+:)*[^:]+)?))$"
-        } ],
+        }],
         "example" : "2001:db8:85a3::8a2e:370:7334",
         "description" : "String identifying an IPv6 address formatted according to clause 4 of RFC5952. The mixed IPv4 IPv6 notation according to clause 5 of RFC5952 shall not be used"
       },
@@ -399,11 +397,11 @@
             "description" : "Features supported by the NF Service Producer."
           },
           "accessTokenError" : {
-            "$ref" : "TS29510_Nnrf_AccessToken.yaml#/components/schemas/AccessTokenErr",
+            "$ref" : "TS29510_Nnrf_AccessToken.json#/components/schemas/AccessTokenErr",
             "description" : "It contain the Access Token Error payload received from the NRF."
           },
           "accessTokenRequest" : {
-            "$ref" : "TS29510_Nnrf_AccessToken.yaml#/components/schemas/AccessTokenReq",
+            "$ref" : "TS29510_Nnrf_AccessToken.json#/components/schemas/AccessTokenReq",
             "description" : "It contain the Access Token Request that was sent by the SCP."
           },
           "nrfId" : {
@@ -2535,19 +2533,19 @@
         "type" : "object",
         "properties" : {
           "ipv4Addr" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/Ipv4Addr",
+            "$ref" : "TS29571_CommonData.json#/components/schemas/Ipv4Addr",
             "description" : "Ipv4 address of the source of downlink data."
           },
           "ipv6Addr" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/Ipv6Addr",
+            "$ref" : "TS29571_CommonData.json#/components/schemas/Ipv6Addr",
             "description" : "Ipv6 address of the source of downlink data."
           },
           "portNumber" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/Uinteger",
+            "$ref" : "TS29571_CommonData.json#/components/schemas/Uinteger",
             "description" : "Port number of the source of downlink data."
           },
           "macAddr" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/MacAddr48",
+            "$ref" : "TS29571_CommonData.json#/components/schemas/MacAddr48",
             "description" : "Source MAC address."
           }
         }

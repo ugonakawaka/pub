@@ -1,0 +1,62 @@
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'ivy-publish'
+
+sourceSets {
+    println("*****************✨0")
+}
+repositories {
+    mavenCentral()
+}
+allprojects { println("✨0") }
+dependencies {
+    println("✨0") 
+    implementation localGroovy()
+    
+}
+
+buildscript {
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5'
+		classpath 'org.openapitools:openapi-generator-cli:5.1.1'
+    }
+}
+
+buildscript { 
+    println("✨") 
+}
+
+import org.openapitools.codegen.*
+import org.openapitools.codegen.languages.*
+
+tasks.withType(GroovyCompile) {
+    dependsOn configurations.compileClasspath
+    println("GroovyCompile" + JavaClientCodegen.class)
+    println "classpath = ${configurations.compileClasspath.collect { File file -> file.name }}"
+    println("ok o_o!")
+    doLast {
+        println "classpath = ${configurations.compileClasspath.collect { File file -> file.name }}"
+    }
+}
+
+
+
+task foo {
+	group = 'my group'
+    description = 'my description'
+    doFirst { println("foo") }
+}
+
+class MyJavaClientCodegen extends JavaClientCodegen {
+
+    MyJavaClientCodegen() {
+        super()
+    }
+
+    String name = "my-codegen"
+}

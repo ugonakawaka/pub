@@ -1,0 +1,94 @@
+
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'maven-publish'
+
+
+repositories {
+    mavenCentral()
+}
+
+
+
+
+dependencies {
+    implementation 'org.codehaus.groovy:groovy-all:3.0.10'
+    compileClasspath 'org.apache.maven:maven-embedder:3.8.5'
+    compileClasspath 'org.openapitools:openapi-generator-cli:5.1.1'
+	implementation gradleApi()	
+    implementation group: 'org.apache.maven', name: 'maven-plugin-api', version: '3.8.5'
+    implementation group: 'org.apache.maven', name: 'maven-core', version: '3.8.5'
+}
+buildscript {
+    repositories {
+       mavenCentral()
+    }
+    dependencies {
+        classpath group: 'org.openapitools', name: 'openapi-generator-cli', version: '5.1.1'
+		classpath 'org.openapitools:openapi-generator-cli:5.1.1'
+		classpath 'commons-cli:commons-cli:1.5.0'
+		classpath 'org.apache.maven:maven-embedder:3.8.5'
+	// https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-dependency-plugin
+classpath group: 'org.apache.maven', name: 'maven-core', version: '3.8.5'
+// https://mvnrepository.com/artifact/org.apache.maven/maven-plugin-api
+classpath group: 'org.apache.maven', name: 'maven-plugin-api', version: '3.8.5'
+
+	
+    }
+    
+}
+
+
+tasks.register('init2', InitBuild) {
+// dependsOn 'TS29502_Nsmf_PDUSession'
+	doFirst {
+		println 'o_o! 111111111111111'
+	}
+	// projectName = 'TS29502_Nsmf_PDUSession'
+	// allowInsecureProtocol = false
+	insecureProtocol = InsecureProtocolOption.WARN
+	// projectName = ":generated-sources:server:TS29502_Nsmf_PDUSession"
+	type= 'pom'
+	dsl = 'groovy'
+	useIncubating = false
+	// path = ":generated-sources:server:TS29502_Nsmf_PDUSession"
+}
+
+project.ext.prop1 = "foo"
+task doStuff {
+	ext.prop2 = "bar"
+}
+import org.gradle.initialization.DefaultProjectDescriptorRegistry
+import org.gradle.api.initialization.ProjectDescriptor
+
+task myinit {
+	group = 'my group'
+	description = 'my description'
+	doFirst { println("*** first") }
+	def path0 = '/Users/shigetonakawaka/export/git/github.com/ugonakawaka/pub/java/gradle/gradle_01_init'
+	def f = mkdir('other/a001')
+	println("*** 1") 
+	def projectDescriptorRegistry = new DefaultProjectDescriptorRegistry()
+	println("*** 2")
+	println("${ gradle.getSharedServices().getRegistrations() }")
+	
+	println("*** 3")
+	// gradle.includedBuild('other:a001').task('init')
+	def proj = findProject('other:server')
+	println("proj => ${proj}")
+	def initBuild = proj.tasks.create('TS29502_Nsmf_PDUSession', InitBuild.class) {
+         insecureProtocol = InsecureProtocolOption.WARN
+		type= 'pom'
+		dsl = 'groovy'
+		useIncubating = false
+    }
+    println("initBuild => ${initBuild}")
+    dependsOn initBuild
+	// proj.task('init')
+	// println("f => ${f}")
+	
+	// def proj0 = project(path0)
+	
+	
+	doLast { println("*** last") }
+}

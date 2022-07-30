@@ -12,12 +12,13 @@ import hello.handler.DummyHandler;
 @Configuration
 public class DummyRouter {
 
-	
 	@Autowired
 	DummyHandler dummyHandler;
-	
+
 	@Bean
 	public RouterFunction<ServerResponse> routerDummy() {
-		return RouterFunctions.route().GET("/dummy", dummyHandler::dummies).build();
+		return RouterFunctions.route().GET("/dummy", dummyHandler::dummies).POST("/dummy", dummyHandler::create).
+
+				build();
 	}
 }

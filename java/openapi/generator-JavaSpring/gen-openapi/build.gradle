@@ -1,0 +1,148 @@
+apply plugin: 'java'
+
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.codehaus.groovy:groovy-all:3.0.10'
+    compileClasspath 'org.apache.maven:maven-embedder:3.8.5'
+    compileClasspath 'org.openapitools:openapi-generator-cli:5.1.1'
+	implementation gradleApi()	
+    
+}
+
+buildscript {
+    repositories {
+       mavenCentral()
+    }
+    dependencies {
+        classpath group: 'org.openapitools', name: 'openapi-generator-cli', version: '5.1.1'
+		// https://mvnrepository.com/artifact/org.openapitools/openapi-generator-cli
+		classpath 'org.openapitools:openapi-generator-cli:5.1.1'
+		classpath 'commons-cli:commons-cli:1.5.0'
+		classpath 'org.apache.maven:maven-embedder:3.8.5'
+		
+	
+    }
+    
+}
+
+import org.openapitools.codegen.*
+import org.openapitools.codegen.languages.*
+
+class MyJavaClientCodegen extends JavaClientCodegen {
+
+    MyJavaClientCodegen() {
+        super()
+    }
+
+  static main(String[] args) {
+    OpenAPIGenerator.main(args)
+  }
+    String name = "my-codegen"
+}
+
+def generator(String yamlName, String type, String g) {
+
+  return ['generate', 
+  '-i', "${project.rootDir}/spec/5G_APIs-master/${yamlName}.yaml", 
+  '--output', "${project.rootDir}/generated-sources/${type}/${yamlName}",
+  '-g', "${g}",
+  '--additional-properties=modelPackage=aaaa,swaggerAnnotations=false',
+  ] as String[]
+
+}
+
+
+// MyJavaClientCodegen.main(generator(values, "server", "spring"))
+
+task gen {
+	group = 'my group'
+    description = 'my description'
+    doFirst { println("foo") }
+    
+    // MyJavaClientCodegen.main(generator('TS29502_Nsmf_PDUSession', "server", "spring"))
+    
+    
+}
+import org.apache.maven.cli.MavenCli
+import org.apache.commons.cli.Option
+
+tasks.register('ok')
+
+tasks.register('publishDeps1') {
+    // dependsOn gradle.includedBuild('').task(':cpmpile')
+    dependsOn gradle.includedBuilds*.task('init')
+}
+
+tasks.register('configured') {
+    println 'This is also executed during the configuration phase, because :configured is used in the build.'
+}
+
+tasks.register('init2', InitBuild) {
+// dependsOn 'TS29502_Nsmf_PDUSession'
+	doFirst {
+		println 'o_o! 111111111111111'
+	}
+	// projectName = 'TS29502_Nsmf_PDUSession'
+	// allowInsecureProtocol = false
+	insecureProtocol = InsecureProtocolOption.WARN
+	// projectName = ":generated-sources:server:TS29502_Nsmf_PDUSession"
+	type= 'pom'
+	dsl = 'groovy'
+	useIncubating = false
+	path = ":generated-sources:server:TS29502_Nsmf_PDUSession"
+}
+
+task mvn2 {
+    group = 'my group'
+// Project.setProperty('maven.multiModuleProjectDirectory', "{project.rootDir}/generated-sources/server/TS29502_Nsmf_PDUSession/")
+
+	// def proj = evaluationDependsOn(":generated-sources:server:TS29502_Nsmf_PDUSession")
+	// dependsOn init2
+// dependsOn gradle.includedBuild('generated-sources/server/TS29502_Nsmf_PDUSession').task('init')
+	// dependsOn gradle.includedBuilds*.task('init')
+
+    def argsLine = "clean package"
+    
+    def ss = ['clean','package'] as String[]
+    
+
+}
+// ================================
+
+import org.gradle.buildinit.tasks.InitBuild
+import org.gradle.api.Project
+class GreetingPlugin implements Plugin<Project> {
+
+    void apply(Project project) {
+    	println "greet ok2 "
+    	println "${ project.getProjectDir() }"
+    	println "${ project.name }"
+    	
+    	// def initBuild = project.getTasks().withType(InitBuild.class)
+    	
+    	def initBuild = project.tasks.create('TS29502_Nsmf_PDUSession', InitBuild.class) {
+         
+        }
+		// initBuild.setPath("/Users/shigetonakawaka/export/git/github.com/ugonakawaka/pub/java/openapi/generator-JavaSpring/gen-openapi/generated-sources/server/TS29502_Nsmf_PDUSession")
+    	// println "new ${ initBuild.getPath() }"
+    	// println "new ${ project.getRootProject().project('aaa') }"
+    	// println "new ${ project.evaluationDependsOn​('TS2950PDUSession') }"
+    	
+    }
+}
+
+apply plugin: GreetingPlugin
+
+tasks.register('sayGreeting') {
+	group = 'my group'
+ 
+    doLast {
+        // def file = greetingFile.get().asFile
+        // println "${file.text} (file: ${file.name})"
+    }
+}

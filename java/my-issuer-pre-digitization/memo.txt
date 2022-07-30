@@ -1,5 +1,33 @@
-2022-07-24
+2022-07-30
 
+=====
+
+openssl ecparam -genkey -name secp256r1 -out keypair.pem
+openssl ec -in keypair.pem -outform DER -pubout -out keypublic.der
+openssl pkcs8 -topk8 -inform pem -in keypair.pem -nocrypt -outform DER -out keyprivate.der
+※ -nocrypt を指定することでファイル自体の暗号化をしない
+
+=====
+
+openssl ec -pubin -in pubkey.pem -text -noout
+openssl ec -pubin -in pubkey.pem -out pubkey.der -outform DER
+
+der形式を読み込む場合は、-inform DER を指定する
+openssl ec -pubin -in pubkey.der -inform DER -text -noout
+
+公開鍵を読み込む場合は、-pubin を指定する
+openssl ec -pubin -in pubkey.pem -text -noout
+
+pem形式の公開鍵をder形式に変換する場合は、-pubin -outform DER を指定する
+openssl ec -pubin -in pubkey.pem -out pubkey.der -outform DER
+
+ASN.1の内容を確認
+openssl asn1parse -in pubkey.pem
+der形式を読み込む場合は、-inform DER を指定する
+openssl asn1parse -in pubkey.der -inform DER
+
+
+2022-07-24
 
 =======
 ↓のサイトを参考
@@ -25,15 +53,22 @@ openssl req -text -noout -in curves_csr.pem
 openssl x509 -req -in curves_csr.pem -out curves_cert.pem -signkey curves_key.pem -days 366 -sha256
 
  ======
-https://christina04.hatenablog.com/entry/openssl-command
-
-
- ======
 https://qiita.com/rawr/items/e356f765122637df3dea
 openssl ecparam -genkey -name secp256r1 -out keypair.pem
 openssl ec -in keypair.pem -outform PEM -pubout -out public.pem
 openssl ec -in keypair.pem -outform PEM -out private2.pem
 openssl pkcs8 -topk8 -nocrypt -in private2.pem -out private.pem
 
+※これがでる
+using curve name prime256v1 instead of secp256r1
+
+======
+https://christina04.hatenablog.com/entry/openssl-command
+ECDSAの秘密鍵を生成
+openssl ecparam -name prime256v1 -genkey -noout -out key.pem
+openssl ec -in key.pem -pubout -out pubkey.pem
+
+openssl ec -pubin -in pubkey.pem -text -noout
+openssl ec -pubin -in pubkey.pem -out pubkey.der -outform DER
 
 

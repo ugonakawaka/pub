@@ -58,10 +58,10 @@
             }
           },
           "400" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/400"
+            "$ref" : "TS29571_CommonData.json#/components/responses/400"
           },
           "401" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/401"
+            "$ref" : "TS29571_CommonData.json#/components/responses/401"
           },
           "403" : {
             "description" : "The existing PCF binding information stored in the BSF for the indicated combination is returned.",
@@ -74,28 +74,28 @@
             }
           },
           "404" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/404"
+            "$ref" : "TS29571_CommonData.json#/components/responses/404"
           },
           "411" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/411"
+            "$ref" : "TS29571_CommonData.json#/components/responses/411"
           },
           "413" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/413"
+            "$ref" : "TS29571_CommonData.json#/components/responses/413"
           },
           "415" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/415"
+            "$ref" : "TS29571_CommonData.json#/components/responses/415"
           },
           "429" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/429"
+            "$ref" : "TS29571_CommonData.json#/components/responses/429"
           },
           "500" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/500"
+            "$ref" : "TS29571_CommonData.json#/components/responses/500"
           },
           "503" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/503"
+            "$ref" : "TS29571_CommonData.json#/components/responses/503"
           },
           "default" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/default"
+            "$ref" : "TS29571_CommonData.json#/components/responses/default"
           }
         }
       },
@@ -109,7 +109,7 @@
           "description" : "The IPv4 Address of the served UE.",
           "required" : false,
           "schema" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/Ipv4Addr"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/Ipv4Addr"
           }
         }, {
           "name" : "ipv6Prefix",
@@ -117,7 +117,7 @@
           "description" : "The IPv6 Address of the served UE. The NF service consumer shall append '/128' to the IPv6 address in the attribute value. E.g. '2001:db8:85a3::8a2e:370:7334/128'.",
           "required" : false,
           "schema" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/Ipv6Prefix"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/Ipv6Prefix"
           }
         }, {
           "name" : "macAddr48",
@@ -125,7 +125,7 @@
           "description" : "The MAC Address of the served UE.",
           "required" : false,
           "schema" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/MacAddr48"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/MacAddr48"
           }
         }, {
           "name" : "dnn",
@@ -133,7 +133,7 @@
           "description" : "DNN.",
           "required" : false,
           "schema" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/Dnn"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/Dnn"
           }
         }, {
           "name" : "supi",
@@ -141,7 +141,7 @@
           "description" : "Subscription Permanent Identifier.",
           "required" : false,
           "schema" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/Supi"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/Supi"
           }
         }, {
           "name" : "gpsi",
@@ -149,7 +149,7 @@
           "description" : "Generic Public Subscription Identifier",
           "required" : false,
           "schema" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/Gpsi"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/Gpsi"
           }
         }, {
           "name" : "snssai",
@@ -159,7 +159,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "TS29571_CommonData.yaml#/components/schemas/Snssai"
+                "$ref" : "TS29571_CommonData.json#/components/schemas/Snssai"
               }
             }
           }
@@ -176,7 +176,7 @@
           "in" : "query",
           "description" : "To filter irrelevant responses related to unsupported features",
           "schema" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/SupportedFeatures"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/SupportedFeatures"
           }
         } ],
         "responses" : {
@@ -194,34 +194,34 @@
             "description" : "There is no PCF session binding information matching the query parameter(s)."
           },
           "400" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/400"
+            "$ref" : "TS29571_CommonData.json#/components/responses/400"
           },
           "401" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/401"
+            "$ref" : "TS29571_CommonData.json#/components/responses/401"
           },
           "403" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/403"
+            "$ref" : "TS29571_CommonData.json#/components/responses/403"
           },
           "404" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/404"
+            "$ref" : "TS29571_CommonData.json#/components/responses/404"
           },
           "406" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/406"
+            "$ref" : "TS29571_CommonData.json#/components/responses/406"
           },
           "414" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/414"
+            "$ref" : "TS29571_CommonData.json#/components/responses/414"
           },
           "429" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/429"
+            "$ref" : "TS29571_CommonData.json#/components/responses/429"
           },
           "500" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/500"
+            "$ref" : "TS29571_CommonData.json#/components/responses/500"
           },
           "503" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/503"
+            "$ref" : "TS29571_CommonData.json#/components/responses/503"
           },
           "default" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/default"
+            "$ref" : "TS29571_CommonData.json#/components/responses/default"
           }
         }
       }
@@ -245,34 +245,34 @@
             "description" : "No Content. The Individual PCF session binding information resource is deleted."
           },
           "307" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/307"
+            "$ref" : "TS29571_CommonData.json#/components/responses/307"
           },
           "308" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/308"
+            "$ref" : "TS29571_CommonData.json#/components/responses/308"
           },
           "400" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/400"
+            "$ref" : "TS29571_CommonData.json#/components/responses/400"
           },
           "401" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/401"
+            "$ref" : "TS29571_CommonData.json#/components/responses/401"
           },
           "403" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/403"
+            "$ref" : "TS29571_CommonData.json#/components/responses/403"
           },
           "404" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/404"
+            "$ref" : "TS29571_CommonData.json#/components/responses/404"
           },
           "429" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/429"
+            "$ref" : "TS29571_CommonData.json#/components/responses/429"
           },
           "500" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/500"
+            "$ref" : "TS29571_CommonData.json#/components/responses/500"
           },
           "503" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/503"
+            "$ref" : "TS29571_CommonData.json#/components/responses/503"
           },
           "default" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/default"
+            "$ref" : "TS29571_CommonData.json#/components/responses/default"
           }
         }
       },
@@ -312,43 +312,43 @@
             }
           },
           "307" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/307"
+            "$ref" : "TS29571_CommonData.json#/components/responses/307"
           },
           "308" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/308"
+            "$ref" : "TS29571_CommonData.json#/components/responses/308"
           },
           "400" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/400"
+            "$ref" : "TS29571_CommonData.json#/components/responses/400"
           },
           "401" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/401"
+            "$ref" : "TS29571_CommonData.json#/components/responses/401"
           },
           "403" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/403"
+            "$ref" : "TS29571_CommonData.json#/components/responses/403"
           },
           "404" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/404"
+            "$ref" : "TS29571_CommonData.json#/components/responses/404"
           },
           "411" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/411"
+            "$ref" : "TS29571_CommonData.json#/components/responses/411"
           },
           "413" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/413"
+            "$ref" : "TS29571_CommonData.json#/components/responses/413"
           },
           "415" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/415"
+            "$ref" : "TS29571_CommonData.json#/components/responses/415"
           },
           "429" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/429"
+            "$ref" : "TS29571_CommonData.json#/components/responses/429"
           },
           "500" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/500"
+            "$ref" : "TS29571_CommonData.json#/components/responses/500"
           },
           "503" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/503"
+            "$ref" : "TS29571_CommonData.json#/components/responses/503"
           },
           "default" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/default"
+            "$ref" : "TS29571_CommonData.json#/components/responses/default"
           }
         }
       }
@@ -374,21 +374,21 @@
         "type" : "object",
         "properties" : {
           "supi" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/Supi"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/Supi"
           },
           "gpsi" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/Gpsi"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/Gpsi"
           },
           "ipv4Addr" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/Ipv4Addr"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/Ipv4Addr"
           },
           "ipv6Prefix" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/Ipv6Prefix"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/Ipv6Prefix"
           },
           "addIpv6Prefixes" : {
             "type" : "array",
             "items" : {
-              "$ref" : "TS29571_CommonData.yaml#/components/schemas/Ipv6Prefix"
+              "$ref" : "TS29571_CommonData.json#/components/schemas/Ipv6Prefix"
             },
             "minItems" : 1,
             "description" : "The additional IPv6 Address Prefixes of the served UE."
@@ -397,61 +397,61 @@
             "type" : "string"
           },
           "macAddr48" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/MacAddr48"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/MacAddr48"
           },
           "addMacAddrs" : {
             "type" : "array",
             "items" : {
-              "$ref" : "TS29571_CommonData.yaml#/components/schemas/MacAddr48"
+              "$ref" : "TS29571_CommonData.json#/components/schemas/MacAddr48"
             },
             "minItems" : 1,
             "description" : "The additional MAC Addresses of the served UE."
           },
           "dnn" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/Dnn"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/Dnn"
           },
           "pcfFqdn" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/Fqdn"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/Fqdn"
           },
           "pcfIpEndPoints" : {
             "type" : "array",
             "items" : {
-              "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/IpEndPoint"
+              "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/IpEndPoint"
             },
             "minItems" : 1,
             "description" : "IP end points of the PCF hosting the Npcf_PolicyAuthorization service."
           },
           "pcfDiamHost" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/DiameterIdentity"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/DiameterIdentity"
           },
           "pcfDiamRealm" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/DiameterIdentity"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/DiameterIdentity"
           },
           "pcfSmFqdn" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/Fqdn"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/Fqdn"
           },
           "pcfSmIpEndPoints" : {
             "type" : "array",
             "items" : {
-              "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/IpEndPoint"
+              "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/IpEndPoint"
             },
             "minItems" : 1,
             "description" : "IP end points of the PCF hosting the Npcf_SMPolicyControl service."
           },
           "snssai" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/Snssai"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/Snssai"
           },
           "suppFeat" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/SupportedFeatures"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/SupportedFeatures"
           },
           "pcfId" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/NfInstanceId"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/NfInstanceId"
           },
           "pcfSetId" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/NfSetId"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/NfSetId"
           },
           "recoveryTime" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/DateTime"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/DateTime"
           },
           "paraCom" : {
             "$ref" : "#/components/schemas/ParameterCombination"
@@ -462,14 +462,14 @@
           "ipv4FrameRouteList" : {
             "type" : "array",
             "items" : {
-              "$ref" : "TS29571_CommonData.yaml#/components/schemas/Ipv4AddrMask"
+              "$ref" : "TS29571_CommonData.json#/components/schemas/Ipv4AddrMask"
             },
             "minItems" : 1
           },
           "ipv6FrameRouteList" : {
             "type" : "array",
             "items" : {
-              "$ref" : "TS29571_CommonData.yaml#/components/schemas/Ipv6Prefix"
+              "$ref" : "TS29571_CommonData.json#/components/schemas/Ipv6Prefix"
             },
             "minItems" : 1
           }
@@ -481,55 +481,55 @@
         "type" : "object",
         "properties" : {
           "ipv4Addr" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/Ipv4AddrRm"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/Ipv4AddrRm"
           },
           "ipDomain" : {
             "type" : "string",
             "nullable" : true
           },
           "ipv6Prefix" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/Ipv6PrefixRm"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/Ipv6PrefixRm"
           },
           "addIpv6Prefixes" : {
             "type" : "array",
             "items" : {
-              "$ref" : "TS29571_CommonData.yaml#/components/schemas/Ipv6Prefix"
+              "$ref" : "TS29571_CommonData.json#/components/schemas/Ipv6Prefix"
             },
             "minItems" : 1,
             "description" : "The additional IPv6 Address Prefixes of the served UE.",
             "nullable" : true
           },
           "macAddr48" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/MacAddr48Rm"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/MacAddr48Rm"
           },
           "addMacAddrs" : {
             "type" : "array",
             "items" : {
-              "$ref" : "TS29571_CommonData.yaml#/components/schemas/MacAddr48"
+              "$ref" : "TS29571_CommonData.json#/components/schemas/MacAddr48"
             },
             "minItems" : 1,
             "description" : "The additional MAC Addresses of the served UE.",
             "nullable" : true
           },
           "pcfId" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/NfInstanceId"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/NfInstanceId"
           },
           "pcfFqdn" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/Fqdn"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/Fqdn"
           },
           "pcfIpEndPoints" : {
             "type" : "array",
             "items" : {
-              "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/IpEndPoint"
+              "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/IpEndPoint"
             },
             "minItems" : 1,
             "description" : "IP end points of the PCF hosting the Npcf_PolicyAuthorization service."
           },
           "pcfDiamHost" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/DiameterIdentity"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/DiameterIdentity"
           },
           "pcfDiamRealm" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/DiameterIdentity"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/DiameterIdentity"
           }
         }
       },
@@ -538,20 +538,20 @@
         "type" : "object",
         "properties" : {
           "supi" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/Supi"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/Supi"
           },
           "dnn" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/Dnn"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/Dnn"
           },
           "snssai" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/Snssai"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/Snssai"
           }
         }
       },
       "ExtProblemDetails" : {
         "description" : "Contains the FQDN or IP endpoints of the existing PCF and the cause value if there is an existing PCF binding information for the indicated combination.",
         "allOf" : [ {
-          "$ref" : "TS29571_CommonData.yaml#/components/schemas/ProblemDetails"
+          "$ref" : "TS29571_CommonData.json#/components/schemas/ProblemDetails"
         }, {
           "$ref" : "#/components/schemas/BindingResp"
         } ]
@@ -561,12 +561,12 @@
         "type" : "object",
         "properties" : {
           "pcfSmFqdn" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/Fqdn"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/Fqdn"
           },
           "pcfSmIpEndPoints" : {
             "type" : "array",
             "items" : {
-              "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/IpEndPoint"
+              "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/IpEndPoint"
             },
             "minItems" : 1,
             "description" : "IP end points of the PCF hosting the Npcf_SMPolicyControl service."

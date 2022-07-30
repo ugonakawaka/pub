@@ -13,6 +13,8 @@ management:
   endpoints:
     enabled-by-default: true
     web:
+      discovery:
+        enabled: true
       exposure:
         include: "*"
 #        exclude: "env,beans"

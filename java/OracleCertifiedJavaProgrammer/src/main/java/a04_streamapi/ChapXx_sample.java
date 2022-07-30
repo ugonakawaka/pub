@@ -188,10 +188,10 @@ public class ChapXx_sample {
 			throws NotFoundDefaultItemException {
 
 		// 事前にデフォルトがあるかチェックしておく
-		var b = list.stream().anyMatch(item -> defaultCode.equals(item.code));
-		if (!b) {
-			throw new NotFoundDefaultItemException();
-		}
+//		var b = list.stream().anyMatch(item -> defaultCode.equals(item.code));
+//		if (!b) {
+//			throw new NotFoundDefaultItemException();
+//		}
 
 		// １番下にデフォルトがくるようにする
 		Comparator<Item> comparator = (o1, o2) -> {

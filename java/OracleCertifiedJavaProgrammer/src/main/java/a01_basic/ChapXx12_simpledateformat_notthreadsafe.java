@@ -7,6 +7,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 
+// 2022.06.26
+// このコード正直だめなようなので、ちょっと書き直しましょう
 public class ChapXx12_simpledateformat_notthreadsafe {
 
 	// 道具立てとして、例外を外にださないラムダを用意しておきます。

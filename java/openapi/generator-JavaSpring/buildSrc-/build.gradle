@@ -1,0 +1,26 @@
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.codehaus.groovy:groovy-all:3.0.10'
+    compileClasspath 'org.openapitools:openapi-generator-cli:5.1.1'
+}
+
+
+buildscript {
+    repositories {
+       mavenCentral()
+    }
+    dependencies {
+        classpath group: 'org.openapitools', name: 'openapi-generator-cli', version: '5.1.1'
+		// https://mvnrepository.com/artifact/org.openapitools/openapi-generator-cli
+		classpath 'org.openapitools:openapi-generator-cli:5.1.1'
+		compile 'org.openapitools:openapi-generator-cli:5.1.1'
+    }
+}
+
+import org.openapitools.codegen.*
+import org.openapitools.codegen.languages.*

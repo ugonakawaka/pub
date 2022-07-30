@@ -56,6 +56,7 @@ public class TestApplePay {
 	static void a() throws NoSuchAlgorithmException, InvalidKeySpecException, KeyStoreException, CertificateException,
 			IOException, InvalidAlgorithmParameterException, InvalidKeyException, NoSuchPaddingException,
 			IllegalBlockSizeException, BadPaddingException {
+
 		// Step 1: Extract Public Key from Leaf Certificate
 		var publickey = step1();
 
@@ -75,11 +76,9 @@ public class TestApplePay {
 		// Step 4: NIST Single-step KDF The NIST Single-step KDF parameterized with the
 		// SHA-256 hash function is used to derive a 256
 		// bit key. The following are the inputs to the KDF.
-
-		SecretKey AESKEY = step4(sharedsecret, keyPair.getPublic());
-
 		// Step 5: Symmetric AES Key: From the KDF input, the issuer can generate the
 		// AES key which is used for encryption in Step 6.
+		SecretKey AESKEY = step4(sharedsecret, keyPair.getPublic());
 
 		// Step 6: AES GCM Encryption: The AES symmetric key is used to encrypt the JSON
 		// payload with the AES cypher in GCM mode

@@ -249,10 +249,7 @@ public class TestNistP256_2 {
 
 	}
 
-	static String tohex(byte[] bs) {
-		
-	}
-	
+
 	public static class Utils {
 		// https://stackoverflow.com/questions/30445997/loading-raw-64-byte-long-ecdsa-public-key-in-java
 		private static byte[] P256_HEAD = Base64.getDecoder().decode("MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE");

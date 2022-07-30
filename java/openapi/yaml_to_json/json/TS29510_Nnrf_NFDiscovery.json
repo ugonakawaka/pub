@@ -40,7 +40,7 @@
           "description" : "Type of the target NF",
           "required" : true,
           "schema" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/NFType"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/NFType"
           }
         }, {
           "name" : "requester-nf-type",
@@ -48,14 +48,14 @@
           "description" : "Type of the requester NF",
           "required" : true,
           "schema" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/NFType"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/NFType"
           }
         }, {
           "name" : "requester-nf-instance-id",
           "in" : "query",
           "description" : "NfInstanceId of the requester NF",
           "schema" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/NfInstanceId"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/NfInstanceId"
           }
         }, {
           "name" : "service-names",
@@ -64,7 +64,7 @@
           "schema" : {
             "type" : "array",
             "items" : {
-              "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/ServiceName"
+              "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/ServiceName"
             },
             "minItems" : 1,
             "uniqueItems" : true
@@ -76,7 +76,7 @@
           "in" : "query",
           "description" : "FQDN of the requester NF",
           "schema" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/Fqdn"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/Fqdn"
           }
         }, {
           "name" : "target-plmn-list",
@@ -87,7 +87,7 @@
               "schema" : {
                 "type" : "array",
                 "items" : {
-                  "$ref" : "TS29571_CommonData.yaml#/components/schemas/PlmnId"
+                  "$ref" : "TS29571_CommonData.json#/components/schemas/PlmnId"
                 },
                 "minItems" : 1
               }
@@ -102,7 +102,7 @@
               "schema" : {
                 "type" : "array",
                 "items" : {
-                  "$ref" : "TS29571_CommonData.yaml#/components/schemas/PlmnId"
+                  "$ref" : "TS29571_CommonData.json#/components/schemas/PlmnId"
                 },
                 "minItems" : 1
               }
@@ -113,21 +113,21 @@
           "in" : "query",
           "description" : "Identity of the NF instance being discovered",
           "schema" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/NfInstanceId"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/NfInstanceId"
           }
         }, {
           "name" : "target-nf-fqdn",
           "in" : "query",
           "description" : "FQDN of the NF instance being discovered",
           "schema" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/Fqdn"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/Fqdn"
           }
         }, {
           "name" : "hnrf-uri",
           "in" : "query",
           "description" : "Uri of the home NRF",
           "schema" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/Uri"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/Uri"
           }
         }, {
           "name" : "snssais",
@@ -138,7 +138,7 @@
               "schema" : {
                 "type" : "array",
                 "items" : {
-                  "$ref" : "TS29571_CommonData.yaml#/components/schemas/Snssai"
+                  "$ref" : "TS29571_CommonData.json#/components/schemas/Snssai"
                 },
                 "minItems" : 1
               }
@@ -153,7 +153,7 @@
               "schema" : {
                 "type" : "array",
                 "items" : {
-                  "$ref" : "TS29571_CommonData.yaml#/components/schemas/Snssai"
+                  "$ref" : "TS29571_CommonData.json#/components/schemas/Snssai"
                 },
                 "minItems" : 1
               }
@@ -168,7 +168,7 @@
               "schema" : {
                 "type" : "array",
                 "items" : {
-                  "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/PlmnSnssai"
+                  "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/PlmnSnssai"
                 },
                 "minItems" : 1
               }
@@ -183,7 +183,7 @@
               "schema" : {
                 "type" : "array",
                 "items" : {
-                  "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/PlmnSnssai"
+                  "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/PlmnSnssai"
                 },
                 "minItems" : 1
               }
@@ -194,7 +194,7 @@
           "in" : "query",
           "description" : "Dnn supported by the BSF, SMF or UPF",
           "schema" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/Dnn"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/Dnn"
           }
         }, {
           "name" : "nsi-list",
@@ -222,7 +222,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "TS29571_CommonData.yaml#/components/schemas/Tai"
+                "$ref" : "TS29571_CommonData.json#/components/schemas/Tai"
               }
             }
           }
@@ -231,14 +231,14 @@
           "in" : "query",
           "description" : "AMF Region Identity",
           "schema" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/AmfRegionId"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/AmfRegionId"
           }
         }, {
           "name" : "amf-set-id",
           "in" : "query",
           "description" : "AMF Set Identity",
           "schema" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/AmfSetId"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/AmfSetId"
           }
         }, {
           "name" : "guami",
@@ -247,7 +247,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "TS29571_CommonData.yaml#/components/schemas/Guami"
+                "$ref" : "TS29571_CommonData.json#/components/schemas/Guami"
               }
             }
           }
@@ -256,14 +256,14 @@
           "in" : "query",
           "description" : "SUPI of the user",
           "schema" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/Supi"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/Supi"
           }
         }, {
           "name" : "ue-ipv4-address",
           "in" : "query",
           "description" : "IPv4 address of the UE",
           "schema" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/Ipv4Addr"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/Ipv4Addr"
           }
         }, {
           "name" : "ip-domain",
@@ -277,7 +277,7 @@
           "in" : "query",
           "description" : "IPv6 prefix of the UE",
           "schema" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/Ipv6Prefix"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/Ipv6Prefix"
           }
         }, {
           "name" : "pgw-ind",
@@ -291,28 +291,28 @@
           "in" : "query",
           "description" : "PGW FQDN of a combined PGW-C and SMF",
           "schema" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/Fqdn"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/Fqdn"
           }
         }, {
           "name" : "gpsi",
           "in" : "query",
           "description" : "GPSI of the user",
           "schema" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/Gpsi"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/Gpsi"
           }
         }, {
           "name" : "external-group-identity",
           "in" : "query",
           "description" : "external group identifier of the user",
           "schema" : {
-            "$ref" : "TS29503_Nudm_SDM.yaml#/components/schemas/ExtGroupId"
+            "$ref" : "TS29503_Nudm_SDM.json#/components/schemas/ExtGroupId"
           }
         }, {
           "name" : "internal-group-identity",
           "in" : "query",
           "description" : "internal group identifier of the user",
           "schema" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/GroupId"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/GroupId"
           }
         }, {
           "name" : "pfd-data",
@@ -321,7 +321,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/PfdData"
+                "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/PfdData"
               }
             }
           }
@@ -330,7 +330,7 @@
           "in" : "query",
           "description" : "data set supported by the NF",
           "schema" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/DataSetId"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/DataSetId"
           }
         }, {
           "name" : "routing-indicator",
@@ -347,7 +347,7 @@
           "schema" : {
             "type" : "array",
             "items" : {
-              "$ref" : "TS29571_CommonData.yaml#/components/schemas/NfGroupId"
+              "$ref" : "TS29571_CommonData.json#/components/schemas/NfGroupId"
             },
             "minItems" : 1
           },
@@ -360,7 +360,7 @@
           "schema" : {
             "type" : "array",
             "items" : {
-              "$ref" : "TS29571_CommonData.yaml#/components/schemas/Dnai"
+              "$ref" : "TS29571_CommonData.json#/components/schemas/Dnai"
             },
             "minItems" : 1
           },
@@ -373,7 +373,7 @@
           "schema" : {
             "type" : "array",
             "items" : {
-              "$ref" : "TS29571_CommonData.yaml#/components/schemas/PduSessionType"
+              "$ref" : "TS29571_CommonData.json#/components/schemas/PduSessionType"
             },
             "minItems" : 1
           },
@@ -386,7 +386,7 @@
           "schema" : {
             "type" : "array",
             "items" : {
-              "$ref" : "TS29520_Nnwdaf_AnalyticsInfo.yaml#/components/schemas/EventId"
+              "$ref" : "TS29520_Nnwdaf_AnalyticsInfo.json#/components/schemas/EventId"
             },
             "minItems" : 1
           },
@@ -399,7 +399,7 @@
           "schema" : {
             "type" : "array",
             "items" : {
-              "$ref" : "TS29520_Nnwdaf_EventsSubscription.yaml#/components/schemas/NwdafEvent"
+              "$ref" : "TS29520_Nnwdaf_EventsSubscription.json#/components/schemas/NwdafEvent"
             },
             "minItems" : 1
           },
@@ -410,7 +410,7 @@
           "in" : "query",
           "description" : "Features required to be supported by the target NF",
           "schema" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/SupportedFeatures"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/SupportedFeatures"
           }
         }, {
           "name" : "upf-iwk-eps-ind",
@@ -426,7 +426,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "TS29571_CommonData.yaml#/components/schemas/PlmnId"
+                "$ref" : "TS29571_CommonData.json#/components/schemas/PlmnId"
               }
             }
           }
@@ -442,7 +442,7 @@
           "in" : "query",
           "description" : "AccessType supported by the target NF",
           "schema" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/AccessType"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/AccessType"
           }
         }, {
           "name" : "limit",
@@ -460,7 +460,7 @@
           "schema" : {
             "type" : "array",
             "items" : {
-              "$ref" : "TS29571_CommonData.yaml#/components/schemas/SupportedFeatures"
+              "$ref" : "TS29571_CommonData.json#/components/schemas/SupportedFeatures"
             },
             "minItems" : 1
           },
@@ -473,7 +473,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "TS29571_CommonData.yaml#/components/schemas/ComplexQuery"
+                "$ref" : "TS29571_CommonData.json#/components/schemas/ComplexQuery"
               }
             }
           }
@@ -503,7 +503,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "TS29571_CommonData.yaml#/components/schemas/AtsssCapability"
+                "$ref" : "TS29571_CommonData.json#/components/schemas/AtsssCapability"
               }
             }
           }
@@ -521,7 +521,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "TS29572_Nlmf_Location.yaml#/components/schemas/ExternalClientType"
+                "$ref" : "TS29572_Nlmf_Location.json#/components/schemas/ExternalClientType"
               }
             }
           }
@@ -532,7 +532,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "TS29572_Nlmf_Location.yaml#/components/schemas/LMFIdentification"
+                "$ref" : "TS29572_Nlmf_Location.json#/components/schemas/LMFIdentification"
               }
             }
           }
@@ -543,7 +543,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/AnNodeType"
+                "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/AnNodeType"
               }
             }
           }
@@ -554,7 +554,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "TS29571_CommonData.yaml#/components/schemas/RatType"
+                "$ref" : "TS29571_CommonData.json#/components/schemas/RatType"
               }
             }
           }
@@ -565,7 +565,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "TS29571_CommonData.yaml#/components/schemas/Tai"
+                "$ref" : "TS29571_CommonData.json#/components/schemas/Tai"
               }
             }
           }
@@ -576,7 +576,7 @@
           "schema" : {
             "type" : "array",
             "items" : {
-              "$ref" : "TS29571_CommonData.yaml#/components/schemas/NfInstanceId"
+              "$ref" : "TS29571_CommonData.json#/components/schemas/NfInstanceId"
             },
             "minItems" : 1
           },
@@ -596,7 +596,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "TS29571_CommonData.yaml#/components/schemas/PlmnIdNid"
+                "$ref" : "TS29571_CommonData.json#/components/schemas/PlmnIdNid"
               }
             }
           }
@@ -609,7 +609,7 @@
               "schema" : {
                 "type" : "array",
                 "items" : {
-                  "$ref" : "TS29571_CommonData.yaml#/components/schemas/PlmnIdNid"
+                  "$ref" : "TS29571_CommonData.json#/components/schemas/PlmnIdNid"
                 },
                 "minItems" : 1
               }
@@ -622,7 +622,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/AfEventExposureData"
+                "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/AfEventExposureData"
               }
             }
           }
@@ -633,7 +633,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/WAgfInfo"
+                "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/WAgfInfo"
               }
             }
           }
@@ -644,7 +644,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/TngfInfo"
+                "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/TngfInfo"
               }
             }
           }
@@ -655,7 +655,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/TwifInfo"
+                "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/TwifInfo"
               }
             }
           }
@@ -664,42 +664,42 @@
           "in" : "query",
           "description" : "Target NF Set ID",
           "schema" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/NfSetId"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/NfSetId"
           }
         }, {
           "name" : "target-nf-service-set-id",
           "in" : "query",
           "description" : "Target NF Service Set ID",
           "schema" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/NfServiceSetId"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/NfServiceSetId"
           }
         }, {
           "name" : "nef-id",
           "in" : "query",
           "description" : "NEF ID",
           "schema" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/NefId"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/NefId"
           }
         }, {
           "name" : "notification-type",
           "in" : "query",
           "description" : "Notification Type",
           "schema" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/NotificationType"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/NotificationType"
           }
         }, {
           "name" : "n1-msg-class",
           "in" : "query",
           "description" : "N1 Message Class",
           "schema" : {
-            "$ref" : "TS29518_Namf_Communication.yaml#/components/schemas/N1MessageClass"
+            "$ref" : "TS29518_Namf_Communication.json#/components/schemas/N1MessageClass"
           }
         }, {
           "name" : "n2-info-class",
           "in" : "query",
           "description" : "N2 Information Class",
           "schema" : {
-            "$ref" : "TS29518_Namf_Communication.yaml#/components/schemas/N2InformationClass"
+            "$ref" : "TS29518_Namf_Communication.json#/components/schemas/N2InformationClass"
           }
         }, {
           "name" : "serving-scope",
@@ -805,28 +805,28 @@
           "in" : "query",
           "description" : "Address domain reachable through the SCP",
           "schema" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/Fqdn"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/Fqdn"
           }
         }, {
           "name" : "ipv4-addr",
           "in" : "query",
           "description" : "IPv4 address reachable through the SCP",
           "schema" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/Ipv4Addr"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/Ipv4Addr"
           }
         }, {
           "name" : "ipv6-prefix",
           "in" : "query",
           "description" : "IPv6 prefix reachable through the SCP",
           "schema" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/Ipv6Prefix"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/Ipv6Prefix"
           }
         }, {
           "name" : "served-nf-set-id",
           "in" : "query",
           "description" : "NF Set ID served by the SCP",
           "schema" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/NfSetId"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/NfSetId"
           }
         }, {
           "name" : "remote-plmn-id",
@@ -835,7 +835,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "TS29571_CommonData.yaml#/components/schemas/PlmnId"
+                "$ref" : "TS29571_CommonData.json#/components/schemas/PlmnId"
               }
             }
           }
@@ -858,7 +858,7 @@
           "in" : "query",
           "description" : "Features supported by the NF Service Consumer that is invoking the Nnrf_NFDiscovery service",
           "schema" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/SupportedFeatures"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/SupportedFeatures"
           }
         }, {
           "name" : "realm-id",
@@ -886,7 +886,7 @@
           "in" : "query",
           "description" : "Uri of the NRF holding the NF profile of a target NF Instance",
           "schema" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/Uri"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/Uri"
           }
         }, {
           "name" : "preferred-vendor-specific-features",
@@ -903,7 +903,7 @@
                   "additionalProperties" : {
                     "type" : "array",
                     "items" : {
-                      "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/VendorSpecificFeature"
+                      "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/VendorSpecificFeature"
                     },
                     "minItems" : 1
                   },
@@ -925,7 +925,7 @@
                 "additionalProperties" : {
                   "type" : "array",
                   "items" : {
-                    "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/VendorSpecificFeature"
+                    "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/VendorSpecificFeature"
                   },
                   "minItems" : 1
                 },
@@ -966,14 +966,14 @@
           "in" : "query",
           "description" : "NF Set Id served by target NF",
           "schema" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/NfSetId"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/NfSetId"
           }
         }, {
           "name" : "serving-nf-type",
           "in" : "query",
           "description" : "NF type served by the target NF",
           "schema" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/NFType"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/NFType"
           }
         }, {
           "name" : "ml-analytics-id-list",
@@ -984,7 +984,7 @@
               "schema" : {
                 "type" : "array",
                 "items" : {
-                  "$ref" : "TS29520_Nnwdaf_EventsSubscription.yaml#/components/schemas/NwdafEvent"
+                  "$ref" : "TS29520_Nnwdaf_EventsSubscription.json#/components/schemas/NwdafEvent"
                 },
                 "minItems" : 1
               }
@@ -1043,7 +1043,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "TS29571_CommonData.yaml#/components/schemas/RedirectResponse"
+                  "$ref" : "TS29571_CommonData.json#/components/schemas/RedirectResponse"
                 }
               }
             },
@@ -1062,7 +1062,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "TS29571_CommonData.yaml#/components/schemas/RedirectResponse"
+                  "$ref" : "TS29571_CommonData.json#/components/schemas/RedirectResponse"
                 }
               }
             },
@@ -1077,43 +1077,43 @@
             }
           },
           "400" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/400"
+            "$ref" : "TS29571_CommonData.json#/components/responses/400"
           },
           "401" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/401"
+            "$ref" : "TS29571_CommonData.json#/components/responses/401"
           },
           "403" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/403"
+            "$ref" : "TS29571_CommonData.json#/components/responses/403"
           },
           "404" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/404"
+            "$ref" : "TS29571_CommonData.json#/components/responses/404"
           },
           "406" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/406"
+            "$ref" : "TS29571_CommonData.json#/components/responses/406"
           },
           "411" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/411"
+            "$ref" : "TS29571_CommonData.json#/components/responses/411"
           },
           "413" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/413"
+            "$ref" : "TS29571_CommonData.json#/components/responses/413"
           },
           "415" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/415"
+            "$ref" : "TS29571_CommonData.json#/components/responses/415"
           },
           "429" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/429"
+            "$ref" : "TS29571_CommonData.json#/components/responses/429"
           },
           "500" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/500"
+            "$ref" : "TS29571_CommonData.json#/components/responses/500"
           },
           "501" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/501"
+            "$ref" : "TS29571_CommonData.json#/components/responses/501"
           },
           "503" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/503"
+            "$ref" : "TS29571_CommonData.json#/components/responses/503"
           },
           "default" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/default"
+            "$ref" : "TS29571_CommonData.json#/components/responses/default"
           }
         }
       }
@@ -1141,7 +1141,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "TS29571_CommonData.yaml#/components/schemas/RedirectResponse"
+                  "$ref" : "TS29571_CommonData.json#/components/schemas/RedirectResponse"
                 }
               }
             },
@@ -1160,7 +1160,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "TS29571_CommonData.yaml#/components/schemas/RedirectResponse"
+                  "$ref" : "TS29571_CommonData.json#/components/schemas/RedirectResponse"
                 }
               }
             },
@@ -1200,7 +1200,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "TS29571_CommonData.yaml#/components/schemas/RedirectResponse"
+                  "$ref" : "TS29571_CommonData.json#/components/schemas/RedirectResponse"
                 }
               }
             },
@@ -1219,7 +1219,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "TS29571_CommonData.yaml#/components/schemas/RedirectResponse"
+                  "$ref" : "TS29571_CommonData.json#/components/schemas/RedirectResponse"
                 }
               }
             },
@@ -1289,43 +1289,43 @@
             }
           },
           "400" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/400"
+            "$ref" : "TS29571_CommonData.json#/components/responses/400"
           },
           "401" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/401"
+            "$ref" : "TS29571_CommonData.json#/components/responses/401"
           },
           "403" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/403"
+            "$ref" : "TS29571_CommonData.json#/components/responses/403"
           },
           "404" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/404"
+            "$ref" : "TS29571_CommonData.json#/components/responses/404"
           },
           "406" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/406"
+            "$ref" : "TS29571_CommonData.json#/components/responses/406"
           },
           "411" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/411"
+            "$ref" : "TS29571_CommonData.json#/components/responses/411"
           },
           "413" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/413"
+            "$ref" : "TS29571_CommonData.json#/components/responses/413"
           },
           "415" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/415"
+            "$ref" : "TS29571_CommonData.json#/components/responses/415"
           },
           "429" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/429"
+            "$ref" : "TS29571_CommonData.json#/components/responses/429"
           },
           "500" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/500"
+            "$ref" : "TS29571_CommonData.json#/components/responses/500"
           },
           "501" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/501"
+            "$ref" : "TS29571_CommonData.json#/components/responses/501"
           },
           "503" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/503"
+            "$ref" : "TS29571_CommonData.json#/components/responses/503"
           },
           "default" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/default"
+            "$ref" : "TS29571_CommonData.json#/components/responses/default"
           }
         }
       }
@@ -1393,40 +1393,40 @@
             }
           },
           "400" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/400"
+            "$ref" : "TS29571_CommonData.json#/components/responses/400"
           },
           "401" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/401"
+            "$ref" : "TS29571_CommonData.json#/components/responses/401"
           },
           "403" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/403"
+            "$ref" : "TS29571_CommonData.json#/components/responses/403"
           },
           "404" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/404"
+            "$ref" : "TS29571_CommonData.json#/components/responses/404"
           },
           "411" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/411"
+            "$ref" : "TS29571_CommonData.json#/components/responses/411"
           },
           "413" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/413"
+            "$ref" : "TS29571_CommonData.json#/components/responses/413"
           },
           "415" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/415"
+            "$ref" : "TS29571_CommonData.json#/components/responses/415"
           },
           "429" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/429"
+            "$ref" : "TS29571_CommonData.json#/components/responses/429"
           },
           "500" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/500"
+            "$ref" : "TS29571_CommonData.json#/components/responses/500"
           },
           "501" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/501"
+            "$ref" : "TS29571_CommonData.json#/components/responses/501"
           },
           "503" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/503"
+            "$ref" : "TS29571_CommonData.json#/components/responses/503"
           },
           "default" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/default"
+            "$ref" : "TS29571_CommonData.json#/components/responses/default"
           }
         },
         "callbacks" : {
@@ -1464,40 +1464,40 @@
                     }
                   },
                   "400" : {
-                    "$ref" : "TS29571_CommonData.yaml#/components/responses/400"
+                    "$ref" : "TS29571_CommonData.json#/components/responses/400"
                   },
                   "401" : {
-                    "$ref" : "TS29571_CommonData.yaml#/components/responses/401"
+                    "$ref" : "TS29571_CommonData.json#/components/responses/401"
                   },
                   "403" : {
-                    "$ref" : "TS29571_CommonData.yaml#/components/responses/403"
+                    "$ref" : "TS29571_CommonData.json#/components/responses/403"
                   },
                   "404" : {
-                    "$ref" : "TS29571_CommonData.yaml#/components/responses/404"
+                    "$ref" : "TS29571_CommonData.json#/components/responses/404"
                   },
                   "411" : {
-                    "$ref" : "TS29571_CommonData.yaml#/components/responses/411"
+                    "$ref" : "TS29571_CommonData.json#/components/responses/411"
                   },
                   "413" : {
-                    "$ref" : "TS29571_CommonData.yaml#/components/responses/413"
+                    "$ref" : "TS29571_CommonData.json#/components/responses/413"
                   },
                   "415" : {
-                    "$ref" : "TS29571_CommonData.yaml#/components/responses/415"
+                    "$ref" : "TS29571_CommonData.json#/components/responses/415"
                   },
                   "429" : {
-                    "$ref" : "TS29571_CommonData.yaml#/components/responses/429"
+                    "$ref" : "TS29571_CommonData.json#/components/responses/429"
                   },
                   "500" : {
-                    "$ref" : "TS29571_CommonData.yaml#/components/responses/500"
+                    "$ref" : "TS29571_CommonData.json#/components/responses/500"
                   },
                   "501" : {
-                    "$ref" : "TS29571_CommonData.yaml#/components/responses/501"
+                    "$ref" : "TS29571_CommonData.json#/components/responses/501"
                   },
                   "503" : {
-                    "$ref" : "TS29571_CommonData.yaml#/components/responses/503"
+                    "$ref" : "TS29571_CommonData.json#/components/responses/503"
                   },
                   "default" : {
-                    "$ref" : "TS29571_CommonData.yaml#/components/responses/default"
+                    "$ref" : "TS29571_CommonData.json#/components/responses/default"
                   }
                 }
               }
@@ -1525,40 +1525,40 @@
             "description" : "Expected response to a successful subscription removal"
           },
           "400" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/400"
+            "$ref" : "TS29571_CommonData.json#/components/responses/400"
           },
           "401" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/401"
+            "$ref" : "TS29571_CommonData.json#/components/responses/401"
           },
           "403" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/403"
+            "$ref" : "TS29571_CommonData.json#/components/responses/403"
           },
           "404" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/404"
+            "$ref" : "TS29571_CommonData.json#/components/responses/404"
           },
           "411" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/411"
+            "$ref" : "TS29571_CommonData.json#/components/responses/411"
           },
           "413" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/413"
+            "$ref" : "TS29571_CommonData.json#/components/responses/413"
           },
           "415" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/415"
+            "$ref" : "TS29571_CommonData.json#/components/responses/415"
           },
           "429" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/429"
+            "$ref" : "TS29571_CommonData.json#/components/responses/429"
           },
           "500" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/500"
+            "$ref" : "TS29571_CommonData.json#/components/responses/500"
           },
           "501" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/501"
+            "$ref" : "TS29571_CommonData.json#/components/responses/501"
           },
           "503" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/503"
+            "$ref" : "TS29571_CommonData.json#/components/responses/503"
           },
           "default" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/default"
+            "$ref" : "TS29571_CommonData.json#/components/responses/default"
           }
         }
       }
@@ -1640,13 +1640,13 @@
             "type" : "string"
           },
           "numNfInstComplete" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/Uint32"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/Uint32"
           },
           "preferredSearch" : {
             "$ref" : "#/components/schemas/PreferredSearch"
           },
           "nrfSupportedFeatures" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/SupportedFeatures"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/SupportedFeatures"
           },
           "nfInstanceList" : {
             "description" : "List of matching NF instances. The key of the map is the NF instance ID.",
@@ -1677,35 +1677,35 @@
         "required" : [ "nfInstanceId", "nfType", "nfStatus" ],
         "properties" : {
           "nfInstanceId" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/NfInstanceId"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/NfInstanceId"
           },
           "nfInstanceName" : {
             "type" : "string"
           },
           "nfType" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/NFType"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/NFType"
           },
           "nfStatus" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/NFStatus"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/NFStatus"
           },
           "plmnList" : {
             "type" : "array",
             "items" : {
-              "$ref" : "TS29571_CommonData.yaml#/components/schemas/PlmnId"
+              "$ref" : "TS29571_CommonData.json#/components/schemas/PlmnId"
             },
             "minItems" : 1
           },
           "sNssais" : {
             "type" : "array",
             "items" : {
-              "$ref" : "TS29571_CommonData.yaml#/components/schemas/ExtSnssai"
+              "$ref" : "TS29571_CommonData.json#/components/schemas/ExtSnssai"
             },
             "minItems" : 1
           },
           "perPlmnSnssaiList" : {
             "type" : "array",
             "items" : {
-              "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/PlmnSnssai"
+              "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/PlmnSnssai"
             },
             "minItems" : 1
           },
@@ -1717,19 +1717,19 @@
             "minItems" : 1
           },
           "fqdn" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/Fqdn"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/Fqdn"
           },
           "ipv4Addresses" : {
             "type" : "array",
             "items" : {
-              "$ref" : "TS29571_CommonData.yaml#/components/schemas/Ipv4Addr"
+              "$ref" : "TS29571_CommonData.json#/components/schemas/Ipv4Addr"
             },
             "minItems" : 1
           },
           "ipv6Addresses" : {
             "type" : "array",
             "items" : {
-              "$ref" : "TS29571_CommonData.yaml#/components/schemas/Ipv6Addr"
+              "$ref" : "TS29571_CommonData.json#/components/schemas/Ipv6Addr"
             },
             "minItems" : 1
           },
@@ -1744,7 +1744,7 @@
             "maximum" : 100
           },
           "loadTimeStamp" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/DateTime"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/DateTime"
           },
           "locality" : {
             "type" : "string"
@@ -1755,134 +1755,134 @@
             "maximum" : 65535
           },
           "udrInfo" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/UdrInfo"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/UdrInfo"
           },
           "udrInfoList" : {
             "description" : "A map (list of key-value pairs) where a (unique) valid JSON string serves as key of UdrInfo",
             "type" : "object",
             "additionalProperties" : {
-              "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/UdrInfo"
+              "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/UdrInfo"
             },
             "minProperties" : 1
           },
           "udmInfo" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/UdmInfo"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/UdmInfo"
           },
           "udmInfoList" : {
             "description" : "A map (list of key-value pairs) where a (unique) valid JSON string serves as key of UdmInfo",
             "type" : "object",
             "additionalProperties" : {
-              "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/UdmInfo"
+              "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/UdmInfo"
             },
             "minProperties" : 1
           },
           "ausfInfo" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/AusfInfo"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/AusfInfo"
           },
           "ausfInfoList" : {
             "description" : "A map (list of key-value pairs) where a (unique) valid JSON string serves as key of AusfInfo",
             "type" : "object",
             "additionalProperties" : {
-              "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/AusfInfo"
+              "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/AusfInfo"
             },
             "minProperties" : 1
           },
           "amfInfo" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/AmfInfo"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/AmfInfo"
           },
           "amfInfoList" : {
             "description" : "A map (list of key-value pairs) where a (unique) valid JSON string serves as key of AmfInfo",
             "type" : "object",
             "additionalProperties" : {
-              "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/AmfInfo"
+              "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/AmfInfo"
             },
             "minProperties" : 1
           },
           "smfInfo" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/SmfInfo"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/SmfInfo"
           },
           "smfInfoList" : {
             "description" : "A map (list of key-value pairs) where a (unique) valid JSON string serves as key of SmfInfo",
             "type" : "object",
             "additionalProperties" : {
-              "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/SmfInfo"
+              "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/SmfInfo"
             },
             "minProperties" : 1
           },
           "upfInfo" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/UpfInfo"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/UpfInfo"
           },
           "upfInfoList" : {
             "description" : "A map (list of key-value pairs) where a (unique) valid JSON string serves as key of UpfInfo",
             "type" : "object",
             "additionalProperties" : {
-              "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/UpfInfo"
+              "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/UpfInfo"
             },
             "minProperties" : 1
           },
           "pcfInfo" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/PcfInfo"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/PcfInfo"
           },
           "pcfInfoList" : {
             "description" : "A map (list of key-value pairs) where a (unique) valid JSON string serves as key of PcfInfo",
             "type" : "object",
             "additionalProperties" : {
-              "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/PcfInfo"
+              "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/PcfInfo"
             },
             "minProperties" : 1
           },
           "bsfInfo" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/BsfInfo"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/BsfInfo"
           },
           "bsfInfoList" : {
             "description" : "A map (list of key-value pairs) where a (unique) valid JSON string serves as key of BsfInfo",
             "type" : "object",
             "additionalProperties" : {
-              "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/BsfInfo"
+              "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/BsfInfo"
             },
             "minProperties" : 1
           },
           "chfInfo" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/ChfInfo"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/ChfInfo"
           },
           "chfInfoList" : {
             "description" : "A map (list of key-value pairs) where a (unique) valid JSON string serves as key of ChfInfo",
             "type" : "object",
             "additionalProperties" : {
-              "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/ChfInfo"
+              "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/ChfInfo"
             },
             "minProperties" : 1
           },
           "udsfInfo" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/UdsfInfo"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/UdsfInfo"
           },
           "udsfInfoList" : {
             "description" : "A map (list of key-value pairs) where a (unique) valid JSON string serves as key of UdsfInfo",
             "type" : "object",
             "additionalProperties" : {
-              "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/UdsfInfo"
+              "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/UdsfInfo"
             },
             "minProperties" : 1
           },
           "nwdafInfo" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/NwdafInfo"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/NwdafInfo"
           },
           "nwdafInfoList" : {
             "type" : "object",
             "description" : "A map (list of key-value pairs) where a valid JSON string serves as key",
             "additionalProperties" : {
-              "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/NwdafInfo"
+              "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/NwdafInfo"
             },
             "minProperties" : 1
           },
           "nefInfo" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/NefInfo"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/NefInfo"
           },
           "pcscfInfoList" : {
             "description" : "A map (list of key-value pairs) where a (unique) valid JSON string serves as key of PcscfInfo",
             "type" : "object",
             "additionalProperties" : {
-              "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/PcscfInfo"
+              "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/PcscfInfo"
             },
             "minProperties" : 1
           },
@@ -1890,7 +1890,7 @@
             "description" : "A map (list of key-value pairs) where a (unique) valid JSON string serves as key of HssInfo",
             "type" : "object",
             "additionalProperties" : {
-              "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/HssInfo"
+              "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/HssInfo"
             },
             "minProperties" : 1
           },
@@ -1898,7 +1898,7 @@
             "type" : "object"
           },
           "recoveryTime" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/DateTime"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/DateTime"
           },
           "nfServicePersistence" : {
             "type" : "boolean",
@@ -1923,26 +1923,26 @@
           "defaultNotificationSubscriptions" : {
             "type" : "array",
             "items" : {
-              "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/DefaultNotificationSubscription"
+              "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/DefaultNotificationSubscription"
             }
           },
           "lmfInfo" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/LmfInfo"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/LmfInfo"
           },
           "gmlcInfo" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/GmlcInfo"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/GmlcInfo"
           },
           "snpnList" : {
             "type" : "array",
             "items" : {
-              "$ref" : "TS29571_CommonData.yaml#/components/schemas/PlmnIdNid"
+              "$ref" : "TS29571_CommonData.json#/components/schemas/PlmnIdNid"
             },
             "minItems" : 1
           },
           "nfSetIdList" : {
             "type" : "array",
             "items" : {
-              "$ref" : "TS29571_CommonData.yaml#/components/schemas/NfSetId"
+              "$ref" : "TS29571_CommonData.json#/components/schemas/NfSetId"
             },
             "minItems" : 1
           },
@@ -1965,7 +1965,7 @@
             "description" : "A map (list of key-value pairs) where NfSetId serves as key of DateTime",
             "type" : "object",
             "additionalProperties" : {
-              "$ref" : "TS29571_CommonData.yaml#/components/schemas/DateTime"
+              "$ref" : "TS29571_CommonData.json#/components/schemas/DateTime"
             },
             "minProperties" : 1
           },
@@ -1973,7 +1973,7 @@
             "description" : "A map (list of key-value pairs) where NfServiceSetId serves as key of DateTime",
             "type" : "object",
             "additionalProperties" : {
-              "$ref" : "TS29571_CommonData.yaml#/components/schemas/DateTime"
+              "$ref" : "TS29571_CommonData.json#/components/schemas/DateTime"
             },
             "minProperties" : 1
           },
@@ -1985,13 +1985,13 @@
             "minItems" : 1
           },
           "scpInfo" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/ScpInfo"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/ScpInfo"
           },
           "seppInfo" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/SeppInfo"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/SeppInfo"
           },
           "vendorId" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/VendorId"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/VendorId"
           },
           "supportedVendorSpecificFeatures" : {
             "description" : "the key of the map is the IANA-assigned SMI Network Management Private Enterprise Codes",
@@ -1999,7 +1999,7 @@
             "additionalProperties" : {
               "type" : "array",
               "items" : {
-                "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/VendorSpecificFeature"
+                "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/VendorSpecificFeature"
               },
               "minItems" : 1
             },
@@ -2009,23 +2009,23 @@
             "type" : "object",
             "description" : "A map (list of key-value pairs) where a valid JSON string serves as key",
             "additionalProperties" : {
-              "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/AanfInfo"
+              "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/AanfInfo"
             },
             "minProperties" : 1
           },
           "mfafInfo" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/MfafInfo"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/MfafInfo"
           },
           "easdfInfoList" : {
             "type" : "object",
             "description" : "A map(list of key-value pairs) where a valid JSON string serves as key",
             "additionalProperties" : {
-              "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/EasdfInfo"
+              "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/EasdfInfo"
             },
             "minProperties" : 1
           },
           "dccfInfo" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/DccfInfo"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/DccfInfo"
           }
         }
       },
@@ -2038,28 +2038,28 @@
             "type" : "string"
           },
           "serviceName" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/ServiceName"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/ServiceName"
           },
           "versions" : {
             "type" : "array",
             "items" : {
-              "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/NFServiceVersion"
+              "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/NFServiceVersion"
             },
             "minItems" : 1
           },
           "scheme" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/UriScheme"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/UriScheme"
           },
           "nfServiceStatus" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/NFServiceStatus"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/NFServiceStatus"
           },
           "fqdn" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/Fqdn"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/Fqdn"
           },
           "ipEndPoints" : {
             "type" : "array",
             "items" : {
-              "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/IpEndPoint"
+              "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/IpEndPoint"
             },
             "minItems" : 1
           },
@@ -2069,7 +2069,7 @@
           "defaultNotificationSubscriptions" : {
             "type" : "array",
             "items" : {
-              "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/DefaultNotificationSubscription"
+              "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/DefaultNotificationSubscription"
             },
             "minItems" : 1
           },
@@ -2084,7 +2084,7 @@
             "maximum" : 100
           },
           "loadTimeStamp" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/DateTime"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/DateTime"
           },
           "priority" : {
             "type" : "integer",
@@ -2092,34 +2092,34 @@
             "maximum" : 65535
           },
           "recoveryTime" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/DateTime"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/DateTime"
           },
           "supportedFeatures" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/SupportedFeatures"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/SupportedFeatures"
           },
           "nfServiceSetIdList" : {
             "type" : "array",
             "items" : {
-              "$ref" : "TS29571_CommonData.yaml#/components/schemas/NfServiceSetId"
+              "$ref" : "TS29571_CommonData.json#/components/schemas/NfServiceSetId"
             },
             "minItems" : 1
           },
           "sNssais" : {
             "type" : "array",
             "items" : {
-              "$ref" : "TS29571_CommonData.yaml#/components/schemas/ExtSnssai"
+              "$ref" : "TS29571_CommonData.json#/components/schemas/ExtSnssai"
             },
             "minItems" : 1
           },
           "perPlmnSnssaiList" : {
             "type" : "array",
             "items" : {
-              "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/PlmnSnssai"
+              "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/PlmnSnssai"
             },
             "minItems" : 1
           },
           "vendorId" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/VendorId"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/VendorId"
           },
           "supportedVendorSpecificFeatures" : {
             "description" : "the key of the map is the IANA-assigned SMI Network Management Private Enterprise Codes",
@@ -2127,7 +2127,7 @@
             "additionalProperties" : {
               "type" : "array",
               "items" : {
-                "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/VendorSpecificFeature"
+                "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/VendorSpecificFeature"
               },
               "minItems" : 1
             },
@@ -2199,7 +2199,7 @@
         "type" : "object",
         "properties" : {
           "nrfDiscApiUri" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/Uri"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/Uri"
           },
           "preferredSearch" : {
             "$ref" : "#/components/schemas/PreferredSearch"
@@ -2239,13 +2239,13 @@
         "required" : [ "callbackUri" ],
         "properties" : {
           "callbackUri" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/Uri"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/Uri"
           },
           "validityTime" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/DateTime"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/DateTime"
           },
           "reqInstanceId" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/NfInstanceId"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/NfInstanceId"
           },
           "localInd" : {
             "type" : "boolean",

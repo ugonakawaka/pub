@@ -1,0 +1,31 @@
+
+
+
+
+buildscript {
+  repositories {
+    mavenLocal()
+    maven { url "https://repo1.maven.org/maven2" }
+  }
+  dependencies {
+    classpath "org.openapitools:openapi-generator-gradle-plugin:5.0.0"
+  }
+}
+
+
+
+apply plugin: 'org.openapi.generator'
+
+openApiGenerate {
+    generatorName = "Java"
+    inputSpec = "$rootDir/spec/5G_APIs-master/TS29521_Nbsf_Management.yaml".toString()
+    outputDir = "$buildDir/generated".toString()
+    apiPackage = "org.openapi.example.api"
+    invokerPackage = "org.openapi.example.invoker"
+    modelPackage = "org.openapi.example.model"
+    configOptions = [
+        dateLibrary: "java8"
+    ]
+}
+
+

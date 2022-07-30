@@ -76,7 +76,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "TS29571_CommonData.yaml#/components/schemas/RedirectResponse"
+                  "$ref" : "TS29571_CommonData.json#/components/schemas/RedirectResponse"
                 }
               }
             },
@@ -95,7 +95,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "TS29571_CommonData.yaml#/components/schemas/RedirectResponse"
+                  "$ref" : "TS29571_CommonData.json#/components/schemas/RedirectResponse"
                 }
               }
             },
@@ -119,7 +119,7 @@
               },
               "application/problem+json" : {
                 "schema" : {
-                  "$ref" : "TS29571_CommonData.yaml#/components/schemas/ProblemDetails"
+                  "$ref" : "TS29571_CommonData.json#/components/schemas/ProblemDetails"
                 }
               }
             },
@@ -133,37 +133,37 @@
             }
           },
           "401" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/401"
+            "$ref" : "TS29571_CommonData.json#/components/responses/401"
           },
           "403" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/403"
+            "$ref" : "TS29571_CommonData.json#/components/responses/403"
           },
           "404" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/404"
+            "$ref" : "TS29571_CommonData.json#/components/responses/404"
           },
           "411" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/411"
+            "$ref" : "TS29571_CommonData.json#/components/responses/411"
           },
           "413" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/413"
+            "$ref" : "TS29571_CommonData.json#/components/responses/413"
           },
           "415" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/415"
+            "$ref" : "TS29571_CommonData.json#/components/responses/415"
           },
           "429" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/429"
+            "$ref" : "TS29571_CommonData.json#/components/responses/429"
           },
           "500" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/500"
+            "$ref" : "TS29571_CommonData.json#/components/responses/500"
           },
           "501" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/501"
+            "$ref" : "TS29571_CommonData.json#/components/responses/501"
           },
           "503" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/503"
+            "$ref" : "TS29571_CommonData.json#/components/responses/503"
           },
           "default" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/default"
+            "$ref" : "TS29571_CommonData.json#/components/responses/default"
           }
         }
       }
@@ -197,55 +197,55 @@
             "enum" : [ "client_credentials" ]
           },
           "nfInstanceId" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/NfInstanceId"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/NfInstanceId"
           },
           "nfType" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/NFType"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/NFType"
           },
           "targetNfType" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/NFType"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/NFType"
           },
           "scope" : {
             "type" : "string",
             "pattern" : "^([a-zA-Z0-9_:-]+)( [a-zA-Z0-9_:-]+)*$"
           },
           "targetNfInstanceId" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/NfInstanceId"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/NfInstanceId"
           },
           "requesterPlmn" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/PlmnId"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/PlmnId"
           },
           "requesterPlmnList" : {
             "type" : "array",
             "items" : {
-              "$ref" : "TS29571_CommonData.yaml#/components/schemas/PlmnId"
+              "$ref" : "TS29571_CommonData.json#/components/schemas/PlmnId"
             },
             "minItems" : 2
           },
           "requesterSnssaiList" : {
             "type" : "array",
             "items" : {
-              "$ref" : "TS29571_CommonData.yaml#/components/schemas/Snssai"
+              "$ref" : "TS29571_CommonData.json#/components/schemas/Snssai"
             },
             "minItems" : 1
           },
           "requesterFqdn" : {
-            "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/Fqdn"
+            "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/Fqdn"
           },
           "requesterSnpnList" : {
             "type" : "array",
             "items" : {
-              "$ref" : "TS29571_CommonData.yaml#/components/schemas/PlmnIdNid"
+              "$ref" : "TS29571_CommonData.json#/components/schemas/PlmnIdNid"
             },
             "minItems" : 1
           },
           "targetPlmn" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/PlmnId"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/PlmnId"
           },
           "targetSnssaiList" : {
             "type" : "array",
             "items" : {
-              "$ref" : "TS29571_CommonData.yaml#/components/schemas/Snssai"
+              "$ref" : "TS29571_CommonData.json#/components/schemas/Snssai"
             },
             "minItems" : 1
           },
@@ -257,13 +257,13 @@
             "minItems" : 1
           },
           "targetNfSetId" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/NfSetId"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/NfSetId"
           },
           "targetNfServiceSetId" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/NfServiceSetId"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/NfServiceSetId"
           },
           "hnrfAccessTokenUri" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/Uri"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/Uri"
           }
         }
       },
@@ -295,18 +295,18 @@
         "required" : [ "iss", "sub", "aud", "scope", "exp" ],
         "properties" : {
           "iss" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/NfInstanceId"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/NfInstanceId"
           },
           "sub" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/NfInstanceId"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/NfInstanceId"
           },
           "aud" : {
             "anyOf" : [ {
-              "$ref" : "TS29510_Nnrf_NFManagement.yaml#/components/schemas/NFType"
+              "$ref" : "TS29510_Nnrf_NFManagement.json#/components/schemas/NFType"
             }, {
               "type" : "array",
               "items" : {
-                "$ref" : "TS29571_CommonData.yaml#/components/schemas/NfInstanceId"
+                "$ref" : "TS29571_CommonData.json#/components/schemas/NfInstanceId"
               },
               "minItems" : 1
             } ]
@@ -319,15 +319,15 @@
             "type" : "integer"
           },
           "consumerPlmnId" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/PlmnId"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/PlmnId"
           },
           "producerPlmnId" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/PlmnId"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/PlmnId"
           },
           "producerSnssaiList" : {
             "type" : "array",
             "items" : {
-              "$ref" : "TS29571_CommonData.yaml#/components/schemas/Snssai"
+              "$ref" : "TS29571_CommonData.json#/components/schemas/Snssai"
             },
             "minItems" : 1
           },
@@ -339,7 +339,7 @@
             "minItems" : 1
           },
           "producerNfSetId" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/schemas/NfSetId"
+            "$ref" : "TS29571_CommonData.json#/components/schemas/NfSetId"
           }
         }
       },

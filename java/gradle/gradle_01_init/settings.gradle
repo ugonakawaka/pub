@@ -1,0 +1,3 @@
+rootProject.name = 'gradle_01_init'
+include("other:a001")
+include("other:server:TS29502_Nsmf_PDUSession")

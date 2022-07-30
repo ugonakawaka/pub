@@ -21,8 +21,12 @@ public class DummyHandler {
 		Flux<Dummy> flux = dao.getDummieStream();
 		return ServerResponse.ok().contentType(MediaType.TEXT_EVENT_STREAM).body(flux, Dummy.class);
 	}
-	
-	public Flux<Dummy> dummieStream() {
-		return dao.getDummieStream();
+
+	public Mono<ServerResponse> create(ServerRequest serverRequest) {
+		Mono<Dummy> mono = serverRequest.bodyToMono(Dummy.class);
+		return ServerResponse.ok().contentType(MediaType.TEXT_EVENT_STREAM).body(Flux.just("ok ", "o_o", "!"),
+				String.class);
+
 	}
+
 }

@@ -31,7 +31,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "TS29571_CommonData.yaml#/components/schemas/RedirectResponse"
+                  "$ref" : "TS29571_CommonData.json#/components/schemas/RedirectResponse"
                 }
               }
             },
@@ -50,7 +50,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "TS29571_CommonData.yaml#/components/schemas/RedirectResponse"
+                  "$ref" : "TS29571_CommonData.json#/components/schemas/RedirectResponse"
                 }
               }
             },
@@ -65,13 +65,13 @@
             }
           },
           "400" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/400"
+            "$ref" : "TS29571_CommonData.json#/components/responses/400"
           },
           "500" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/500"
+            "$ref" : "TS29571_CommonData.json#/components/responses/500"
           },
           "default" : {
-            "$ref" : "TS29571_CommonData.yaml#/components/responses/default"
+            "$ref" : "TS29571_CommonData.json#/components/responses/default"
           }
         }
       }
@@ -91,7 +91,7 @@
             "type" : "object",
             "description" : "Map of link objects where the keys are the link relations defined in 3GPP TS 29.510 clause 6.4.6.3.3",
             "additionalProperties" : {
-              "$ref" : "TS29571_CommonData.yaml#/components/schemas/LinksValueSchema"
+              "$ref" : "TS29571_CommonData.json#/components/schemas/LinksValueSchema"
             },
             "minProperties" : 1
           },
@@ -99,7 +99,7 @@
             "type" : "object",
             "description" : "Map of features supported by the NRF, where the keys are the NRF services as defined in 3GPP TS 29.510 clause 6.1.6.3.11",
             "additionalProperties" : {
-              "$ref" : "TS29571_CommonData.yaml#/components/schemas/SupportedFeatures"
+              "$ref" : "TS29571_CommonData.json#/components/schemas/SupportedFeatures"
             },
             "minProperties" : 1
           }

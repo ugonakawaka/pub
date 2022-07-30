@@ -3,7 +3,6 @@ package a01_basic;
 import java.util.Collection;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 // 参考
@@ -17,10 +16,12 @@ public class ChapXx07_method_reference {
 			return merger.apply(a, b);
 		}
 
+		// static 
 		public static String appendStrings(String a, String b) {
 			return a + b;
 		}
 
+		// instance
 		public String appendStrings2(String a, String b) {
 			return a + b;
 		}
@@ -56,7 +57,7 @@ public class ChapXx07_method_reference {
 		}
 		{
 
-			MethodReferencesExamples myApp = new MethodReferencesExamples();
+			var myApp = new MethodReferencesExamples();
 
 			// Calling the method mergeThings with a lambda expression
 			println.accept(MethodReferencesExamples.mergeThings("Hello ", "World!", (a, b) -> a + b));
