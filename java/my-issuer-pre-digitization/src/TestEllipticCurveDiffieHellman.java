@@ -18,6 +18,7 @@ import java.util.function.Consumer;
 
 import javax.crypto.KeyAgreement;
 
+// 楕円曲線ディフィー・ヘルマン鍵共有
 public class TestEllipticCurveDiffieHellman {
 
 	@FunctionalInterface
@@ -27,6 +28,8 @@ public class TestEllipticCurveDiffieHellman {
 
 	public static void main(String[] args) throws InvalidAlgorithmParameterException, NoSuchAlgorithmException,
 			InvalidKeyException, InvalidKeySpecException, IOException {
+		// 楕円曲線ディフィー・ヘルマン鍵共有
+
 		a();
 		b();
 	}
@@ -38,8 +41,7 @@ public class TestEllipticCurveDiffieHellman {
 //		openssl ecparam -genkey -name secp256r1 -out keypair.pem
 //		openssl ec -in keypair.pem -outform DER -pubout -out keypublic.der
 //		openssl pkcs8 -topk8 -inform pem -in keypair.pem -nocrypt -outform DER -out keyprivate.der
-		
-		
+
 		var keyPairGen = (TrySupplier<KeyPair, InvalidAlgorithmParameterException, NoSuchAlgorithmException, /* dummy */RuntimeException>) () -> {
 			var keyPairGenerator = KeyPairGenerator.getInstance("EC");
 			var ecGenParameterSpec = new ECGenParameterSpec("NIST P-256");
@@ -55,7 +57,7 @@ public class TestEllipticCurveDiffieHellman {
 			var keySpec2 = new PKCS8EncodedKeySpec(bytesPrivatekey);
 			var kf = KeyFactory.getInstance("EC");
 
-			return new KeyPair( kf.generatePublic(keySpec1), kf.generatePrivate(keySpec2));
+			return new KeyPair(kf.generatePublic(keySpec1), kf.generatePrivate(keySpec2));
 		};
 
 		var printHex = (Consumer<byte[]>) (bs) -> {
