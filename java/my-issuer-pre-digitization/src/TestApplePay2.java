@@ -1,7 +1,6 @@
 import java.io.ByteArrayInputStream;
 import java.io.Console;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -17,7 +16,6 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.security.interfaces.ECPublicKey;
 import java.security.spec.ECGenParameterSpec;
@@ -40,7 +38,7 @@ import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
-public class TestApplePay {
+public class TestApplePay2 {
 
 	@FunctionalInterface
 	interface TrySupplier<T, E1 extends Throwable, E2 extends Throwable> {
@@ -116,25 +114,16 @@ public class TestApplePay {
 			CertificateException {
 
 		{
-			// https://images.apple.com/certificateauthority/
-			// https://images.apple.com/certificateauthority/pdf/Apple_Public_CA_CPS_v5.8.pdf
 
-			X509Certificate certificate = x509(Path.of("oreore-ssl/leafcert.der"));
-		
+			var kf = KeyFactory.getInstance("EC");
 
-			System.out.println(certificate);
-			
-			var bs = certificate.getExtensionValue("1.2.840.10045.3.1.7");
-			System.out.println(bs);
-			System.out.println(certificate.getIssuerAlternativeNames());
-			System.out.println(certificate.getNonCriticalExtensionOIDs());
-			// 1.2.840.10045.3.1.7
-			System.out.println(certificate.getPublicKey());
-			System.out.println(certificate.getCriticalExtensionOIDs());
-			System.out.println(certificate.getSigAlgOID());
-			System.out.println(certificate.getSigAlgName());
-			var publicKey = (ECPublicKey) certificate.getPublicKey();
-			System.out.println(publicKey.getParams());
+			var publicPem = Files.readString(Path.of("cert/public.pem")).replaceAll("-----.+?-----", "")
+					.replaceAll("\\r?\\n", "").trim();
+			;
+			var publicDer = Base64.getDecoder().decode(publicPem);
+
+			var publicKeySpec = new X509EncodedKeySpec(publicDer);
+			var publicKey = (ECPublicKey) kf.generatePublic(publicKeySpec);
 			return publicKey;
 		}
 	}
@@ -282,10 +271,4 @@ public class TestApplePay {
 
 	}
 
-	public static X509Certificate x509(Path path) throws IOException, CertificateException {
-		var certFactory = CertificateFactory.getInstance("X.509");
-		try (InputStream in = Files.newInputStream(path)) {
-			return (X509Certificate) certFactory.generateCertificate(in);
-		}
-	}
 }
