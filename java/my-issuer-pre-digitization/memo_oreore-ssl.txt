@@ -12,21 +12,26 @@ https://zenn.dev/yuulab/articles/dd8b37761c4987
 a00 にサーバー証明書をつくる
 a01 にリーフ証明書をつくる
 
+mkdir -p a00/demoCA/newcerts
 mkdir -p a00/demoCA/private
 mkdir -p a00/sub
 mkdir a01
+cp openssl.cnf a00/
+cp openssl.cnf a01/
+
+
 
 ★サーバ証明書の作成
 
 
-% echo 00 > ./a00/demoCA/serial
-% echo 00 > /a00/demoCA/crlnumber
-% touch ./a00/demoCA/index.txt
+echo 00 > ./a00/demoCA/serial
+echo 00 > ./a00/demoCA/crlnumber
+touch ./a00/demoCA/index.txt
 
-% cd ./a00/demoCA
+cd ./a00/demoCA
 /usr/local/opt/openssl@3/bin/openssl req -new -x509 -newkey rsa:2048 -out cacert.pem -keyout private/cakey.pem -days 1 -subj "/C=JP/ST=TOKYO/L=SHINJYUKU/O=SAMPLE CORP/OU=DEV1/CN=myCA"
 
-% cd sub
+cd ../sub
 /usr/local/opt/openssl@3/bin/openssl genrsa -out subkey.pem 2048
 
 /usr/local/opt/openssl@3/bin/openssl req -new -sha256 -subj "/C=JP/ST=TOKYO/L=SHINJYUKU/O=SAMPLE CORP/OU=DEV1/CN=myCA Sub" -key subkey.pem > subcsr.pem
@@ -37,9 +42,11 @@ mkdir a01
 中間認証局の作成とサーバ証明書(リーフ証明書)の作成
 （ルート証明書 > 中間証明書 > リーフ証明書）
 
-% cp a00-ca-sub/subcert.pem a01-sub-leaf/demoCA/cacert.pem 
-% cp a00-ca-sub/sub/subkey.pem  a01-sub-leaf/demoCA/private/cakey.pem 
+cp -r a00/demoCA a01/
+cp a00/subcert.pem a01/demoCA/cacert.pem 
+cp a00/sub/subkey.pem  a01/demoCA/private/cakey.pem 
 
+cd a01
 /usr/local/opt/openssl@3/bin/openssl ecparam -list_curves
 /usr/local/opt/openssl@3/bin/openssl ecparam -genkey -name prime256v1 -out leafkey.pem
 
@@ -48,6 +55,10 @@ mkdir a01
 /usr/local/opt/openssl@3/bin/openssl ca -config ./openssl.cnf -in leafcsr.pem -out leafcert.pem
 
 
+cd ..
+cp a00/demoCA/cacert.pem .
+cp a00/subcert.pem . 
+cp a01/leafcert.pem .
 
 /usr/local/opt/openssl@3/bin/openssl x509 -outform der -in cacert.pem -out cacert.der
 /usr/local/opt/openssl@3/bin/openssl x509 -outform der -in subcert.pem -out subcert.der

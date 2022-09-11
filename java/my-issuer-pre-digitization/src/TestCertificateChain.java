@@ -24,21 +24,76 @@ import java.util.Set;
 public class TestCertificateChain {
 
 	public static void main(String[] args) throws IOException, GeneralSecurityException {
-		a();
+		// a();
 		// b();
+		c();
+	}
+
+	static void c() throws IOException, GeneralSecurityException {
+
+		var list = Files.list(Path.of("apple-pki")).toList().stream()
+				.filter(p -> p.getFileName().toFile().getName().endsWith("cer")).toList();
+		// System.out.println(list);
+		{
+			{// 6C2
+				var cnt = 0;
+
+				for (int i = 0; i < list.size(); i++) {
+					for (int j = i + 1; j < list.size(); j++) {
+						cnt++;
+						// System.out.printf("%d %s %s%n", cnt, list.get(i), list.get(j));
+						List<X509Certificate> x509Certificates = Arrays.asList(x509(list.get(i)), x509(list.get(j)));
+
+						X509Certificate p1 = x509Certificates.get(1);
+						X509Certificate p2 = x509Certificates.get(0);
+						try {
+							var result = validatePath(p1, p2);
+							// System.out.println(result);
+							System.out.printf("%d\t%s\t%s%n", cnt, list.get(i), list.get(j));
+						} catch (Exception e) {
+							System.out.println(e.getLocalizedMessage());
+						}
+						try {
+							var result = validatePath(p2, p1);
+							// System.out.println(result);
+							System.out.printf("%d\t%s\t%s%n", cnt, list.get(j), list.get(i));
+						} catch (Exception e) {
+							System.out.println(e.getLocalizedMessage());
+						}
+					}
+				}
+
+			}
+
+		}
 	}
 
 	static void b() throws IOException, GeneralSecurityException {
 		// https://www.apple.com/certificateauthority/
 		var p0 = Path.of("apple-pki/root.crl"); //
 		var p1 = Path.of("apple-pki/AppleRootCA-G3.cer"); // root
+		// ====
+
+		// Application Integration
 		var p2 = Path.of("apple-pki/AppleAAICAG3.cer"); // 中間
-		{
+		var p_AppleAAICA = Path.of("apple-pki/AppleAAICA.cer"); // 中間
+		var p_AppleAAI2CA = Path.of("apple-pki/AppleAAI2CA.cer"); // 中間
+		var p3 = Path.of("apple-pki/AppleWWDRCA.cer"); //
+		var p_A2G1 = Path.of("apple-pki/AppleISTCA2G1.cer"); // Apple IST CA 2 - G1 AppleISTCA2G1.cer
+		var p_CA5G1 = Path.of("apple-pki/AppleApplicationIntegrationCA5G1.cer");
+		if (false) {
 			List<CRL> crls = CRLs(p0);
-			crls.forEach(System.out::println);
+			crls.forEach(a -> {
+				System.out.println(a);
+				System.out.println("=============");
+			});
 		}
 
-		List<X509Certificate> x509Certificates = Arrays.asList(x509(p2), x509(p1));
+		List<X509Certificate> x509Certificates = Arrays.asList(x509(p_AppleAAICA), x509(p_AppleAAI2CA));
+
+		x509Certificates.forEach(System.out::println);
+
+		System.out.println("=======");
 		for (int i = 0; i < x509Certificates.size() - 1; i++) {
 			var result = validatePath(x509Certificates.get(i + 1), x509Certificates.get(i));
 			System.out.println(result);
