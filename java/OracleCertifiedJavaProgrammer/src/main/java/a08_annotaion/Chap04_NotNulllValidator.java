@@ -28,24 +28,22 @@ public class Chap04_NotNulllValidator {
 				Field[] fields = clazz.getDeclaredFields();
 				for (Field field : fields) {
 					field.setAccessible(true);
-					NotNull annotetion = field.getAnnotation(NotNull.class);
+					var annotation = field.getAnnotation(NotNull.class);
 
-					if (annotetion == null) {
+					if (annotation == null) {
 						continue;
 					}
 
 					if (field.get(target) != null) {
 						continue;
 					}
-					messageList.add(annotetion.message());
+					messageList.add(annotation.message());
 				}
 				return messageList;
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
 		}
-
-
 	}
 
 	// =======
