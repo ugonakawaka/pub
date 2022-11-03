@@ -1,0 +1,33 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.5'
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'io.spring.dependency-management'
+
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
+
+
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	
+	implementation('org.springframework.boot:spring-boot-starter-web')
+	
+	implementation 'org.springframework.boot:spring-boot-starter-aop'
+	
+	
+	compileOnly 'org.projectlombok:lombok:1.18.24'
+	annotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+	testCompileOnly 'org.projectlombok:lombok:1.18.24'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+	// https://mvnrepository.com/artifact/net.bytebuddy/byte-buddy-dep
+	implementation group: 'net.bytebuddy', name: 'byte-buddy-dep', version: '1.12.12'
+}
