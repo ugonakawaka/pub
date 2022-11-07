@@ -2,12 +2,15 @@ package aaa;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.LayoutManager;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.prefs.Preferences;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -21,6 +24,11 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 public class Main {
+
+	static class Consts {
+		public static final String WORK_DIR = "WORK_DIR";
+		public static final String $WORK_DIR = "${WORK_DIR}";
+	}
 
 	public static void main(String[] args) {
 		a();
@@ -43,33 +51,37 @@ public class Main {
 
 			var panel = new JPanel();
 			var tabbedPane = new JTabbedPane();
-			
-			
+
 			panel.setLayout(new BorderLayout());
-			panel.add(makeTab(""), BorderLayout.NORTH);
+			panel.add(field("workdir", preferences), BorderLayout.NORTH);
 			panel.add(tabbedPane, BorderLayout.CENTER);
+			panel.add(buttons(""), BorderLayout.SOUTH);
 			splitPane.add(panel, JSplitPane.TOP);
-			{ // tab1
-				// tab
-				tabbedPane.addTab("1", makeTab(""));
+			{ // tab
+				var list = new ArrayList<Row>();
+				list.add(new Row(label("a1"), textField("b1"), button("c1")));
+				list.add(new Row(label("a1"), textField("b1"), button("c1")));
+				list.add(new Row(label("aaaaaaa"), textField("b1"), button("btnnnnnnn1")));
+				tabbedPane.addTab("1", makeTab(list));
 			}
 			{ // tab
-				// tab
 				tabbedPane.addTab("2", makeTab(""));
+			}
+			{ // tab
+				tabbedPane.addTab("3", makeTab(""));
 			}
 		}
 		{ // bottom
 
 			var textArea = new JTextArea(1000, 500);
+			var scrollPane = new JScrollPane(textArea);
 			textArea.setPreferredSize(new Dimension(500, 500));
 			System.setOut(new PrintStreamCapturer(textArea, System.out));
 			System.setErr(new PrintStreamCapturer(textArea, System.err, "[ERROR] "));
 
-			splitPane.add(textArea, JSplitPane.BOTTOM);
+			splitPane.add(scrollPane, JSplitPane.BOTTOM);
 		}
-		{
 
-		}
 		new Logic().dummy();
 
 		frame.validate();
@@ -80,9 +92,103 @@ public class Main {
 	// ==========================
 	// ==========================
 
-	static JComponent makeTab(String name) {
+	static void action() {
+
+	}
+
+	static JComponent field(String name, Preferences preferences) {
+		var label1 = new JLabel("WORKING DIR");
+		final var tf1 = new JTextField();
+		{
+			tf1.setName(name);
+			var text = preferences.get(name, "");
+			tf1.setText(text);
+			tf1.getDocument().addDocumentListener((SimpleDocumentListener) e -> {
+
+				preferences.put(tf1.getName(), tf1.getText());
+				// System.out.println(e);
+			});
+		}
+		var panel = new JPanel();
+
+		var layout = new GroupLayout(panel);
+		panel.setLayout(layout);
+		GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
+
+		hGroup.addGroup(layout.createParallelGroup().addComponent(label1));
+		hGroup.addGroup(layout.createParallelGroup().addComponent(tf1));
+		layout.setHorizontalGroup(hGroup);
+		GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
+
+		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(label1).addComponent(tf1));
+		layout.setVerticalGroup(vGroup);
+		return panel;
+	}
+
+	static JComponent buttons(String name) {
 		JComponent panel = new JPanel();
-		GroupLayout layout = new GroupLayout(panel);
+		var btn1 = new JButton("実行");
+		var btn2 = new JButton("ログクリア");
+		panel.add(btn1);
+		panel.add(btn2);
+		return panel;
+	}
+
+	static JComponent makeTab(List<Row> rows) {
+
+		var panel = new JPanel();
+		var layout = new GroupLayout(panel);
+		panel.setLayout(layout);
+
+		// Turn on automatically adding gaps between components
+		layout.setAutoCreateGaps(true);
+
+		// Turn on automatically creating gaps between components that touch
+		// the edge of the container and the container.
+		layout.setAutoCreateContainerGaps(true);
+
+		// Create a sequential group for the horizontal axis.
+
+		GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
+		// Create a sequential group for the vertical axis.
+		GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
+
+		{// vgroup
+			rows.stream().forEach(r -> {
+				vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(r.label)
+						.addComponent(r.textField).addComponent(r.button));
+			});
+		}
+
+		{ // hgroup
+			var glabel = layout.createParallelGroup();
+			var gtf = layout.createParallelGroup();
+			var gbtn = layout.createParallelGroup();
+			rows.stream().forEach(row -> {
+				glabel.addComponent(row.label);
+				gtf.addComponent(row.textField);
+				gbtn.addComponent(row.button);
+			});
+			hGroup.addGroup(glabel);
+			hGroup.addGroup(gtf);
+			hGroup.addGroup(gbtn);
+		}
+
+		layout.setHorizontalGroup(hGroup);
+		layout.setVerticalGroup(vGroup);
+		return panel;
+	}
+
+	static JComponent makeTab(String name) {
+		var label1 = new JLabel("aaaaa");
+		var label2 = new JLabel("bbbbbssssssssss");
+		var tf1 = new JTextField();
+		var tf2 = new JTextField();
+		var btn1 = new JButton("button1");
+		var btn2 = new JButton("buttonffff1");
+
+		var panel = new JPanel();
+		var layout = new GroupLayout(panel);
 		panel.setLayout(layout);
 
 		// Turn on automatically adding gaps between components
@@ -96,19 +202,10 @@ public class Main {
 
 		GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
 
-		var label1 = new JLabel("aaaaa");
-		var label2 = new JLabel("bbbbbssssssssss");
-		var tf1 = new JTextField();
-		var tf2 = new JTextField();
-		var btn1 = new JButton("button1");
-		var btn2 = new JButton("buttonffff1");
-		var btn3 = new JButton("buttonffff3");
-
 		hGroup.addGroup(layout.createParallelGroup().addComponent(label1).addComponent(label2));
-		hGroup.addGroup(layout.createParallelGroup().addComponent(tf1).addComponent(tf2).addComponent(btn3));
+		hGroup.addGroup(layout.createParallelGroup().addComponent(tf1).addComponent(tf2));
 		hGroup.addGroup(layout.createParallelGroup().addComponent(btn1).addComponent(btn2));
 
-		
 		layout.setHorizontalGroup(hGroup);
 
 		// Create a sequential group for the vertical axis.
@@ -118,11 +215,28 @@ public class Main {
 				.addComponent(btn1));
 		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(label2).addComponent(tf2)
 				.addComponent(btn2));
-		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(btn3));
 
 		layout.setVerticalGroup(vGroup);
 
 		return panel;
+	}
+
+	// ==========================
+	// ==========================
+	// ==========================
+
+	public static JLabel label(String text) {
+		return new JLabel(text);
+	}
+
+	public static JTextField textField(String name) {
+		var textFiled = new JTextField();
+		textFiled.setName(name);
+		return textFiled;
+	}
+
+	public static JButton button(String text) {
+		return new JButton(text);
 	}
 
 	// ==========================
@@ -351,5 +465,38 @@ public class Main {
 				super.println();
 			}
 		}
+	}
+
+	@FunctionalInterface
+	public interface SimpleDocumentListener extends DocumentListener {
+		/*
+		 * https://stackoverflow.com/questions/3953208/value-change-listener-to-
+		 * jtextfield
+		 */
+
+		void update(DocumentEvent e);
+
+		@Override
+		default void insertUpdate(DocumentEvent e) {
+			update(e);
+		}
+
+		@Override
+		default void removeUpdate(DocumentEvent e) {
+			update(e);
+		}
+
+		@Override
+		default void changedUpdate(DocumentEvent e) {
+			update(e);
+		}
+	}
+
+	static record a(double length, double width) {
+
+	}
+
+	public static record Row(JLabel label, JTextField textField, JButton button) {
+
 	}
 }
