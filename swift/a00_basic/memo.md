@@ -1,6 +1,7 @@
 ### コンパイルするよ
 ```
 swiftc main.swift 
+swiftc main.swift -suppress-warnings 
 ```
 
 ### 即時実行

@@ -1,4 +1,5 @@
 
+import CoreData
 
 print(1)
 print("ok")
@@ -25,6 +26,26 @@ bbb: do {
     var CONST1 = "o_o!"
     var c1 = { print("hello \(CONST1)") } // 外側の値を使う
     c1()
-	CONST1 = ">_<!"
-	c1()
+    CONST1 = ">_<!"
+    c1()
+}
+
+do { // User Defaultsを使ってみるよ
+    // https://developer.apple.com/documentation/foundation/userdefaults
+    // UserDefaults.standard.set("Tokyo", forKey: "currentCity")
+    // オプショナルになる
+    let currentCity = UserDefaults.standard.string(forKey: "currentCity")
+    print("\(currentCity)")
+}
+
+do { // Core dataを使ってみるよ
+    lazy var persistentContainer: NSPersistentContainer = {
+        let container = NSPersistentContainer(name: "CoreDataDemo")
+        container.loadPersistentStores(completionHandler: { _, error in
+            if let error = error as NSError? {
+                print(error.userInfo)
+            }
+        })
+        return container
+    }()
 }
