@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/labstack/echo/v4 v4.9.0
-	golang.org/x/net v0.1.0
+	golang.org/x/net v0.7.0
 )
 
 require (
@@ -14,6 +14,6 @@ require (
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.1 // indirect
 	golang.org/x/crypto v0.1.0 // indirect
-	golang.org/x/sys v0.1.0 // indirect
-	golang.org/x/text v0.4.0 // indirect
+	golang.org/x/sys v0.5.0 // indirect
+	golang.org/x/text v0.7.0 // indirect
 )
