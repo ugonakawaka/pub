@@ -67,7 +67,7 @@
 						<!-- https://stackoverflow.com/questions/25792398/gradle-transitive-dependency-exclusion-is-not-working-as-expected-how-do-i-get -->
 						<groupId>com.google.guava</groupId>
 						<artifactId>guava</artifactId>
-						<version>31.0.1-jre</version>
+						<version>32.0.0-jre</version>
 					</dependency>
 				</dependencies>
 			</plugin>
@@ -102,7 +102,7 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>31.0.1-jre</version>
+			<version>32.0.0-jre</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.yaml/snakeyaml -->
 		<dependency>
