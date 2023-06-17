@@ -13,7 +13,7 @@
 [https://docs.oracle.com/javase/jp/20/language/](https://docs.oracle.com/javase/jp/20/language/)   
 
 
-apiの変更は※他のバージョンもみれるようになっている    
+New API since JDK 11(apiの変更は※他のバージョンもみれるようになっている)    
 [https://docs.oracle.com/en/java/javase/20/docs/api/new-list.html](https://docs.oracle.com/en/java/javase/20/docs/api/new-list.html)   
 
 ダウンロード方法(oracle)  
