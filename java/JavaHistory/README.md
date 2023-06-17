@@ -10,6 +10,7 @@
 [https://docs.oracle.com/javase/jp/17/language/](https://docs.oracle.com/javase/jp/17/language/)    
 [https://docs.oracle.com/javase/jp/18/language/](https://docs.oracle.com/javase/jp/18/language/)    
 [https://docs.oracle.com/javase/jp/19/language/](https://docs.oracle.com/javase/jp/19/language/)   
+[https://docs.oracle.com/javase/jp/20/language/](https://docs.oracle.com/javase/jp/20/language/)   
 
 ダウンロード方法(oracle)  
 https://www.oracle.com/java/technologies/jdk-script-friendly-urls/  
