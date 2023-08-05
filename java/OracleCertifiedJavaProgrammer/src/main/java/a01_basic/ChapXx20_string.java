@@ -1,5 +1,6 @@
 package a01_basic;
 
+import java.io.StringWriter;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringJoiner;
@@ -26,6 +27,14 @@ public class ChapXx20_string {
 				List.of(ss).stream().forEach(joiner::add);
 				System.out.println(joiner); // 1,2,3
 			}
+			
+		}
+		{
+			// 
+			StringWriter writer = new StringWriter();
+			
+	
+			
 			
 		}
 		
