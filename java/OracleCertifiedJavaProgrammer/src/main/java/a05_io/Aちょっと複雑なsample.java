@@ -15,6 +15,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/*
+ * 
+ * 
+ */
 public class Aちょっと複雑なsample {
 
 	public static void main(String[] args) throws IOException {
@@ -69,7 +73,7 @@ public class Aちょっと複雑なsample {
 
 		return content[0];
 	}
-	
+
 	static void a() throws IOException {
 
 		class Line {
@@ -131,14 +135,16 @@ public class Aちょっと複雑なsample {
 				Path outdir = output.resolve(line.title);
 				Files.createDirectories(outdir);
 
-				Files.list(templates).forEach(path -> {
-					var rawcontent = readTrhowsRuntimeException(path);
+				try (var stream = Files.list(templates)) { // 
+					stream.forEach(path -> {
+						var rawcontent = readTrhowsRuntimeException(path);
 
-					var content = replace$(rawcontent, mapOfField, line);
+						var content = replace$(rawcontent, mapOfField, line);
 
-					writeStringTrhowsRuntimeException(outdir.resolve(path.getFileName()), content);
+						writeStringTrhowsRuntimeException(outdir.resolve(path.getFileName()), content);
 
-				});
+					});
+				}
 
 			} catch (IOException e) {
 

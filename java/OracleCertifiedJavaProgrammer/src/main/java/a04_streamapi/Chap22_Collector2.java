@@ -58,10 +58,10 @@ public class Chap22_Collector2 {
 
 	static final List<String> list = new ArrayList<>();
 	static {
-		IntStream.range(0, 1000).forEach(a->{
+		IntStream.range(0, 1000).forEach(a -> {
 			list.add("" + a);
 		});
-		
+
 	}
 
 	static void sleep() {
@@ -75,7 +75,7 @@ public class Chap22_Collector2 {
 
 	public static void main(String[] args) {
 
-		{
+		{ // よいこのみんなは書いちゃだめだよパターン
 			var builder = new StringBuilder();
 			list.stream().forEach(x -> {
 				if (builder.length() != 0) {
@@ -103,15 +103,15 @@ public class Chap22_Collector2 {
 		}
 		{ // test BiConsumer
 			var result = list.stream().collect(new Joinner());
-			System.out.println(result); // A,B,C,D,E
+			System.out.println(result);
 		}
 		{ // test BinaryOperator
 			var result = list.stream().parallel().collect(new Joinner());
-			System.out.println(result); // A,B,C,D,E
+			System.out.println(result);
 		}
 		{ // test BinaryOperator
 			var result = new ArrayList<>(list).parallelStream().unordered().collect(new Joinner());
-			System.out.println(result); // A,B,C,D,E
+			System.out.println(result);
 		}
 		{
 			Supplier<StringBuilder> supplier = StringBuilder::new;
@@ -127,8 +127,25 @@ public class Chap22_Collector2 {
 
 			Collector<String, StringBuilder, String> joinner = Collector.of(supplier, accumulator, combiner, finisher);
 			var result = list.stream().collect(joinner);
-			System.out.println(result); // A,B,C,D,E
+			System.out.println(result);
 		}
+		{
+			var supplier = (Supplier<StringBuilder>) StringBuilder::new;
+			var accumulator = (BiConsumer<StringBuilder, String>) (a, b) -> {
+				a.append(b).append(",");
+			};
+			var combiner = (BinaryOperator<StringBuilder>) (a, b) -> a.append(b);
+			var finisher = (Function<StringBuilder, String>) (a) -> {
+				if (0 == a.length())
+					return "";
+				return a.substring(0, a.length() - 1);
+			};
+
+			Collector<String, StringBuilder, String> joinner = Collector.of(supplier, accumulator, combiner, finisher);
+			var result = list.stream().collect(joinner);
+			System.out.println(result);
+		}
+
 		{
 
 		}
