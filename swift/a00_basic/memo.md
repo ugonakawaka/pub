@@ -1,3 +1,8 @@
+### まずはバージョンを確認しましょう
+```
+swift --version 
+```
+
 ### コンパイルするよ
 ```
 swiftc main.swift 
