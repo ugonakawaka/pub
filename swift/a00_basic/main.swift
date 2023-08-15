@@ -49,3 +49,79 @@ do { // Core dataを使ってみるよ
         return container
     }()
 }
+
+do { // http通信?
+    struct Img: Hashable, Codable {
+        var large: String?
+        var medium: String?
+        var small: String?
+    }
+    print("*** ok 0")
+    func request() {
+        guard let url = URL(string: "https://deiji.jp") else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        let task = URLSession.shared.dataTask(with: request, completionHandler: { data, _, _ in
+            if let data = data {
+                dump(data)
+            }
+        })
+        task.resume()
+    }
+
+    request()
+}
+
+if false {
+    func getGurudocoId() {
+        print("*** ok 1")
+
+        let url = URL(string: "http://localhost:8080/api/gurudocoid")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            print("*** ok 2")
+            if let error = error {
+                print("クライアントエラー: \(error.localizedDescription) \n")
+                return
+            }
+
+            guard let data = data, let response = response as? HTTPURLResponse else {
+                print("no data or no response")
+                return
+            }
+
+            print("*** ok 2-1")
+            if response.statusCode == 200 {
+                var s = String(data: data, encoding: .utf8)
+                print(s!)
+                print(data)
+            } else {
+                // レスポンスのステータスコードが200でない場合などはサーバサイドエラー
+                print("サーバエラー ステータスコード: \(response.statusCode)\n")
+            }
+            print("*** ok 2-2")
+        }
+        print("*** ok 3")
+        task.resume()
+    }
+
+    getGurudocoId()
+
+    // 無理やりまたせる
+    try await Task.sleep(nanoseconds: 1_000_000_000)
+}
+
+if true {
+    let url = URL(string: "http://localhost:8080/api/gurudocoid")!
+    var request = URLRequest(url: url)
+    request.httpMethod = "POST"
+
+    URLSession.shared.dataTask(with: request) { data, _, _ in
+        var s = String(data: data!, encoding: .utf8)
+        print(s!)
+
+    }.resume()
+
+    try await Task.sleep(nanoseconds: 2_000_000_000)
+}

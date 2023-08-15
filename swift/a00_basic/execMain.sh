@@ -2,7 +2,7 @@
 
 
 # SWIFT_VERSION=$(swift -version)
-SWIFT_VERSION=5.7.2
+SWIFT_VERSION=5.9.0
 MAIN=main
 
 echo $SWIFT_VERSION
