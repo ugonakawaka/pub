@@ -28,4 +28,11 @@ swiftformat main.swift
 
 [https://docs.swift.org/swift-book/documentation/the-swift-programming-language](https://docs.swift.org/swift-book/documentation/the-swift-programming-language)  
 
+### beta版を使う
 
+1\. apple develoterサイトからbeta版をダウンロード  
+2\. アプリケーションフォルダにbeta版を移動させる  
+3\. プロンプトで下記のコマンド実行して、使用するxcodeを変更する  
+```
+sudo xcode-select -s /Applications/Xcode-beta.app 
+```
