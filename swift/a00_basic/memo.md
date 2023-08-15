@@ -23,3 +23,9 @@ swiftformat main.swift
 ```
 -suppress-warnings      Suppress all warnings  
 ```
+
+### 言語仕様とか  
+
+[https://docs.swift.org/swift-book/documentation/the-swift-programming-language](https://docs.swift.org/swift-book/documentation/the-swift-programming-language)  
+
+
