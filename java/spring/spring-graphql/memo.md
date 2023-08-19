@@ -1,16 +1,18 @@
-()[]  
-https://spring.pleiades.io/guides/gs/graphql-server/  
+[https://spring.pleiades.io/guides/gs/graphql-server/](https://spring.pleiades.io/guides/gs/graphql-server/)  
+  
+[https://docs.spring.io/spring-graphql/docs/current/reference/html/#graphiql](https://docs.spring.io/spring-graphql/docs/current/reference/html/#graphiql  )  
 
-https://docs.spring.io/spring-graphql/docs/current/reference/html/#graphiql  
 
 
 
 ====
 
+[https://www.logicbig.com/tutorials/spring-framework/spring-web-mvc/parameter-name-discoverer.html](https://www.logicbig.com/tutorials/spring-framework/spring-web-mvc/parameter-name-discoverer.html)
+
+ 
 
 eclipseでこのようなエラーがでた場合、コンパイル時のオプションがたりないかもしれない、リフレクションの情報がクラスについていない？からかもしれない。
-「Store informaton method parametar」をチェックすること
-
+「Store informaton method parametar」をチェックすること  
 ```
 java.lang.IllegalArgumentException: Name for argument of type [java.lang.String] not specified, and parameter name information not found in class file either.
 	at org.springframework.graphql.data.method.annotation.support.ArgumentMethodArgumentResolver.getArgumentName(ArgumentMethodArgumentResolver.java:92) ~[spring-graphql-1.2.2.jar:1.2.2]
