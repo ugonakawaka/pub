@@ -14,7 +14,7 @@ swiftc main.swift -suppress-warnings
 swift main.swift
 ```
 
-### swftformt
+### swiftformt
 ```
 brew install swiftformat
 swiftformat main.swift
