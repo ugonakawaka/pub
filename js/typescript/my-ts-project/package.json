@@ -1,0 +1,30 @@
+{
+  "name": "my-lib",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.8.2",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.2.0"
+  },
+  "exports": {
+    "./aaa/a": "./src/my-lib/aaa/a",
+    "./aaa/ok": "./src/my-lib/aaa/ok",
+    "./aaa/d": "./src/my-lib/aaa/d",
+    "./aaa/callb": "./src/my-lib/aaa/callb",
+    "./bbb/ok": "./src/my-lib/bbb/ok",
+    "./bbb/a": "./src/my-lib/bbb/a",
+    "./ccc": "./src/my-lib/ccc",
+    "./ccc/a": "./src/my-lib/ccc/a",
+    "./ccc/b": "./src/my-lib/ccc/b",
+    "./ddd/": "./src/my-lib/ddd/"
+  }
+}
