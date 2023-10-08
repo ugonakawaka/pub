@@ -1,0 +1,22 @@
+{
+  "name": "my-ts-project3",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.8.3",
+    "ts-node": "^10.9.1"
+  },
+  "exports": {
+    ".": "./src/",
+    "./aaa/*": "./src/my-lib1/aaa/*.ts",
+    "./bbb": "./src/my-lib1/bbb",
+    "./bbb/*": "./src/my-lib1/bbb/*.ts"
+  }
+}
