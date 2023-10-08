@@ -1,0 +1,17 @@
+{
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node"
+  },
+  "compilerOptions": {
+    "target": "ESNext", // ターゲットとするECMAScriptのバージョン
+    "module": "ESNext", // ESMを出力するように指定
+    "declaration": true, // .d.ts 型定義ファイルの出力を有効にする
+    "outDir": "./dist", // コンパイルされたファイルの出力先ディレクトリ
+    "strict": true, // 厳格な型チェックを有効にする
+    "esModuleInterop": true, // ESモジュールとの相互運用性を向上させる
+    "moduleResolution": "node" // Node.jsのモジュール解決アルゴリズムを使用
+  },
+  "include": ["src/**/*.ts"], // コンパイルするファイルやディレクトリの指定
+  "exclude": ["node_modules", "**/*.test.ts", "**/*.spec.ts"] // コンパイルから除外するファイルやディレクトリの指定
+}
