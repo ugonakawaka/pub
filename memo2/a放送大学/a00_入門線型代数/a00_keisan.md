@@ -1,4 +1,5 @@
 
+### 問題1
 $$
 % 問題1
 A = \begin{bmatrix} 1 & 2 \\\ 3 & 4 \end{bmatrix}, \quad B = \begin{bmatrix} 0 & 1 \\\ 2 & 3 \end{bmatrix}
@@ -7,14 +8,15 @@ A = \begin{bmatrix} 1 & 2 \\\ 3 & 4 \end{bmatrix}, \quad B = \begin{bmatrix} 0 &
 求める: A \times B
 $$
 
+### 問題2
 $$
 % 問題2
 A = \begin{bmatrix} 3 & 5 \\ 1 & 2 \end{bmatrix}, \quad I = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}
-\\　
 \\
 求める: A \times I と I \times A
 $$
 
+### 問題3
 $$
 % 問題3
 A = \begin{bmatrix} 1 & 0 \\ 0 & 2 \end{bmatrix}, \quad B = \begin{bmatrix} 0 & 1 \\ 2 & 0 \end{bmatrix}
