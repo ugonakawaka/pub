@@ -2,8 +2,7 @@
 ### 問題1
 $$
 % 問題1
-A = \begin{bmatrix} 1 & 2 \\\ 3 & 4 \end{bmatrix}, \quad B = \begin{bmatrix} 0 & 1 \\\ 2 & 3 \end{bmatrix} \\
-\\
+A = \begin{bmatrix} 1 & 2 \\\ 3 & 4 \end{bmatrix}, \quad B = \begin{bmatrix} 0 & 1 \\\ 2 & 3 \end{bmatrix} \\\ \\\
 求める: A \times B
 $$
 
