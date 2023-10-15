@@ -1,0 +1,323 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>oreore-bsf</groupId>
+	<artifactId>bsf-openapi2springboot-lib</artifactId>
+	<version>1.0</version>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.5.3</version>
+	</parent>
+
+	<properties>
+		<java.version>8</java.version>
+		<openapitools.version>5.1.0</openapitools.version>
+
+		<!-- -->
+		<swagger-annotations-version>1.5.8</swagger-annotations-version>
+		<spring-boot-starter-web.version>2.2.1.RELEASE</spring-boot-starter-web.version>
+		<springfox-version>2.9.2</springfox-version>
+
+
+		<!-- pattern regex -->
+		<ipv6>@Pattern(regexp="%IPV6%")</ipv6>
+		<ipv6-pattern>
+			@Pattern(regexp =
+			"^((:|(0?|([1-9a-f][0-9a-f]{0,3}))):)((0?|([1-9a-f][0-9a-f]{0,3})):){0,6}(:|(0?|([1-9a-f][0-9a-f]{0,3})))$")
+			@Pattern(regexp =
+			"^((([^:]+:){7}([^:]+))|((([^:]+:)*[^:]+)?::(([^:]+:)*[^:]+)?))$")
+		</ipv6-pattern>
+		<ipv6Prefix>@Pattern(regexp="%IPV6PREFIX%") </ipv6Prefix>
+		<ipv6Prefix-pattern>
+			@Pattern(regexp =
+			"^((:|(0?|([1-9a-f][0-9a-f]{0,3}))):)((0?|([1-9a-f][0-9a-f]{0,3})):){0,6}(:|(0?|([1-9a-f][0-9a-f]{0,3})))(\/(([0-9])|([0-9]{2})|(1[0-1][0-9])|(12[0-8])))$")
+			@Pattern(regexp =
+			"^((([^:]+:){7}([^:]+))|((([^:]+:)*[^:]+)?::(([^:]+:)*[^:]+)?))(\/.+)$'")
+			</ipv6Prefix-pattern>
+	</properties>
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<release>${java.version}</release>
+				</configuration>
+			</plugin>
+
+
+
+			<!-- -->
+			<plugin>
+				<groupId>org.openapitools</groupId>
+				<artifactId>openapi-generator-maven-plugin</artifactId>
+				<version>${openapitools.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>${project.basedir}/spec3/TS29521_Nbsf_Management.yaml</inputSpec>
+
+							<!-- java/spring -->
+							<generatorName>spring</generatorName>
+
+
+							<!-- https://openapi-generator.tech/docs/generators/spring/ -->
+							<configOptions>
+
+								<!-- <additionalEnumTypeAnnotations></additionalEnumTypeAnnotations> -->
+								<!-- <additionalModelTypeAnnotations></additionalModelTypeAnnotations> -->
+
+								<allowUnicodeIdentifiers>false</allowUnicodeIdentifiers>
+
+								<apiFirst>false</apiFirst>
+								<!-- default: org.openapitools.api -->
+								<apiPackage>oreore.bsf.api</apiPackage>
+								<!-- default: OpenAPI Java -->
+								<artifactDescription>OreOre BSF openapi Java</artifactDescription>
+
+								<!-- openapi-java-client openapi-spring -->
+								<artifactId>openapi-java-client</artifactId>
+								<!-- default:https://github.com/openapitools/openapi-generator -->
+								<artifactUrl>https://github.com/openapitools/openapi-generator </artifactUrl>
+								<artifactVersion>1.0.0</artifactVersion>
+
+								<async>false</async>
+								<!-- default: org.openapitools -->
+								<basePackage>oreore.bsf</basePackage>
+								<bigDecimalAsString>false</bigDecimalAsString>
+								<booleanGetterPrefix>get</booleanGetterPrefix>
+								<!-- default:org.openapitools.configuration -->
+								<configPackage>oreore.bsf.config</configPackage>
+
+								<!-- default: threetenbp -->
+								<dateLibrary>java8</dateLibrary>
+								<!-- default: false -->
+								<delegatePattern>true</delegatePattern>
+								<!-- default: team@openapitools.org -->
+								<developerEmail>team@openapitools.org </developerEmail>
+								<!-- default: OpenAPI-Generator Contributors -->
+								<developerName>OpenAPI-Generator Contributors</developerName>
+								<!-- default: OpenAPITools.org -->
+								<developerOrganization>OpenAPITools.org</developerOrganization>
+								<!-- default: http://openapitools.org -->
+								<developerOrganizationUrl>http://openapitools.org </developerOrganizationUrl>
+								<disableHtmlEscaping>false</disableHtmlEscaping>
+
+								<!-- default: true -->
+								<disallowAdditionalPropertiesIfNotPresent>true</disallowAdditionalPropertiesIfNotPresent>
+								<discriminatorCaseSensitive>true</discriminatorCaseSensitive>
+								<ensureUniqueParams>true</ensureUniqueParams>
+								<fullJavaUtil>false</fullJavaUtil>
+								<hateoas>false</hateoas>
+								<hideGenerationTimestamp>false</hideGenerationTimestamp>
+								<!-- default: false -->
+								<ignoreAnyOfInEnum>false</ignoreAnyOfInEnum>
+								<implicitHeaders>false</implicitHeaders>
+								<!-- default: false -->
+								<interfaceOnly>true</interfaceOnly>
+								<invokerPackage>org.openapitools.api</invokerPackage>
+								<java8>true</java8>
+								<!-- default: true -->
+								<legacyDiscriminatorBehavior>false</legacyDiscriminatorBehavior>
+								<!-- spring:spring-boot -->
+								<!-- java:okhttp-gson -->
+								<library>spring-boot</library>
+								<licenseName>Unlicense</licenseName>
+								<licenseUrl>http://unlicense.org</licenseUrl>
+								<!-- default: org.openapitools.model -->
+								<modelPackage>oreore.bsf.model</modelPackage>
+								<openApiNullable>true</openApiNullable>
+								<parentArtifactId>null</parentArtifactId>
+								<parentVersion>null</parentVersion>
+								<performBeanValidation>false</performBeanValidation>
+								<prependFormOrBodyParameters>false</prependFormOrBodyParameters>
+								<!-- <reactive>false</reactive> -->
+
+								<!-- <responseWrapper>null</responseWrapper> -->
+								<!-- default: false -->
+								<returnSuccessCode>true</returnSuccessCode>
+								<scmConnection>scm:git:git@github.com:openapitools/openapi-generator.git</scmConnection>
+								<scmDeveloperConnection>scm:git:git@github.com:openapitools/openapi-generator.git</scmDeveloperConnection>
+								<scmUrl>https://github.com/openapitools/openapi-generator</scmUrl>
+								<serializableModel>true</serializableModel>
+								<singleContentTypes>false</singleContentTypes>
+								<skipDefaultInterface>false</skipDefaultInterface>
+								<snapshotVersion>null</snapshotVersion>
+								<sortModelPropertiesByRequiredFlag>true</sortModelPropertiesByRequiredFlag>
+								<sortParamsByRequiredFlag>true</sortParamsByRequiredFlag>
+
+								<!-- default: src/main/java -->
+								<sourceFolder>src/gen/java/main</sourceFolder>
+								<swaggerDocketConfig>false</swaggerDocketConfig>
+
+								<!-- default: OpenAPI Spring -->
+								<title>OpenAPI BSF</title>
+								<unhandledException>false</unhandledException>
+
+								<!-- default: true -->
+								<useBeanValidation>true</useBeanValidation>
+								<useOptional>false</useOptional>
+								<useTags>false</useTags>
+								<virtualService>false</virtualService>
+								<withXml>false</withXml>
+							</configOptions>
+						</configuration>
+					</execution>
+				</executions>
+
+
+			</plugin>
+
+			<!-- Groovy script -->
+			<plugin>
+				<groupId>org.codehaus.gmaven</groupId>
+  				<artifactId>groovy-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<configuration>
+							<source>
+							
+								def fname = ""
+								def sdir = "${basedir}/target/generated-sources/openapi/src/gen/java/main/oreore/bsf/model"
+								/* 1-1  TransportProtocol */
+		
+								println "*** start TransportProtocol -> TransportProtocolAnyOf"
+
+								fname = "${sdir}/IpEndPoint.java"
+
+								ant.replace(file: fname, token:"TransportProtocol", value:
+								"TransportProtocolAnyOf")
+
+								println "*** ok TransportProtocol -> TransportProtocolAnyOf"
+								
+								/* 1-2  BindingLevel */
+								println "*** start BindingLevel -> BindingLevelAnyOf"
+
+								fname = "${sdir}/PcfBinding.java"
+
+
+								ant.replace(file: fname, token:"BindingLevel", value:
+								"BindingLevelAnyOf")
+
+								println "*** ok BindingLevel -> BindingLevelAnyOf"
+								
+								/* 1-3  NFType */
+								println "*** start NFType -> NFTypeAnyOf"
+
+								fname = "${sdir}/AccessTokenReq.java"
+
+								ant.replace(file: fname, token:"NFType", value:
+								"NFTypeAnyOf")
+
+								println "*** ok NFType -> NFTypeAnyOf"
+							
+									
+															
+							
+							/* 2 */
+						fdir = new File("${basedir}/target/generated-sources/openapi/src/gen/java/main/oreore/bsf/");
+						import static groovy.io.FileType.FILES
+						
+						fdir.traverse(type: FILES, maxDepth: 1) { 
+						
+						println it 
+						
+						srep = project.properties['ipv6Prefix-pattern'].replaceAll('\\\\','\\\\\\\\')
+						
+						ant.replace(file: it, token:project.properties['ipv6'], value:
+								project.properties['ipv6-pattern'])
+						ant.replace(file: it, token:project.properties['ipv6Prefix'], value:srep
+								)
+						};
+							
+							/* 3 delete @Validated */
+							sdir = "${basedir}/target/generated-sources/openapi/src/gen/java/main/oreore/bsf/api"
+							fname = "${sdir}/PcfBindingsApi.java"
+							ant.replace(file: fname, token:'@Validated', value:'')
+							
+							</source>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+
+		<!-- ====================== -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!-- ====================== -->
+
+		<!-- ====================== -->
+		<!-- dependencies are needed for the client being generated -->
+
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-annotations</artifactId>
+			<version>${swagger-annotations-version}</version>
+		</dependency>
+
+		<!-- You can find the dependencies for the library configuation you chose 
+			by looking in JavaClientCodegen. Then find the corresponding dependency on 
+			Maven Central, and set the versions in the property section below -->
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-commons</artifactId>
+		</dependency>
+		<!--SpringFox dependencies -->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${springfox-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${springfox-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.openapitools</groupId>
+			<artifactId>jackson-databind-nullable</artifactId>
+			<version>0.1.0</version>
+		</dependency>
+		<!-- Bean Validation API support -->
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+		</dependency>
+	</dependencies>
+</project>
