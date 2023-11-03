@@ -1,0 +1,237 @@
+Analytics	分析	 Amazon Athena 
+Analytics	分析	 Amazon CloudSearch 
+Analytics	分析	 Amazon DataZone 
+Analytics	分析	 Amazon EMR  
+Analytics	分析	 Amazon FinSpace 
+Analytics	分析	 Amazon Kinesis 
+Analytics	分析	 Amazon Kinesis Data Firehose 
+Analytics	分析	 Amazon Managed Service for Apache Flink 
+Analytics	分析	 Amazon Kinesis Data Streams 
+Analytics	分析	 Amazon Kinesis Video Streams 
+Analytics	分析	 Amazon OpenSearch Service 
+Analytics	分析	 Amazon OpenSearch Serverless 
+Analytics	分析	 Amazon Redshift 
+Analytics	分析	 Amazon Redshift Serverless 
+Analytics	分析	 Amazon QuickSight 
+Analytics	分析	 AWS Clean Rooms 
+Analytics	分析	 AWS Data Exchange 
+Analytics	分析	 AWS Data Pipeline 
+Analytics	分析	 AWS Entity Resolution 
+Analytics	分析	 AWS Glue 
+Analytics	分析	 AWS Lake Formation 
+Analytics	分析	 Amazon Managed Streaming for Apache Kafka 
+Application integration	アプリケーション統合	 AWS Step Functions 
+Application integration	アプリケーション統合	 Amazon AppFlow 
+Application integration	アプリケーション統合	 Amazon EventBridge 
+Application integration	アプリケーション統合	 Amazon Managed Workflows for Apache Airflow 
+Application integration	アプリケーション統合	 Amazon MQ 
+Application integration	アプリケーション統合	 Amazon Simple Notification Service 
+Application integration	アプリケーション統合	 Amazon Simple Queue Service 
+Application integration	アプリケーション統合	 Amazon Simple Workflow Service 
+Blockchain	ブロックチェーン	 Amazon Managed Blockchain 
+Business applications	ビジネスアプリケーション	 Alexa for Business 
+Business applications	ビジネスアプリケーション	 AWS AppFabric 
+Business applications	ビジネスアプリケーション	 Amazon Chime 
+Business applications	ビジネスアプリケーション	 Amazon Chime SDK 
+Business applications	ビジネスアプリケーション	 Amazon Honeycode 
+Business applications	ビジネスアプリケーション	 Amazon Pinpoint 
+Business applications	ビジネスアプリケーション	 Amazon SES 
+Business applications	ビジネスアプリケーション	 Amazon WorkDocs 
+Business applications	ビジネスアプリケーション	 Amazon WorkMail 
+Cloud Financial Management	クラウド財務管理	 AWS Application Cost Profiler 
+Cloud Financial Management	クラウド財務管理	 AWS Billing Conductor 
+Cloud Financial Management	クラウド財務管理	 AWS Cost Explorer 
+Cloud Financial Management	クラウド財務管理	 AWS Budgets 
+Cloud Financial Management	クラウド財務管理	 AWS Cost and Usage Report 
+Cloud Financial Management	クラウド財務管理	 Reserved Instance 
+Cloud Financial Management	クラウド財務管理	 Savings Plans 
+Compute services	コンピューティングサービス	 Compare AWS compute services 
+Compute services	コンピューティングサービス	 Amazon EC2 
+Compute services	コンピューティングサービス	 Amazon EC2 Auto Scaling 
+Compute services	コンピューティングサービス	 Amazon EC2 Image Builder 
+Compute services	コンピューティングサービス	 Amazon Lightsail 
+Compute services	コンピューティングサービス	 Amazon Linux 2023 
+Compute services	コンピューティングサービス	 AWS App Runner 
+Compute services	コンピューティングサービス	 AWS Batch 
+Compute services	コンピューティングサービス	 AWS Elastic Beanstalk 
+Compute services	コンピューティングサービス	 AWS Fargate 
+Compute services	コンピューティングサービス	 AWS Lambda 
+Compute services	コンピューティングサービス	 AWS Serverless Application Repository 
+Compute services	コンピューティングサービス	 AWS Outposts 
+Compute services	コンピューティングサービス	 AWS Wavelength 
+Compute services	コンピューティングサービス	 VMware Cloud on AWS 
+Contact center	コンタクトセンター	
+Containers	コンテナ	 Amazon Elastic Container Registry 
+Containers	コンテナ	 Amazon Elastic Container Service 
+Containers	コンテナ	 Amazon Elastic Kubernetes Service 
+Containers	コンテナ	 AWS App2Container 
+Containers	コンテナ	 Red Hat OpenShift Service on AWS 
+Database	データベース	 Compare AWS database services 
+Database	データベース	 Amazon Aurora 
+Database	データベース	 Amazon DynamoDB 
+Database	データベース	 Amazon ElastiCache 
+Database	データベース	 Amazon Keyspaces 
+Database	データベース	 Amazon MemoryDB for Redis 
+Database	データベース	 Amazon Neptune 
+Database	データベース	 Amazon Relational Database Service 
+Database	データベース	 Amazon RDS on VMware 
+Database	データベース	 Amazon Quantum Ledger Database 
+Database	データベース	 Amazon Timestream 
+Database	データベース	 Amazon DocumentDB 
+Database	データベース	 Amazon Lightsail managed databases 
+Developer tools	開発者ツール	 AWS Application Composer 
+Developer tools	開発者ツール	 AWS Cloud9 
+Developer tools	開発者ツール	 AWS CloudShell 
+Developer tools	開発者ツール	 AWS CodeArtifact 
+Developer tools	開発者ツール	 AWS CodeBuild 
+Developer tools	開発者ツール	 Amazon CodeCatalyst 
+Developer tools	開発者ツール	 AWS CodeCommit 
+Developer tools	開発者ツール	 AWS CodeDeploy 
+Developer tools	開発者ツール	 AWS CodePipeline 
+Developer tools	開発者ツール	 AWS CodeStar 
+Developer tools	開発者ツール	 Amazon Corretto 
+Developer tools	開発者ツール	 AWS Fault Injection Simulator 
+Developer tools	開発者ツール	 AWS X-Ray 
+End user computing	エンドユーザーコンピューティング	 Amazon AppStream 2.0 
+End user computing	エンドユーザーコンピューティング	 Amazon WorkSpaces 
+End user computing	エンドユーザーコンピューティング	 Amazon WorkSpaces Core 
+End user computing	エンドユーザーコンピューティング	 Amazon Workspaces Web 
+Front-end web and mobile services	フロントエンドWeb・モバイルサービス	 AWS Amplify 
+Front-end web and mobile services	フロントエンドWeb・モバイルサービス	 AWS AppSync 
+Front-end web and mobile services	フロントエンドWeb・モバイルサービス	 AWS Device Farm 
+Front-end web and mobile services	フロントエンドWeb・モバイルサービス	 Amazon Location Service 
+Game tech	ゲーム技術	 Amazon GameLift 
+Game tech	ゲーム技術	 Amazon Lumberyard 
+Game tech	ゲーム技術	 AWS IoT 1-Click 
+Game tech	ゲーム技術	 AWS IoT Analytics 
+Game tech	ゲーム技術	 AWS IoT Button 
+Game tech	ゲーム技術	 AWS IoT Core 
+Game tech	ゲーム技術	 AWS IoT Device Defender 
+Game tech	ゲーム技術	 AWS IoT Device Management 
+Game tech	ゲーム技術	 AWS IoT Events 
+Game tech	ゲーム技術	 AWS IoT ExpressLink 
+Game tech	ゲーム技術	 AWS IoT FleetWise 
+Game tech	ゲーム技術	 AWS IoT Greengrass 
+Game tech	ゲーム技術	 AWS IoT SiteWise 
+Game tech	ゲーム技術	 AWS IoT TwinMaker 
+Game tech	ゲーム技術	 AWS Partner Device Catalog 
+Game tech	ゲーム技術	 FreeRTOS 
+Game tech	ゲーム技術	 Amazon Augmented AI 
+Game tech	ゲーム技術	 Amazon Bedrock 
+Game tech	ゲーム技術	 Amazon CodeGuru 
+Game tech	ゲーム技術	 Amazon CodeWhisperer 
+Game tech	ゲーム技術	 Amazon Comprehend 
+Game tech	ゲーム技術	 Amazon DevOps Guru 
+Game tech	ゲーム技術	 Amazon Forecast 
+Game tech	ゲーム技術	 Amazon Fraud Detector 
+Game tech	ゲーム技術	 Amazon Comprehend Medical 
+Game tech	ゲーム技術	 Amazon Kendra 
+Game tech	ゲーム技術	 Amazon Lex 
+Game tech	ゲーム技術	 Amazon Lookout for Equipment 
+Game tech	ゲーム技術	 Amazon Lookout for Metrics 
+Game tech	ゲーム技術	 Amazon Lookout for Vision 
+Game tech	ゲーム技術	 Amazon Monitron 
+Game tech	ゲーム技術	 Amazon Personalize 
+Game tech	ゲーム技術	 Amazon Polly 
+Game tech	ゲーム技術	 Amazon Rekognition 
+Game tech	ゲーム技術	 Amazon SageMaker 
+Game tech	ゲーム技術	 Amazon Textract 
+Game tech	ゲーム技術	 Amazon Transcribe 
+Game tech	ゲーム技術	 Amazon Translate 
+Game tech	ゲーム技術	 AWS DeepComposer 
+Game tech	ゲーム技術	 AWS DeepLens 
+Game tech	ゲーム技術	 AWS DeepRacer 
+Game tech	ゲーム技術	 AWS HealthLake 
+Game tech	ゲーム技術	 AWS HealthScribe 
+Game tech	ゲーム技術	 AWS Panorama 
+Management and governance	管理とガバナンス	 AWS Auto Scaling 
+Management and governance	管理とガバナンス	 AWS Chatbot 
+Management and governance	管理とガバナンス	 AWS CloudFormation 
+Management and governance	管理とガバナンス	 AWS CloudTrail 
+Management and governance	管理とガバナンス	 Amazon CloudWatch 
+Management and governance	管理とガバナンス	 AWS Compute Optimizer 
+Management and governance	管理とガバナンス	 AWS Console Mobile Application 
+Management and governance	管理とガバナンス	 AWS Control Tower 
+Management and governance	管理とガバナンス	 AWS Config 
+Management and governance	管理とガバナンス	 AWS Health Dashboard 
+Management and governance	管理とガバナンス	 AWS Launch Wizard 
+Management and governance	管理とガバナンス	 AWS License Manager 
+Management and governance	管理とガバナンス	 AWS Managed Services 
+Management and governance	管理とガバナンス	 AWS Organizations 
+Management and governance	管理とガバナンス	 AWS OpsWorks 
+Management and governance	管理とガバナンス	 AWS Proton 
+Management and governance	管理とガバナンス	 Service Catalog 
+Management and governance	管理とガバナンス	 AWS Systems Manager 
+Management and governance	管理とガバナンス	 AWS Trusted Advisor 
+Management and governance	管理とガバナンス	 AWS Well-Architected Tool 
+Media services	メディアサービス	 Amazon Elastic Transcoder 
+Media services	メディアサービス	 Amazon Interactive Video Service 
+Media services	メディアサービス	 Amazon Nimble Studio 
+Media services	メディアサービス	 AWS Elemental Appliances and Software 
+Media services	メディアサービス	 AWS Elemental MediaConnect 
+Media services	メディアサービス	 AWS Elemental MediaConvert 
+Media services	メディアサービス	 AWS Elemental MediaLive 
+Media services	メディアサービス	 AWS Elemental MediaPackage 
+Media services	メディアサービス	 AWS Elemental MediaStore 
+Media services	メディアサービス	 AWS Elemental MediaTailor 
+Migration and transfer	移行と転送	 AWS Application Discovery Service 
+Migration and transfer	移行と転送	 AWS Application Migration Service 
+Migration and transfer	移行と転送	 AWS Database Migration Service 
+Migration and transfer	移行と転送	 AWS Mainframe Modernization Service 
+Migration and transfer	移行と転送	 AWS Migration Hub 
+Migration and transfer	移行と転送	 AWS Server Migration Service 
+Migration and transfer	移行と転送	 AWS Snow Family 
+Migration and transfer	移行と転送	 AWS DataSync 
+Migration and transfer	移行と転送	 AWS Transfer Family 
+Networking and content delivery	ネットワーキングとコンテンツ配信	 Amazon API Gateway 
+Networking and content delivery	ネットワーキングとコンテンツ配信	 Amazon CloudFront 
+Networking and content delivery	ネットワーキングとコンテンツ配信	 Amazon Route 53 
+Networking and content delivery	ネットワーキングとコンテンツ配信	 AWS Verified Access 
+Networking and content delivery	ネットワーキングとコンテンツ配信	 Amazon VPC 
+Networking and content delivery	ネットワーキングとコンテンツ配信	 Amazon VPC Lattice 
+Networking and content delivery	ネットワーキングとコンテンツ配信	 AWS App Mesh 
+Networking and content delivery	ネットワーキングとコンテンツ配信	 AWS Cloud Map 
+Networking and content delivery	ネットワーキングとコンテンツ配信	 AWS Direct Connect 
+Networking and content delivery	ネットワーキングとコンテンツ配信	 AWS Global Accelerator 
+Networking and content delivery	ネットワーキングとコンテンツ配信	 AWS PrivateLink 
+Networking and content delivery	ネットワーキングとコンテンツ配信	 AWS Private 5G 
+Networking and content delivery	ネットワーキングとコンテンツ配信	 AWS Transit Gateway 
+Networking and content delivery	ネットワーキングとコンテンツ配信	 AWS VPN 
+Networking and content delivery	ネットワーキングとコンテンツ配信	 Elastic Load Balancing 
+Networking and content delivery	ネットワーキングとコンテンツ配信	 Integrated Private Wireless on AWS 
+Quantum technologies	量子技術	
+Robotics	ロボティクス	
+Satellite	衛星	
+Security, identity, and compliance	セキュリティ、アイデンティティ、コンプライアンス	 Amazon Cognito 
+Security, identity, and compliance	セキュリティ、アイデンティティ、コンプライアンス	 Amazon Detective 
+Security, identity, and compliance	セキュリティ、アイデンティティ、コンプライアンス	 Amazon GuardDuty 
+Security, identity, and compliance	セキュリティ、アイデンティティ、コンプライアンス	 Amazon Inspector 
+Security, identity, and compliance	セキュリティ、アイデンティティ、コンプライアンス	 Amazon Macie 
+Security, identity, and compliance	セキュリティ、アイデンティティ、コンプライアンス	 Amazon Security Lake 
+Security, identity, and compliance	セキュリティ、アイデンティティ、コンプライアンス	 Amazon Verified Permissions 
+Security, identity, and compliance	セキュリティ、アイデンティティ、コンプライアンス	 AWS Artifact 
+Security, identity, and compliance	セキュリティ、アイデンティティ、コンプライアンス	 AWS Audit Manager 
+Security, identity, and compliance	セキュリティ、アイデンティティ、コンプライアンス	 AWS Certificate Manager 
+Security, identity, and compliance	セキュリティ、アイデンティティ、コンプライアンス	 AWS CloudHSM 
+Security, identity, and compliance	セキュリティ、アイデンティティ、コンプライアンス	 AWS Directory Service 
+Security, identity, and compliance	セキュリティ、アイデンティティ、コンプライアンス	 AWS Firewall Manager 
+Security, identity, and compliance	セキュリティ、アイデンティティ、コンプライアンス	 AWS Identity and Access Management 
+Security, identity, and compliance	セキュリティ、アイデンティティ、コンプライアンス	 AWS Key Management Service 
+Security, identity, and compliance	セキュリティ、アイデンティティ、コンプライアンス	 AWS Network Firewall 
+Security, identity, and compliance	セキュリティ、アイデンティティ、コンプライアンス	 AWS Resource Access Manager 
+Security, identity, and compliance	セキュリティ、アイデンティティ、コンプライアンス	 AWS Secrets Manager 
+Security, identity, and compliance	セキュリティ、アイデンティティ、コンプライアンス	 AWS Security Hub 
+Security, identity, and compliance	セキュリティ、アイデンティティ、コンプライアンス	 AWS Shield 
+Security, identity, and compliance	セキュリティ、アイデンティティ、コンプライアンス	 AWS IAM Identity Center 
+Security, identity, and compliance	セキュリティ、アイデンティティ、コンプライアンス	 AWS WAF 
+Security, identity, and compliance	セキュリティ、アイデンティティ、コンプライアンス	 AWS WAF Captcha 
+Storage	ストレージ	 Amazon Elastic Block Store 
+Storage	ストレージ	 Amazon Elastic File System 
+Storage	ストレージ	 Amazon File Cache 
+Storage	ストレージ	 Amazon FSx for Lustre 
+Storage	ストレージ	 Amazon FSx for OpenZFS 
+Storage	ストレージ	 Amazon FSx for NetApp ONTAP 
+Storage	ストレージ	 Amazon FSx for Windows File Server 
+Storage	ストレージ	 Amazon Simple Storage Service 
+Storage	ストレージ	 AWS Backup 
+Storage	ストレージ	 AWS Storage Gateway 
