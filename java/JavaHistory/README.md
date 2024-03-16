@@ -11,6 +11,7 @@
 [https://docs.oracle.com/javase/jp/18/language/](https://docs.oracle.com/javase/jp/18/language/)    
 [https://docs.oracle.com/javase/jp/19/language/](https://docs.oracle.com/javase/jp/19/language/)   
 [https://docs.oracle.com/javase/jp/20/language/](https://docs.oracle.com/javase/jp/20/language/)   
+[https://docs.oracle.com/javase/jp/21/language/](https://docs.oracle.com/javase/jp/21/language/)   
 
 
 New API since JDK 11(apiの変更は※他のバージョンもみれるようになっている)    
