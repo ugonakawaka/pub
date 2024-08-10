@@ -17,3 +17,6 @@
 *.a
 *.la
 *.lo
+
+# nodejs
+**/node_modules/*
