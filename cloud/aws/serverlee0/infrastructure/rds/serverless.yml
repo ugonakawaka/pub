@@ -1,0 +1,22 @@
+service: my-service
+
+provider:
+  name: aws
+  region: us-east-1
+
+resources:
+  Resources:
+    MyDatabase:
+      Type: AWS::RDS::DBInstance
+      Properties:
+        DBInstanceClass: db.t4g.micro  # 無料枠に対応
+        Engine: postgres
+        DBInstanceIdentifier: mydb
+        AllocatedStorage: 20           # 無料枠に対応
+        StorageType: gp2
+        MasterUsername: admin
+        MasterUserPassword: password123
+        DBName: mydatabase
+        BackupRetentionPeriod: 7
+        MultiAZ: false                  # コスト削減のためにMulti-AZを無効化
+        PubliclyAccessible: false       # セキュリティ強化

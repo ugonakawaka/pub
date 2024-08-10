@@ -1,0 +1,29 @@
+# backend/serverless.yml
+service: test-backend-nodejs
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: ap-northeast-1
+
+layers:
+  myLayer:
+    path: layers/layer-nodejs-main
+    compatibleRuntimes:
+      - nodejs20.x
+
+functions:
+  hello:
+    handler: src/handler/handler.hello
+    layers:
+      - { Ref: MyLayerLambdaLayer } # Lambda関数でレイヤーを使用
+    events:
+      - http:
+          path: hello
+          method: get
+
+package:
+  individually: true
+
+plugins:
+  - serverless-offline
