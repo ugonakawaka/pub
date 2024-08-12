@@ -1,0 +1,53 @@
+custom:
+  common: ${file(../../config/common.yml)}
+  env: ${file(../../config/${opt:stage}.yml)}
+
+service: ${self:custom.common.services.baseName}-ec2-bastion
+
+provider:
+  name: aws
+  region: ${self:custom.common.region}
+
+resources:
+  Resources:
+    # Bastionサーバー用のEC2インスタンスの作成
+    BastionEc2Instance:
+      Type: AWS::EC2::Instance
+      Properties:
+        InstanceType: t2.micro
+        KeyName: dev-bastion-key-2024-08 # 事前に作成したキーペアを指定
+        ImageId: ami-0091f05e4b8ee6709   # Amazon Linux 2023 のAMI ID、リージョンに応じて変更
+        IamInstanceProfile: !Ref BastionInstanceProfile
+        SecurityGroupIds:
+          - Fn::ImportValue: BastionSgId # ネットワークリソースで作成したセキュリティグループを使用
+        SubnetId: 
+          Fn::ImportValue: PrivateSubnetAId # プライベートサブネットにデプロイ
+        Tags:
+          - Key: Name
+            Value: BastionHost
+          - Key: Environment
+            Value: ${self:custom.env.stage}
+          - Key: Project
+            Value: ${self:custom.common.projectName}
+          - Key: Owner
+            Value: ${self:custom.common.owner}
+
+    # Bastionサーバー用のIAMインスタンスプロファイルの作成
+    BastionInstanceProfile:
+      Type: AWS::IAM::InstanceProfile
+      Properties:
+        Path: /
+        Roles:  
+          - !ImportValue SsmAgentIamRole # SSM IAMロールをインポート
+
+    # 追加オプション: BastionHostSecurityGroupはコメントアウトされていますが、必要に応じて使用可能
+    # BastionHostSecurityGroup:
+    #   Type: AWS::EC2::SecurityGroup
+    #   Properties:
+    #     GroupDescription: Enable SSH access via port 22
+    #     VpcId: Fn::ImportValue VpcId # ネットワークリソースからVPC IDをインポート
+    #     SecurityGroupIngress:
+    #       - IpProtocol: tcp
+    #         FromPort: 22
+    #         ToPort: 22
+    #         CidrIp: 0.0.0.0/0 # 必要に応じて制限

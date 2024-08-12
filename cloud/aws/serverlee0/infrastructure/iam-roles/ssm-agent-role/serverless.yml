@@ -1,0 +1,36 @@
+custom:
+  common: ${file(../../../config/common.yml)}
+  env: ${file(../../../config/${opt:stage}.yml)}
+
+service: ${self:custom.common.services.baseName}-ssm-agent-iam-role
+
+provider:
+  name: aws
+  region: ${self:custom.common.region}
+
+resources:
+  Resources:
+    # SSMエージェント用IAMロールの作成
+    SsmAgentIamRole:
+      Type: 'AWS::IAM::Role'
+      Properties:
+        RoleName: ssm-agent-role
+        AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service: 'ec2.amazonaws.com'
+              Action: 'sts:AssumeRole'
+        Path: "/"
+        ManagedPolicyArns:
+          - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+
+  Outputs:
+    # SSMエージェント用IAMロール名の出力
+    SsmAgentIamRoleOutput:
+      Description: "The name of the IAM role for the SSM Agent"
+      Value:
+        Ref: SsmAgentIamRole
+      Export:
+        Name: SsmAgentIamRole

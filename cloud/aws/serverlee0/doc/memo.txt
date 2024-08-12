@@ -1,0 +1,44 @@
+■適用手順
+
+使うのは↓
+npx serverless deploy --stage dev --aws-profile admin0
+npx serverless remove --stage dev --aws-profile admin0
+
+network
+iam-roles
+ec2-ssmManaged
+rds
+
+
+■ssm
+
+ローカル環境
+Session Manager プラグインのインストール
+
+aws ssm start-session --target "$TARGET_INSTANCE_ID"
+
+
+export TARGET_INSTANCE_ID="i-0123456789abcdef0"
+export RDS_ENDPOINT="your-rds-endpoint.amazonaws.com"
+
+aws ssm start-session \
+    --target "$TARGET_INSTANCE_ID" \
+    --document-name AWS-StartPortForwardingSessionToRemoteHost \
+    --parameters '{"host":["'"$RDS_ENDPOINT"'"],"portNumber":["5432"],"localPortNumber":["5432"]}'
+
+■Prisma
+
+npm install @prisma/client
+npx prisma init
+
+■ec2 
+※プライベートサブネットなので、S3エンドポイントを用意することで、インストールが可能となる
+
+sudo yum search postgresql
+sudo yum install postgresql15.x86_64 -y
+
+
+psql -h $RDS_ENDPOINT -U ユーザ名 -d DB名
+psql -h $RDS_ENDPOINT -U postgresman -d mydatabase
+
+

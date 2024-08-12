@@ -1,22 +1,67 @@
-service: my-service
+custom:
+  common: ${file(../../config/common.yml)}
+  env: ${file(../../config/${opt:stage}.yml)}
+
+service: ${self:custom.common.services.baseName}-rds
 
 provider:
   name: aws
-  region: us-east-1
+  region: ${self:custom.common.region}
 
 resources:
   Resources:
-    MyDatabase:
+    # RDSインスタンスの作成
+    PostgresRdsInstance:
       Type: AWS::RDS::DBInstance
       Properties:
         DBInstanceClass: db.t4g.micro  # 無料枠に対応
         Engine: postgres
-        DBInstanceIdentifier: mydb
+        DBInstanceIdentifier: ${self:custom.env.stage}-rds-instance
         AllocatedStorage: 20           # 無料枠に対応
         StorageType: gp2
-        MasterUsername: admin
+        MasterUsername: postgresman
         MasterUserPassword: password123
         DBName: mydatabase
         BackupRetentionPeriod: 7
         MultiAZ: false                  # コスト削減のためにMulti-AZを無効化
         PubliclyAccessible: false       # セキュリティ強化
+        VPCSecurityGroups:
+          - Fn::ImportValue: RdsSgId # ネットワークリソースからRDS用セキュリティグループをインポート
+        DBSubnetGroupName: !Ref RdsSubnetGroup
+        Tags:
+          - Key: Name
+            Value: ${self:custom.env.stage}-rds-instance
+          - Key: Environment
+            Value: ${self:custom.env.stage}
+          - Key: Project
+            Value: ${self:custom.common.projectName}
+          - Key: Owner
+            Value: ${self:custom.common.owner}
+
+    # RDSサブネットグループの作成
+    RdsSubnetGroup:
+      Type: AWS::RDS::DBSubnetGroup
+      Properties:
+        DBSubnetGroupDescription: "RDS Subnet Group"
+        SubnetIds:
+          - Fn::ImportValue: PrivateSubnetAId # 1つ目のサブネット (ap-northeast-1a)
+          - Fn::ImportValue: PrivateSubnetBId # 2つ目のサブネット (ap-northeast-1c)
+        Tags:
+          - Key: Name
+            Value: ${self:custom.env.stage}-rds-subnet-group
+          - Key: Environment
+            Value: ${self:custom.env.stage}
+          - Key: Project
+            Value: ${self:custom.common.projectName}
+          - Key: Owner
+            Value: ${self:custom.common.owner}
+
+
+  Outputs:
+    # RDSインスタンスIDの出力
+    RdsInstanceIdOutput:
+      Description: "RDS instance identifier"
+      Value:
+        Ref: PostgresRdsInstance
+      Export:
+        Name: ${self:custom.env.stage}-rds-instance-id

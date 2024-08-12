@@ -1,0 +1,19 @@
+# config/common.yml
+
+# リージョン設定
+region: ap-northeast-1
+
+# サービス共通のベースネーム
+services:
+  baseName: my
+
+# ステージごとのサフィックス定義
+stages:
+  dev:
+    suffix: dev
+  prod:
+    suffix: prod
+
+# プロジェクト名とオーナーの定義
+projectName: my-awesome-project
+owner: your-name
