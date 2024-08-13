@@ -40,6 +40,14 @@ resources:
         Roles:  
           - !ImportValue SsmAgentIamRole # SSM IAMロールをインポート
 
+  Outputs:
+    # ec2の出力
+    EC2InstanceIdOutput:
+      Description: "The Instance ID of the EC2 instance"
+      Value: !Ref BastionEc2Instance
+      Export:
+        Name: ${self:custom.env.stage}-ec2-bastion-instance-id
+
     # 追加オプション: BastionHostSecurityGroupはコメントアウトされていますが、必要に応じて使用可能
     # BastionHostSecurityGroup:
     #   Type: AWS::EC2::SecurityGroup

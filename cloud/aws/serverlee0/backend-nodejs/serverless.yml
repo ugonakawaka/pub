@@ -1,10 +1,27 @@
 # backend/serverless.yml
-service: test-backend-nodejs
+
+custom:
+  common: ${file(../config/common.yml)}
+  env: ${file(../config/${opt:stage}.yml)}
+
+service: ${self:custom.common.services.baseName}-backend-nodejs-${self:custom.env.stage}
 
 provider:
   name: aws
   runtime: nodejs20.x
-  region: ap-northeast-1
+  region: ${self:custom.common.region}
+  environment:
+    DATABASE_URL: ${ssm:/${self:custom.env.stage}/DATABASE_URL}  # SSMパラメータストアから値を取得
+
+package:
+  individually: true
+  exclude:
+    - layers/**  # レイヤーは含まない
+    - node_modules/aws-sdk/**  # 例: aws-sdk モジュールを除外
+    - node_modules/.bin/**  # 他に除外したいモジュールを指定
+    - node_modules/typescript/**  # 他に除外したいモジュールを指定
+    - node_modules/undico-types/**  # 他に除外したいモジュールを指定
+    - node_modules/@types/**  # 他に除外したいモジュールを指定
 
 layers:
   myLayer:
@@ -22,8 +39,7 @@ functions:
           path: hello
           method: get
 
-package:
-  individually: true
+
 
 plugins:
   - serverless-offline

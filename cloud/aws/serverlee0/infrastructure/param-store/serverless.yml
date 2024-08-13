@@ -1,0 +1,28 @@
+custom:
+  common: ${file(../../config/common.yml)}
+  env: ${file(../../config/${opt:stage}.yml)}
+  rdsStackName: ${self:custom.common.services.baseName}-rds-${self:custom.env.stage}
+  rdsDbaname: ${cf:${self:custom.rdsStackName}.DBName}
+  rdsEndpointAddress: ${cf:${self:custom.rdsStackName}.RdsEndpointAddress}
+  rdsUsername: ${cf:${self:custom.rdsStackName}.RdsMasterUsername}
+  rdsPassword: ${cf:${self:custom.rdsStackName}.RdsMasterUserPassword}
+  rdsEndpointPort: ${cf:${self:custom.rdsStackName}.RdsEndpointPort}
+
+  databaseUrl:
+    uri: !Sub 'postgresql://${self:custom.rdsUsername}:${self:custom.rdsPassword}@${self:custom.rdsEndpointAddress}:${self:custom.rdsEndpointPort}/${self:custom.rdsDbaname}'
+
+service: ${self:custom.common.services.baseName}-param-store
+
+provider:
+  name: aws
+  region: ${self:custom.common.region}
+
+resources:
+  Resources:
+    StoreDatabaseUrlParameter:
+      Type: AWS::SSM::Parameter
+      Properties:
+        Name: /${self:custom.env.stage}/DATABASE_URL
+        Type: String
+        Value: ${self:custom.databaseUrl.uri}
+        # Overwrite: true

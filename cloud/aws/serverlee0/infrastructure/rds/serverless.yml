@@ -1,7 +1,7 @@
 custom:
   common: ${file(../../config/common.yml)}
   env: ${file(../../config/${opt:stage}.yml)}
-
+  rdsMasterUserPassword: password123
 service: ${self:custom.common.services.baseName}-rds
 
 provider:
@@ -20,7 +20,7 @@ resources:
         AllocatedStorage: 20           # 無料枠に対応
         StorageType: gp2
         MasterUsername: postgresman
-        MasterUserPassword: password123
+        MasterUserPassword: ${self:custom.rdsMasterUserPassword}
         DBName: mydatabase
         BackupRetentionPeriod: 7
         MultiAZ: false                  # コスト削減のためにMulti-AZを無効化
@@ -65,3 +65,33 @@ resources:
         Ref: PostgresRdsInstance
       Export:
         Name: ${self:custom.env.stage}-rds-instance-id
+    # RDSエンドポイントの出力
+    RdsEndpointAddress:
+      Description: "The connection endpoint for the RDS DB instance"
+      Value: !GetAtt PostgresRdsInstance.Endpoint.Address
+      Export:
+        Name: ${self:custom.env.stage}-rds-endpoint
+    # RDSポートの出力
+    RdsEndpointPort:
+      Description: "The port for the RDS DB instance"
+      Value: !GetAtt PostgresRdsInstance.Endpoint.Port
+      Export:
+        Name: ${self:custom.env.stage}-rds-port
+    # RDSユーザー名の出力
+    RdsMasterUsername:
+      Description: "The master username for the RDS DB instance"
+      Value: !GetAtt PostgresRdsInstance.MasterUsername
+      Export:
+        Name: ${self:custom.env.stage}-rds-master-username
+    # RDSパスワードの出力
+    RdsMasterUserPassword:
+      Description: "The master user password for the RDS DB instance"
+      Value: ${self:custom.rdsMasterUserPassword}
+      Export:
+        Name: ${self:custom.env.stage}-rds-master-user-password
+    # RDSパスワードの出力
+    DBName:
+      Description: "The master user password for the RDS DB instance"
+      Value: !GetAtt PostgresRdsInstance.DBName
+      Export:
+        Name: ${self:custom.env.stage}-rds-dbname
