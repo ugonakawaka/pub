@@ -1,0 +1,48 @@
+custom:
+  cmn: ${file(../config/common.yml)}
+  env: ${file(../config/${opt:stage}.yml)}
+
+service: ${self:custom.cmn.services.baseName}-${opt:stage}-wf-dynamodb-js
+
+provider:
+  name: aws
+  runtime: ${self:custom.cmn.backend-js.runtime}
+  region: ${self:custom.cmn.region}
+  stackName: ${self:service}
+
+resources:
+  Resources:
+    SafetyConfirmationTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: SafetyConfirmation-${opt:stage}
+        AttributeDefinitions:
+          - AttributeName: EventID
+            AttributeType: S
+        KeySchema:
+          - AttributeName: EventID
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+        StreamSpecification:
+          StreamViewType: NEW_AND_OLD_IMAGES
+    # テーブルのその他の必須項目
+    # TimeToLiveSpecification:
+    #   Type: AWS::DynamoDB::TimeToLiveSpecification
+    #   Properties:
+    #     TableName: SafetyConfirmation-${opt:stage}
+    #     AttributeName: ExpirationTime
+    #     Enabled: true
+
+  Outputs:
+    SafetyConfirmationTableArn:
+      Description: "ARN of the Safety Confirmation DynamoDB Table"
+      Value: !GetAtt SafetyConfirmationTable.Arn
+      Export:
+        Name: SafetyConfirmationTableArn-${opt:stage}
+    SafetyConfirmationStreamArn:
+      Description: "Latest Stream ARN of the Safety Confirmation DynamoDB Table"
+      Value: !GetAtt SafetyConfirmationTable.StreamArn
+      Export:
+        Name: SafetyConfirmationStreamArn-${opt:stage}

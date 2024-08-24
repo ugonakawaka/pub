@@ -1,0 +1,72 @@
+custom:
+  cmn: ${file(../config/common.yml)}
+  env: ${file(../config/${opt:stage}.yml)}
+  layerArn:
+    Fn::ImportValue: ${self:custom.cmn.services.baseName}-${opt:stage}-layerJs-LayerCommonArn
+  dynamoDBTableArn:
+    Fn::ImportValue: SafetyConfirmationTableArn-${opt:stage}
+  dynamoDBStreamArn:
+    Fn::ImportValue: SafetyConfirmationStreamArn-${opt:stage}
+    
+
+service: ${self:custom.cmn.services.baseName}-${opt:stage}-wf-funcs-js
+
+provider:
+  name: aws
+  runtime: ${self:custom.cmn.backend-js.runtime}
+  region: ${self:custom.cmn.region}
+  stackName: ${self:service}
+
+package:
+  individually: true
+
+functions:
+  triggerLambda:
+    handler: dist/trigger.handler
+    memorySize: 128  # メモリサイズを128MBに設定
+    package:
+      patterns:
+        - "!**/*" # 全て除外
+        - "dist/**" # dist ディレクトリのみを含める
+    layers:
+      - ${self:custom.layerArn} # Lambda関数でレイヤーを使用
+    events:
+      - stream:
+          type: dynamodb
+          arn: ${self:custom.dynamoDBStreamArn}
+    #   - http:
+    #       path: trigger
+    #       method: post
+    #       cors: true
+  entryLambda:
+    handler: dist/entry.handler
+    memorySize: 128
+    package:
+      patterns:
+        - "!**/*" # 全て除外
+        - "dist/**" # dist ディレクトリのみを含める
+    layers:
+      - ${self:custom.layerArn} # Lambda関数でレイヤーを使用
+  processGroupLambda:
+    handler: dist/processGroup.handler
+    memorySize: 128
+    package:
+      patterns:
+        - "!**/*" # 全て除外
+        - "dist/**" # dist ディレクトリのみを含める
+    layers:
+      - ${self:custom.layerArn} # Lambda関数でレイヤーを使用
+  sendEmailLambda:
+    handler: dist/sendEmail.handler
+    memorySize: 128
+    package:
+      patterns:
+        - "!**/*" # 全て除外
+        - "dist/**" # dist ディレクトリのみを含める
+    layers:
+      - ${self:custom.layerArn} # Lambda関数でレイヤーを使用
+    environment:
+      REGION: ${self:provider.region}
+      STAGE: ${opt:stage, 'dev'}
+      SES_EMAIL_SOURCE: "noreply@example.com"  # 送信元Eメールを適宜変更してください。
+

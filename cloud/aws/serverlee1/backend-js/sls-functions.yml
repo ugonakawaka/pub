@@ -1,0 +1,37 @@
+custom:
+  cmn: ${file(../config/common.yml)}
+  env: ${file(../config/${opt:stage}.yml)}
+  layerArn:
+    Fn::ImportValue: ${self:custom.cmn.services.baseName}-${opt:stage}-layerJs-LayerCommonArn
+
+service: ${self:custom.cmn.services.baseName}-${opt:stage}-funcs-js
+
+provider:
+  name: aws
+  runtime: ${self:custom.cmn.backend-js.runtime}
+  region: ${self:custom.cmn.region}
+  stackName: ${self:service}
+  # environment:
+  #   DATABASE_URL: ${ssm:/${self:custom.env.stage}/DATABASE_URL}  # SSMパラメータストアから値を取得
+
+package:
+  individually: true
+
+functions:
+  hello:
+    handler: dist/handler/hello.handler
+    package:
+      patterns:
+        - "!**/*" # 全て除外
+        - "dist/**" # dist ディレクトリのみを含める
+    layers:
+      - ${self:custom.layerArn} # Lambda関数でレイヤーを使用
+    events:
+      - http:
+          path: hello
+          method: get
+
+plugins:
+  - serverless-offline
+
+

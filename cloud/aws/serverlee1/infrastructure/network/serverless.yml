@@ -1,0 +1,262 @@
+custom:
+  common: ${file(../../config/common.yml)}
+  env: ${file(../../config/${opt:stage}.yml)}
+
+service: ${self:custom.common.services.baseName}-network-resources
+
+provider:
+  name: aws
+  region: ${self:custom.common.region}
+
+resources:
+  Resources:
+    # VPC（仮想プライベートクラウド）の作成
+    NetworkVpc:
+      Type: AWS::EC2::VPC
+      Properties:
+        CidrBlock: 10.0.0.0/16
+        EnableDnsSupport: true
+        EnableDnsHostnames: true
+        Tags:
+          - Key: Name
+            Value: ${self:service}-vpc
+          - Key: Environment
+            Value: ${self:custom.env.stage}
+          - Key: Project
+            Value: ${self:custom.common.projectName}
+          - Key: Owner
+            Value: ${self:custom.common.owner}
+
+    # プライベートサブネットの作成（RDSやSSM管理対象インスタンスを配置）
+    PrivateSubnetA:
+      Type: AWS::EC2::Subnet
+      Properties:
+        VpcId: !Ref NetworkVpc
+        CidrBlock: 10.0.2.0/24
+        AvailabilityZone: ap-northeast-1a
+        Tags:
+          - Key: Name
+            Value: ${self:service}-private-subnet-a
+          - Key: Environment
+            Value: ${self:custom.env.stage}
+          - Key: Project
+            Value: ${self:custom.common.projectName}
+          - Key: Owner
+            Value: ${self:custom.common.owner}
+            
+    # 2つ目のプライベートサブネットの作成
+    PrivateSubnetB:
+      Type: AWS::EC2::Subnet
+      Properties:
+        VpcId: !Ref NetworkVpc
+        CidrBlock: 10.0.3.0/24
+        AvailabilityZone: ap-northeast-1c
+        Tags:
+          - Key: Name
+            Value: ${self:service}-private-subnet-b
+          - Key: Environment
+            Value: ${self:custom.env.stage}
+          - Key: Project
+            Value: ${self:custom.common.projectName}
+          - Key: Owner
+            Value: ${self:custom.common.owner}
+
+    # VPCに関連付けられたルートテーブルの作成
+    VpcRouteTable:
+      Type: AWS::EC2::RouteTable
+      Properties:
+        VpcId: !Ref NetworkVpc
+        Tags:
+          - Key: Name
+            Value: ${self:service}-route-table
+          - Key: Environment
+            Value: ${self:custom.env.stage}
+          - Key: Project
+            Value: ${self:custom.common.projectName}
+          - Key: Owner
+            Value: ${self:custom.common.owner}
+
+    # サブネットAのルートテーブルアソシエーション
+    SubnetARouteTableAssociation:
+      Type: AWS::EC2::SubnetRouteTableAssociation
+      Properties:
+        SubnetId: !Ref PrivateSubnetA
+        RouteTableId: !Ref VpcRouteTable
+
+    # サブネットBのルートテーブルアソシエーション
+    SubnetBRouteTableAssociation:
+      Type: AWS::EC2::SubnetRouteTableAssociation
+      Properties:
+        SubnetId: !Ref PrivateSubnetB
+        RouteTableId: !Ref VpcRouteTable
+
+    # 踏み台サーバー用セキュリティグループの作成（SSH接続を許可）
+    BastionSg:
+      Type: AWS::EC2::SecurityGroup
+      Properties:
+        GroupDescription: Security group for Bastion host
+        VpcId: !Ref NetworkVpc
+        SecurityGroupIngress:
+          # SSH接続用のインバウンドルール
+          - IpProtocol: tcp
+            FromPort: 22
+            ToPort: 22
+            CidrIp: 0.0.0.0/0
+          
+          # SSM管理用のインバウンドルール
+          - IpProtocol: tcp
+            FromPort: 443
+            ToPort: 443
+            CidrIp: 0.0.0.0/0 # 必要に応じて特定のIPレンジに制限可能
+
+        SecurityGroupEgress:
+          # 全てのアウトバウンドトラフィックを許可
+          - IpProtocol: -1
+            CidrIp: 0.0.0.0/0
+
+          # SSM管理用のアウトバウンドルール
+          - IpProtocol: tcp
+            FromPort: 443
+            ToPort: 443
+            CidrIp: 0.0.0.0/0 # 必要に応じて特定のIPレンジに制限可能
+        Tags:
+          - Key: Name
+            Value: ${self:service}-bastion-sg
+          - Key: Environment
+            Value: ${self:custom.env.stage}
+          - Key: Project
+            Value: ${self:custom.common.projectName}
+          - Key: Owner
+            Value: ${self:custom.common.owner}
+
+    # RDS用セキュリティグループの作成（踏み台サーバーからの接続を許可）
+    RdsSg:
+      Type: AWS::EC2::SecurityGroup
+      Properties:
+        GroupDescription: Security group for RDS
+        VpcId: !Ref NetworkVpc
+        SecurityGroupIngress:
+          - IpProtocol: tcp
+            FromPort: 5432
+            ToPort: 5432
+            SourceSecurityGroupId:
+              Ref: BastionSg
+        Tags:
+          - Key: Name
+            Value: ${self:service}-rds-sg
+          - Key: Environment
+            Value: ${self:custom.env.stage}
+          - Key: Project
+            Value: ${self:custom.common.projectName}
+          - Key: Owner
+            Value: ${self:custom.common.owner}
+
+    # SSM（Systems Manager）用VPCエンドポイントの作成
+    SsmVpcEndpoint:
+      Type: AWS::EC2::VPCEndpoint
+      Properties:
+        ServiceName: com.amazonaws.ap-northeast-1.ssm
+        VpcId: !Ref NetworkVpc
+        VpcEndpointType: Interface
+        SubnetIds:
+          - !Ref PrivateSubnetA
+        SecurityGroupIds:
+          - !Ref BastionSg
+        PrivateDnsEnabled: true # プライベートDNS名を有効にする
+        # Tags:
+        #   - Key: Name
+        #     Value: ${self:service}-ssm-vpc-endpoint
+
+    # SSM Messages用VPCエンドポイントの作成
+    SsmMessagesVpcEndpoint:
+      Type: AWS::EC2::VPCEndpoint
+      Properties:
+        ServiceName: com.amazonaws.ap-northeast-1.ssmmessages
+        VpcId: !Ref NetworkVpc
+        VpcEndpointType: Interface
+        SubnetIds:
+          - !Ref PrivateSubnetA
+        SecurityGroupIds:
+          - !Ref BastionSg
+        PrivateDnsEnabled: true # プライベートDNS名を有効にする
+        # Tags:
+        #   - Key: Name
+        #     Value: ${self:service}-ssm-messages-vpc-endpoint
+
+    # EC2 Messages用VPCエンドポイントの作成
+    Ec2MessagesVpcEndpoint:
+      Type: AWS::EC2::VPCEndpoint
+      Properties:
+        ServiceName: com.amazonaws.ap-northeast-1.ec2messages
+        VpcId: !Ref NetworkVpc
+        VpcEndpointType: Interface
+        SubnetIds:
+          - !Ref PrivateSubnetA
+        SecurityGroupIds:
+          - !Ref BastionSg
+        PrivateDnsEnabled: true # プライベートDNS名を有効にする
+        # Tags:
+        #   - Key: Name
+        #     Value: ${self:service}-ec2-messages-vpc-endpoint
+
+    # S3ゲートウェイエンドポイントの作成
+    S3GatewayEndpoint:
+      Type: AWS::EC2::VPCEndpoint
+      Properties:
+        VpcId: !Ref NetworkVpc
+        ServiceName: com.amazonaws.ap-northeast-1.s3
+        VpcEndpointType: Gateway
+        RouteTableIds:
+          - !Ref VpcRouteTable
+        # Tags:
+        #   - Key: Name
+        #     Value: ${self:service}-s3-gateway-endpoint
+        #   - Key: Environment
+        #     Value: ${self:custom.env.stage}
+        #   - Key: Project
+        #     Value: ${self:custom.common.projectName}
+        #   - Key: Owner
+        #     Value: ${self:custom.common.owner}
+
+  Outputs:
+    # VPC IDの出力
+    VpcIdOutput:
+      Value:
+        !Ref NetworkVpc
+      Export:
+        Name: VpcId
+
+    # プライベートサブネットIDの出力
+    PrivateSubnetAIdOutput:
+      Value:
+        !Ref PrivateSubnetA
+      Export:
+        Name: PrivateSubnetAId
+
+    # プライベートサブネットIDの出力
+    PrivateSubnetBIdOutput:
+      Value:
+        !Ref PrivateSubnetB
+      Export:
+        Name: PrivateSubnetBId
+
+    # 踏み台サーバー用セキュリティグループIDの出力
+    BastionSgIdOutput:
+      Value:
+        !Ref BastionSg
+      Export:
+        Name: BastionSgId
+
+    # RDS用セキュリティグループIDの出力
+    RdsSgIdOutput:
+      Value:
+        !Ref RdsSg
+      Export:
+        Name: RdsSgId
+
+    # S3ゲートウェイエンドポイントIDの出力
+    S3GatewayEndpointIdOutput:
+      Description: "ID of the S3 Gateway Endpoint"
+      Value: !Ref S3GatewayEndpoint
+      Export:
+        Name: ${self:service}-s3-gateway-endpoint-id
