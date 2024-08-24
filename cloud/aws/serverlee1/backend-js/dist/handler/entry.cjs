@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.handler = void 0;
-const handler = async (event) => {
+module.exports.handler = async (event) => {
     try {
         // ここでユーザをグループに分けるロジックを実装
         const groups = groupUsersByCriteria(event.users);
@@ -14,7 +13,6 @@ const handler = async (event) => {
         throw error;
     }
 };
-exports.handler = handler;
 function groupUsersByCriteria(users) {
     // ここでユーザをグループ分けするロジックを実装
     // サンプルとして、IDが奇数か偶数かでグループ分け

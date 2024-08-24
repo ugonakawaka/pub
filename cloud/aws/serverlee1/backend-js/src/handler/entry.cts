@@ -1,4 +1,4 @@
-export const handler = async (event: any) => {
+module.exports.handler  = async (event: any) => {
     try {
         // ここでユーザをグループに分けるロジックを実装
         const groups = groupUsersByCriteria(event.users);

@@ -23,10 +23,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.handler = void 0;
 const AWS = __importStar(require("aws-sdk"));
 const ses = new AWS.SES();
-const handler = async (event) => {
+module.exports.handler = async (event) => {
     try {
         // グループのユーザに対してメールを送信
         for (const user of event.processedGroup) {
@@ -39,7 +38,6 @@ const handler = async (event) => {
         throw error;
     }
 };
-exports.handler = handler;
 async function sendEmail(email) {
     const params = {
         Source: process.env.SES_EMAIL_SOURCE,
@@ -57,5 +55,5 @@ async function sendEmail(email) {
             },
         },
     };
-    await ses.sendEmail(params).promise();
+    // await ses.sendEmail(params).promise();
 }

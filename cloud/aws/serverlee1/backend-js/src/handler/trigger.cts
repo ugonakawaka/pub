@@ -1,10 +1,26 @@
 import { DynamoDBStreamEvent, DynamoDBRecord } from 'aws-lambda';
-import * as AWS from 'aws-sdk';
+import { SFNClient, StartExecutionCommand } from '@aws-sdk/client-sfn';
+import { SSMClient, GetParameterCommand } from '@aws-sdk/client-ssm';
+import { unmarshall } from '@aws-sdk/util-dynamodb';
+import { AttributeValue } from '@aws-sdk/client-dynamodb';
 
-const stepFunctions = new AWS.StepFunctions();
+const sfnClient = new SFNClient({});
+const ssmClient = new SSMClient({});
 
-export const handler = async (event: DynamoDBStreamEvent | any) => {
+module.exports.handler = async (event: DynamoDBStreamEvent | any) => {
     try {
+        // 環境変数からステートマシン名を取得
+        const stateMachineName = process.env.STATE_MACHINE_NAME;
+        if (!stateMachineName) {
+            throw new Error("ステートマシン名が環境変数から取得できませんでした。");
+        }
+
+        // パラメータストアからステートマシンARNを取得
+        const stateMachineArn = await getStateMachineArnFromSSM(stateMachineName);
+        if (!stateMachineArn) {
+            throw new Error("ステートマシンのARNがパラメータストアから取得できませんでした。");
+        }
+
         let input: any;
 
         if (isDynamoDBStreamEvent(event)) {
@@ -18,12 +34,13 @@ export const handler = async (event: DynamoDBStreamEvent | any) => {
         }
 
         const params = {
-            stateMachineArn: '<StepFunction-ARN>', // ステートマシンのARNを指定
+            stateMachineArn: stateMachineArn, // パラメータストアから取得したステートマシンのARNを使用
             input: JSON.stringify(input),
             name: `Trigger${Date.now()}`
         };
 
-        await stepFunctions.startExecution(params).promise();
+        const command = new StartExecutionCommand(params);
+        await sfnClient.send(command);
 
         return {
             statusCode: 200,
@@ -42,13 +59,29 @@ export const handler = async (event: DynamoDBStreamEvent | any) => {
     }
 };
 
+// パラメータストアからステートマシンのARNを取得する関数
+async function getStateMachineArnFromSSM(stateMachineName: string): Promise<string | null> {
+    try {
+        const command = new GetParameterCommand({
+            Name: stateMachineName,
+            WithDecryption: true
+        });
+
+        const response = await ssmClient.send(command);
+        return response.Parameter?.Value || null;
+    } catch (error) {
+        console.error(`Error retrieving the state machine ARN from SSM for ${stateMachineName}:`, error);
+        return null;
+    }
+}
+
 function isDynamoDBStreamEvent(event: any): event is DynamoDBStreamEvent {
     return event.Records !== undefined && Array.isArray(event.Records);
 }
 
 function parseDynamoDBRecord(record: DynamoDBRecord): any {
     if (record.dynamodb?.NewImage) {
-        return AWS.DynamoDB.Converter.unmarshall(record.dynamodb.NewImage);
+        return unmarshall(record.dynamodb.NewImage as Record<string, AttributeValue>);
     }
     return null;
 }

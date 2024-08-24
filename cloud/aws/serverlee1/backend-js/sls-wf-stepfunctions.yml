@@ -1,0 +1,74 @@
+service: ${self:custom.cmn.services.baseName}-${opt:stage}-wf-stepfunctions-js
+
+provider:
+  name: aws
+  region: ${self:custom.cmn.region}
+  stackName: ${self:service}
+  deploymentBucket: ${self:custom.cmn.deploymentBucket} 
+  
+custom:
+  cmn: ${file(../config/common.yml)}
+  env: ${file(../config/${opt:stage}.yml)}
+  entryLambdaArn:
+    Fn::ImportValue: ${self:custom.cmn.services.baseName}-${opt:stage}-entryLambdaArn
+  processGroupLambdaArn:
+    Fn::ImportValue: ${self:custom.cmn.services.baseName}-${opt:stage}-processGroupLambdaArn
+  sendEmailLambdaArn:
+    Fn::ImportValue: ${self:custom.cmn.services.baseName}-${opt:stage}-sendEmailLambdaArn
+
+plugins:
+  - serverless-step-functions
+
+stepFunctions:
+  stateMachines:
+    SafetyCheckWorkflow:
+      # name: ${self:custom.cmn.services.baseName}-${opt:stage}-SafetyCheckWorkflow
+      name: SafetyCheckWorkflow
+      definition:
+        Comment: "Safety Check Workflow for Sending Emails"
+        StartAt: EntryLambda
+        States:
+          EntryLambda:
+            Type: Task
+            Resource: ${self:custom.entryLambdaArn}
+            ResultPath: $.groups
+            Next: ProcessGroups
+          ProcessGroups:
+            Type: Map
+            ItemsPath: $.groups
+            Iterator:
+              StartAt: ProcessGroup
+              States:
+                ProcessGroup:
+                  Type: Task
+                  Resource: ${self:custom.processGroupLambdaArn}
+                  ResultPath: $.processedGroup
+                  Next: SendEmail
+                SendEmail:
+                  Type: Task
+                  Resource: ${self:custom.sendEmailLambdaArn}
+                  End: true
+            End: true
+resources:
+  Outputs:
+    SafetyCheckWorkflow:
+      Description: The ARN of the example state machine
+      Value:
+        Ref: SafetyCheckWorkflow
+      Export:
+        Name: SafetyCheckWorkflowArn-${opt:stage}
+  Resources:
+    StoreDatabaseUrlParameter:
+      Type: AWS::SSM::Parameter
+      Properties:
+        Name: /${self:custom.cmn.services.baseName}/${opt:stage}/STATE_MACHINE_NAME
+        Type: String
+        Value: 
+          Ref: SafetyCheckWorkflow
+# resources:
+#   Outputs:
+#     SafetyCheckWorkflowArn:
+#       Description: "ARN of the Safety Check Step Functions Workflow"
+#       Value: !GetAtt SafetyCheckWorkflow.Arn
+#       Export:
+#         Name: SafetyCheckWorkflowArn-${opt:stage}

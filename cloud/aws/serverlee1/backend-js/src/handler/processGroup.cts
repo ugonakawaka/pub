@@ -1,4 +1,4 @@
-export const handler = async (event: any) => {
+module.exports.handler = async (event: any) => {
     try {
         // グループごとの処理を行う
         console.log("Processing group:", event);

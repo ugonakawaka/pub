@@ -1,33 +1,22 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.handler = void 0;
-const AWS = __importStar(require("aws-sdk"));
-const stepFunctions = new AWS.StepFunctions();
-const handler = async (event) => {
+const client_sfn_1 = require("@aws-sdk/client-sfn");
+const client_ssm_1 = require("@aws-sdk/client-ssm");
+const util_dynamodb_1 = require("@aws-sdk/util-dynamodb");
+const sfnClient = new client_sfn_1.SFNClient({});
+const ssmClient = new client_ssm_1.SSMClient({});
+module.exports.handler = async (event) => {
     try {
+        // 環境変数からステートマシン名を取得
+        const stateMachineName = process.env.STATE_MACHINE_NAME;
+        if (!stateMachineName) {
+            throw new Error("ステートマシン名が環境変数から取得できませんでした。");
+        }
+        // パラメータストアからステートマシンARNを取得
+        const stateMachineArn = await getStateMachineArnFromSSM(stateMachineName);
+        if (!stateMachineArn) {
+            throw new Error("ステートマシンのARNがパラメータストアから取得できませんでした。");
+        }
         let input;
         if (isDynamoDBStreamEvent(event)) {
             // DynamoDB Stream Event からの呼び出し
@@ -40,11 +29,12 @@ const handler = async (event) => {
             input = event;
         }
         const params = {
-            stateMachineArn: '<StepFunction-ARN>', // ステートマシンのARNを指定
+            stateMachineArn: stateMachineArn, // パラメータストアから取得したステートマシンのARNを使用
             input: JSON.stringify(input),
             name: `Trigger${Date.now()}`
         };
-        await stepFunctions.startExecution(params).promise();
+        const command = new client_sfn_1.StartExecutionCommand(params);
+        await sfnClient.send(command);
         return {
             statusCode: 200,
             body: JSON.stringify({ message: "Step Function triggered successfully!" })
@@ -62,13 +52,27 @@ const handler = async (event) => {
         };
     }
 };
-exports.handler = handler;
+// パラメータストアからステートマシンのARNを取得する関数
+async function getStateMachineArnFromSSM(stateMachineName) {
+    try {
+        const command = new client_ssm_1.GetParameterCommand({
+            Name: stateMachineName,
+            WithDecryption: true
+        });
+        const response = await ssmClient.send(command);
+        return response.Parameter?.Value || null;
+    }
+    catch (error) {
+        console.error(`Error retrieving the state machine ARN from SSM for ${stateMachineName}:`, error);
+        return null;
+    }
+}
 function isDynamoDBStreamEvent(event) {
     return event.Records !== undefined && Array.isArray(event.Records);
 }
 function parseDynamoDBRecord(record) {
     if (record.dynamodb?.NewImage) {
-        return AWS.DynamoDB.Converter.unmarshall(record.dynamodb.NewImage);
+        return (0, util_dynamodb_1.unmarshall)(record.dynamodb.NewImage);
     }
     return null;
 }

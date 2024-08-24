@@ -2,7 +2,7 @@ import * as AWS from 'aws-sdk';
 
 const ses = new AWS.SES();
 
-export const handler = async (event: any) => {
+module.exports.handler = async (event: any) => {
     try {
         // グループのユーザに対してメールを送信
         for (const user of event.processedGroup) {
@@ -34,5 +34,5 @@ async function sendEmail(email: string) {
         },
     };
 
-    await ses.sendEmail(params).promise();
+    // await ses.sendEmail(params).promise();
 }

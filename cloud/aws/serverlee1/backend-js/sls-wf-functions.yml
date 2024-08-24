@@ -7,7 +7,6 @@ custom:
     Fn::ImportValue: SafetyConfirmationTableArn-${opt:stage}
   dynamoDBStreamArn:
     Fn::ImportValue: SafetyConfirmationStreamArn-${opt:stage}
-    
 
 service: ${self:custom.cmn.services.baseName}-${opt:stage}-wf-funcs-js
 
@@ -16,14 +15,31 @@ provider:
   runtime: ${self:custom.cmn.backend-js.runtime}
   region: ${self:custom.cmn.region}
   stackName: ${self:service}
-
+  deploymentBucket: ${self:custom.cmn.deploymentBucket}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - ssm:GetParameter
+          Resource:
+            - "arn:aws:ssm:${self:provider.region}:*:parameter/${self:custom.cmn.services.baseName}/${opt:stage}/*"
+        - Effect: Allow
+          Action:
+            - states:StartExecution
+          Resource:
+            - "arn:aws:states:${self:provider.region}:*:stateMachine:*"
 package:
   individually: true
 
 functions:
   triggerLambda:
-    handler: dist/trigger.handler
+    handler: dist/handler/trigger.handler
+    environment:
+      STATE_MACHINE_NAME: /${self:custom.cmn.services.baseName}/${opt:stage}/STATE_MACHINE_NAME
+    name: ${self:service}-trigger
     memorySize: 128  # メモリサイズを128MBに設定
+    description: "DynamoDBにデータが挿入された際にStep FunctionsをトリガーするLambda関数"
     package:
       patterns:
         - "!**/*" # 全て除外
@@ -34,31 +50,38 @@ functions:
       - stream:
           type: dynamodb
           arn: ${self:custom.dynamoDBStreamArn}
-    #   - http:
-    #       path: trigger
-    #       method: post
-    #       cors: true
+          batchSize: 1
+          startingPosition: LATEST
+
   entryLambda:
-    handler: dist/entry.handler
+    handler: dist/handler/entry.handler
+    name: ${self:service}-entry
     memorySize: 128
+    description: "(ステップファンクション) データをグループ分けするエントリーポイントのLambda関数"
     package:
       patterns:
         - "!**/*" # 全て除外
         - "dist/**" # dist ディレクトリのみを含める
     layers:
       - ${self:custom.layerArn} # Lambda関数でレイヤーを使用
+
   processGroupLambda:
-    handler: dist/processGroup.handler
+    handler: dist/handler/processGroup.handler
+    name: ${self:service}-processGroup
     memorySize: 128
+    description: "(ステップファンクション) グループごとに処理を行うLambda関数"
     package:
       patterns:
         - "!**/*" # 全て除外
         - "dist/**" # dist ディレクトリのみを含める
     layers:
       - ${self:custom.layerArn} # Lambda関数でレイヤーを使用
+
   sendEmailLambda:
-    handler: dist/sendEmail.handler
+    handler: dist/handler/sendEmail.handler
+    name: ${self:service}-sendEmail
     memorySize: 128
+    description: "(ステップファンクション) グループ内のユーザにメールを送信するLambda関数"
     package:
       patterns:
         - "!**/*" # 全て除外
@@ -70,3 +93,22 @@ functions:
       STAGE: ${opt:stage, 'dev'}
       SES_EMAIL_SOURCE: "noreply@example.com"  # 送信元Eメールを適宜変更してください。
 
+resources:
+  Outputs:
+    EntryLambdaArn:
+      Description: "ARN of the entry Lambda function"
+      Value: !GetAtt EntryLambdaLambdaFunction.Arn
+      Export:
+        Name: ${self:custom.cmn.services.baseName}-${opt:stage}-entryLambdaArn
+
+    ProcessGroupLambdaArn:
+      Description: "ARN of the process group Lambda function"
+      Value: !GetAtt ProcessGroupLambdaLambdaFunction.Arn
+      Export:
+        Name: ${self:custom.cmn.services.baseName}-${opt:stage}-processGroupLambdaArn
+
+    SendEmailLambdaArn:
+      Description: "ARN of the send email Lambda function"
+      Value: !GetAtt SendEmailLambdaLambdaFunction.Arn
+      Export:
+        Name: ${self:custom.cmn.services.baseName}-${opt:stage}-sendEmailLambdaArn
