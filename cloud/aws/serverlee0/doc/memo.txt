@@ -17,7 +17,6 @@ Session Manager プラグインのインストール
 
 aws ssm start-session --target "$TARGET_INSTANCE_ID"
 
-
 export TARGET_INSTANCE_ID="i-0123456789abcdef0"
 export RDS_ENDPOINT="your-rds-endpoint.amazonaws.com"
 

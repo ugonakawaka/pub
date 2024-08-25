@@ -17,3 +17,9 @@
 ##### プロンプト操作:
 ```bash
 npm show serverless versions
+```
+
+npx sls deploy --stage dev --aws-profile xxxx
+npx sls remove --stage dev --aws-profile xxxx
+
+

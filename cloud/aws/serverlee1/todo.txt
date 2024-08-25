@@ -1,0 +1,10 @@
+
+severlessのファイルべつ
+
+severless
+	layer
+	functionsを分ける
+sls-layers
+sls-functions
+
+
