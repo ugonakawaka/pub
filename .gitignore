@@ -12,6 +12,12 @@
 **/.env
 **/.env.*
 
+# key
+.key
+.key.*
+**/.key
+**/.key.*
+
 # Libraries
 *.lib
 *.a
