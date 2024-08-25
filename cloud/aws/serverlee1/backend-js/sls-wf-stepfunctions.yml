@@ -4,8 +4,8 @@ provider:
   name: aws
   region: ${self:custom.cmn.region}
   stackName: ${self:service}
-  deploymentBucket: ${self:custom.cmn.deploymentBucket} 
-  
+  deploymentBucket: ${self:custom.cmn.deploymentBucket}
+
 custom:
   cmn: ${file(../config/common.yml)}
   env: ${file(../config/${opt:stage}.yml)}
@@ -31,7 +31,7 @@ stepFunctions:
           EntryLambda:
             Type: Task
             Resource: ${self:custom.entryLambdaArn}
-            ResultPath: $.groups
+            ResultPath: $.filteredGroup
             Next: ProcessGroups
           ProcessGroups:
             Type: Map
@@ -42,10 +42,11 @@ stepFunctions:
                 ProcessGroup:
                   Type: Task
                   Resource: ${self:custom.processGroupLambdaArn}
-                  ResultPath: $.processedGroup
+                  ResultPath: $.processGroup
                   Next: SendEmail
                 SendEmail:
                   Type: Task
+                  InputPath: $.processGroup.users
                   Resource: ${self:custom.sendEmailLambdaArn}
                   End: true
             End: true
@@ -63,7 +64,7 @@ resources:
       Properties:
         Name: /${self:custom.cmn.services.baseName}/${opt:stage}/STATE_MACHINE_NAME
         Type: String
-        Value: 
+        Value:
           Ref: SafetyCheckWorkflow
 # resources:
 #   Outputs:

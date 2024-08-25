@@ -1,11 +1,9 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const client_sfn_1 = require("@aws-sdk/client-sfn");
-const client_ssm_1 = require("@aws-sdk/client-ssm");
-const util_dynamodb_1 = require("@aws-sdk/util-dynamodb");
-const sfnClient = new client_sfn_1.SFNClient({});
-const ssmClient = new client_ssm_1.SSMClient({});
-module.exports.handler = async (event) => {
+import { SFNClient, StartExecutionCommand } from "@aws-sdk/client-sfn";
+import { SSMClient, GetParameterCommand } from "@aws-sdk/client-ssm";
+import { unmarshall } from "@aws-sdk/util-dynamodb";
+const sfnClient = new SFNClient({});
+const ssmClient = new SSMClient({});
+export const handler = async (event) => {
     try {
         // 環境変数からステートマシン名を取得
         const stateMachineName = process.env.STATE_MACHINE_NAME;
@@ -21,7 +19,7 @@ module.exports.handler = async (event) => {
         if (isDynamoDBStreamEvent(event)) {
             // DynamoDB Stream Event からの呼び出し
             console.log("Received DynamoDB Stream Event");
-            input = event.Records.map(record => parseDynamoDBRecord(record));
+            input = event.Records.map((record) => parseDynamoDBRecord(record));
         }
         else {
             // 他の Lambda または任意のオブジェクトからの呼び出し
@@ -31,13 +29,15 @@ module.exports.handler = async (event) => {
         const params = {
             stateMachineArn: stateMachineArn, // パラメータストアから取得したステートマシンのARNを使用
             input: JSON.stringify(input),
-            name: `Trigger${Date.now()}`
+            name: `Trigger${Date.now()}`,
         };
-        const command = new client_sfn_1.StartExecutionCommand(params);
+        const command = new StartExecutionCommand(params);
         await sfnClient.send(command);
         return {
             statusCode: 200,
-            body: JSON.stringify({ message: "Step Function triggered successfully!" })
+            body: JSON.stringify({
+                message: "Step Function triggered successfully!",
+            }),
         };
     }
     catch (error) {
@@ -48,16 +48,19 @@ module.exports.handler = async (event) => {
         }
         return {
             statusCode: 500,
-            body: JSON.stringify({ message: "Failed to trigger Step Function.", errorMessage })
+            body: JSON.stringify({
+                message: "Failed to trigger Step Function.",
+                errorMessage,
+            }),
         };
     }
 };
 // パラメータストアからステートマシンのARNを取得する関数
 async function getStateMachineArnFromSSM(stateMachineName) {
     try {
-        const command = new client_ssm_1.GetParameterCommand({
+        const command = new GetParameterCommand({
             Name: stateMachineName,
-            WithDecryption: true
+            WithDecryption: true,
         });
         const response = await ssmClient.send(command);
         return response.Parameter?.Value || null;
@@ -72,7 +75,7 @@ function isDynamoDBStreamEvent(event) {
 }
 function parseDynamoDBRecord(record) {
     if (record.dynamodb?.NewImage) {
-        return (0, util_dynamodb_1.unmarshall)(record.dynamodb.NewImage);
+        return unmarshall(record.dynamodb.NewImage);
     }
     return null;
 }

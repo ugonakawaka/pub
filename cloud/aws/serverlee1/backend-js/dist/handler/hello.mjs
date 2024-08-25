@@ -1,6 +1,4 @@
-import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
-
-module.exports.handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+export const handler = async (event) => {
     // ここにロジックを記述します
     return {
         statusCode: 200,
