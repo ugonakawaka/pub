@@ -1,0 +1,126 @@
+# Serverless Framework のバージョンを指定
+frameworkVersion: '3'
+
+# プロジェクトのサービス名とステージに応じた設定を読み込み
+custom:
+  cmn: ${file(../config/common.yml)}  # 共通設定を読み込み
+  env: ${file(../config/${opt:stage}.yml)}  # ステージごとの設定を読み込み
+
+  # バケット名をステージごとに設定
+  targetBucketName: ${self:service}-${self:custom.cmn.region}-${opt:stage}-bucket 
+
+  minTTLValue: ${self:custom.minTTLMap.${opt:stage, 'dev'}}
+  minTTLMap:
+    prod: 3600
+    dev: 0
+  minTTL: ${self:custom.minTTLValue}
+  # 以下、プラグイン
+  # serverless-s3-sync プラグインの設定
+  s3Sync:
+    - bucketName: ${self:custom.targetBucketName}  # 同期対象のS3バケットを指定
+      localDir: dist  # 同期対象のローカルディレクトリを指定
+  # CloudFrontのキャッシュを無効化する
+  cloudfrontInvalidate:
+    - distributionIdKey: DistributionId
+      items:
+        - "/*"
+
+service: ${self:custom.cmn.services.baseName}-cloudfront  # サービス名を設定
+
+provider:
+  name: aws  # 使用するクラウドプロバイダーを指定
+  region: ${self:custom.cmn.region}  # デプロイするAWSリージョンを指定
+  stackName: ${self:service}  # スタック名をサービス名と同じに設定
+  deploymentBucket: ${self:custom.cmn.deploymentBucket}  # デプロイメント用のS3バケットを指定
+
+resources:
+  Resources:
+    # S3バケットの設定（ウェブサイトホスティング用）
+    FrontS3Bucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:custom.targetBucketName}
+        AccessControl: Private
+        PublicAccessBlockConfiguration:
+          BlockPublicAcls: true
+          BlockPublicPolicy: true
+          IgnorePublicAcls: true
+          RestrictPublicBuckets: true
+        WebsiteConfiguration:
+          IndexDocument: index.html
+          ErrorDocument: error.html
+
+    # CloudFront オリジンアクセスコントロール (OAC) の作成
+    CloudFrontOriginAccessControl:
+      Type: AWS::CloudFront::OriginAccessControl
+      Properties:
+        OriginAccessControlConfig:
+          Name: "OAC for ${self:service}"
+          Description: "OAC for securing S3 access from CloudFront"
+          OriginAccessControlOriginType: s3  # オリジンのタイプを指定 (S3バケットの場合は 's3')
+          SigningBehavior: always  # 必ず署名を使用
+          SigningProtocol: sigv4  # Sigv4署名プロトコルを使用
+
+
+    # S3バケットポリシーの設定
+    FrontS3BucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket: !Ref FrontS3Bucket
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service: cloudfront.amazonaws.com
+              Action: 
+                - "s3:GetObject"      # S3オブジェクトの取得
+                - "s3:ListBucket"     # S3バケット内のオブジェクトのリスト表示
+              Resource:
+                - !Sub "arn:aws:s3:::${FrontS3Bucket}/*"  # バケット内のすべてのオブジェクトを対象
+                - !Sub "arn:aws:s3:::${FrontS3Bucket}"    # バケット自体を対象
+              Condition:
+                StringEquals:
+                  # CloudFrontのOriginAccessIdentityを指定
+                  AWS:SourceArn: !Sub "arn:aws:cloudfront::${AWS::AccountId}:distribution/${FrontCloudFrontDistribution}"
+
+    FrontCloudFrontDistribution:
+      Type: AWS::CloudFront::Distribution
+      Properties:
+        DistributionConfig:
+          Enabled: true  # ディストリビューションを有効化
+          DefaultRootObject: index.html  # デフォルトのルートオブジェクトを指定
+          PriceClass: PriceClass_100  # 使用するCloudFrontエッジロケーションの範囲を指定
+          HttpVersion: http2and3 # HTTP/2とHTTP/3を有効化
+          Origins:
+            - DomainName: !GetAtt FrontS3Bucket.RegionalDomainName
+              Id: FrontS3Origin
+              S3OriginConfig: {}
+              OriginAccessControlId: !Ref CloudFrontOriginAccessControl  # OACの使用
+          DefaultCacheBehavior:
+            TargetOriginId: FrontS3Origin  # オリジンIDを指定
+            ViewerProtocolPolicy: redirect-to-https  # ビューワープロトコルポリシーを設定
+            AllowedMethods:
+              - GET  # GETリクエストを許可
+              - HEAD  # HEADリクエストを許可
+            CachedMethods:
+              - GET  # GETリクエストをキャッシュ
+              - HEAD  # HEADリクエストをキャッシュ
+            ForwardedValues:
+              QueryString: false  # クエリストリングの転送を無効化
+              Cookies:
+                Forward: none  # Cookieの転送を無効化
+            MinTTL: ${self:custom.minTTL}  # ステージごとのMinTTLを設定
+          CustomErrorResponses:
+            - ErrorCode: 404  # 404エラー時のレスポンスをカスタマイズ
+              ResponseCode: 200  # HTTPステータスコード200を返す
+              ResponsePagePath: /error.html  # カスタムエラーページとしてerror.htmlを表示
+
+  Outputs:
+      URL:
+        Value: !Sub "https://${FrontCloudFrontDistribution.DomainName}"
+      DistributionId:
+        Value: !Ref FrontCloudFrontDistribution
+
+plugins:
+  - serverless-s3-sync  # S3バケットとローカルディレクトリの同期プラグイン
