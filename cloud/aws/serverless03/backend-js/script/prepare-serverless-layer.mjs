@@ -1,27 +1,25 @@
-import { promises as fs } from 'fs';
-import path from 'path';
+import { promises as fs } from "fs";
+import path from "path";
 
-const serverlessWorkDir = '.serverless-work';
-const nodeModulesSource = 'node_modules';  // シンボリックリンク元
-const nodeModulesTargetDir = path.join(serverlessWorkDir, 'nodejs');
-const nodeModulesTarget = path.join(nodeModulesTargetDir, 'node_modules');  // シンボリックリンク先
+const sourcePath = path.resolve("node_modules");
+const targetDir = path.resolve(".serverless-wrok/layers/nodejs");
+const targetPath = path.resolve(targetDir, "node_modules");
 
 async function setupSymlink() {
   try {
-    // .serverless-work/nodejs ディレクトリの存在確認
-    try {
-      await fs.access(nodeModulesTargetDir);
-    } catch {
-      // 存在しない場合、ディレクトリを作成
-      await fs.mkdir(nodeModulesTargetDir, { recursive: true });
-      console.log(`Created directory: ${nodeModulesTargetDir}`);
-    }
+    // ディレクトリが存在しない場合に作成
+    await fs.mkdir(targetDir, { recursive: true });
+    console.log(`Directory created or already exists: ${targetDir}`);
 
-    // シンボリックリンク作成
-    await fs.symlink(path.resolve(nodeModulesSource), nodeModulesTarget, 'dir');
-    console.log(`Created symlink from ${nodeModulesSource} to ${nodeModulesTarget}`);
+    // シンボリックリンクの作成
+    await fs.symlink(sourcePath, targetPath);
+    console.log(`Symlink created from ${sourcePath} to ${targetPath}`);
   } catch (error) {
-    console.error('Error setting up symlink:', error);
+    if (error.code !== "EEXIST") {
+      throw error;
+    } else {
+      console.log("Symlink already exists, skipping...");
+    }
   }
 }
 

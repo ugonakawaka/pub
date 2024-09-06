@@ -9,6 +9,7 @@ npm install multer
 npm i --save-dev @types/multer
 
 
+
 ==================
 backend-js/
 ├── src/
@@ -28,3 +29,7 @@ backend-js/
 
 ==================
 
+
+==================
+npx sls deploy -c sls-layers.yml --stage dev --aws-profile  admin0
+npx sls deploy -c sls-functions.yml --stage dev --aws-profile  admin0
