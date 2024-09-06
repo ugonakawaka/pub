@@ -1,0 +1,36 @@
+custom:
+  cmn: ${file(../config/common.yml)}
+  env: ${file(../config/${opt:stage}.yml)}
+
+service: ${self:custom.cmn.services.baseName}-${opt:stage}-layerJs
+
+provider:
+  name: aws
+  runtime: ${self:custom.cmn.backend-js.runtime}
+  region: ${self:custom.cmn.region}
+  stackName: ${self:service}
+  deploymentBucket: ${self:custom.cmn.deploymentBucket} 
+
+package:
+  individually: true
+
+layers:
+  layerCommonJs:
+    name: ${self:service}-CommonJsLayer
+    path: .serverless-work/
+    compatibleRuntimes:
+      - ${self:custom.cmn.backend-js.runtime}
+    package:
+      patterns:
+        - "!node_modules/**"
+        - "node_modules/aws-serverless-express/**"
+        - "node_modules/axios/**"
+
+
+resources:
+  Outputs:
+    LayerCommonArn:
+      Description: "The ARN of the Lambda Layer"
+      Value: !Ref LayerCommonJsLambdaLayer
+      Export:
+        Name: ${self:service}-LayerCommonJsArn
