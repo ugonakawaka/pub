@@ -28,8 +28,17 @@ backend-js/
 ├── tsconfig.json
 
 ==================
+aws apigateway get-rest-apis
+aws apigateway get-rest-api --rest-api-id <API ID>
+aws apigateway get-rest-api --rest-api-id 8bupepispf
 
+aws apigateway get-method --rest-api-id <API ID> --resource-id <RESOURCE ID> --http-method <METHOD> --region <リージョン>
+
+
+aws apigateway get-method --rest-api-id 488gub62sk --resource-id <RESOURCE ID> --http-method <METHOD> --region <リージョン>
 
 ==================
 npx sls deploy -c sls-layers.yml --stage dev --aws-profile  admin0
 npx sls deploy -c sls-functions.yml --stage dev --aws-profile  admin0
+
+npx serverless offline -c sls-functions.yml --stage dev --aws-profile  admin0　--port 3000

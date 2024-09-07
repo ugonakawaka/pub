@@ -1,8 +1,22 @@
+# カスタム設定
 custom:
   cmn: ${file(../config/common.yml)}
   env: ${file(../config/${opt:stage}.yml)}
   layerArn:
-    Fn::ImportValue: ${self:custom.cmn.services.baseName}-${opt:stage}-layerJs-LayerCommonJsArn
+    Fn::ImportValue: ${self:custom.cmn.services.baseName}-${opt:stage}-layerJs-LayerCommonJsArn-v${self:custom.cmn.layer.version}
+  corsSetting:
+    dev:
+      origin: ${ssm:/${self:custom.cmn.services.baseName}-cloudfront/${opt:stage}/cloudfront-url, '*'}
+      headers:
+        - Content-Type
+        - Authorization
+      allowCredentials: true
+    prod:
+      origin: ${ssm:/${self:custom.cmn.services.baseName}-cloudfront/${opt:stage}/cloudfront-url, 'https://example.com'}
+      headers:
+        - Content-Type
+        - Authorization
+      allowCredentials: true
 
 service: ${self:custom.cmn.services.baseName}-${opt:stage}-funcs-js
 
@@ -11,25 +25,98 @@ provider:
   runtime: ${self:custom.cmn.backend-js.runtime}
   region: ${self:custom.cmn.region}
   stackName: ${self:service}
-  # environment:
-  #   DATABASE_URL: ${ssm:/${self:custom.env.stage}/DATABASE_URL}  # SSMパラメータストアから値を取得
+  environment:
+    ALLOWED_ORIGINS: ${self:custom.corsSetting.${opt:stage}.origin}
+  logs:
+    restApi:
+      # 変更: roleManagedExternallyをtrueに設定
+      roleManagedExternally: true
+      level: ERROR
+      fullExecutionData: true
 
 package:
   individually: true
 
 functions:
-  hello:
-    handler: dist/handlers/handler.handler
+  login:
+    handler: dist/handlers/login.handler
     package:
       patterns:
-        - "!**/*" # 全て除外
-        - "dist/**" # dist ディレクトリのみを含める
+        - "!**/*"
+        - "dist/**"
     layers:
-      - ${self:custom.layerArn} # Lambda関数でレイヤーを使用
+      - ${self:custom.layerArn}
     events:
       - http:
-          path: /{proxy+} # ワイルドカードで全てのパスを受け付ける
-          method: any # 全てのHTTPメソッドを受け付ける
+          path: /login
+          method: options
+          cors: ${self:custom.corsSetting.${opt:stage}}
+      - http:
+          path: /login
+          method: post
+          cors: ${self:custom.corsSetting.${opt:stage}}
+
+  authorizer:
+    handler: dist/handlers/authorizer.handler
+    package:
+      patterns:
+        - "!**/*"
+        - "dist/**"
+    layers:
+      - ${self:custom.layerArn}
+
+  app:
+    handler: dist/handlers/app.handler
+    package:
+      patterns:
+        - "!**/*"
+        - "dist/**"
+    layers:
+      - ${self:custom.layerArn}
+    events:
+      - http:
+          path: /{proxy+}
+          method: any
+          cors: ${self:custom.corsSetting.${opt:stage}}
+          authorizer:
+            name: authorizer
+            type: REQUEST
+            resultTtlInSeconds: 300
+            identitySource: method.request.header.Authorization
+
+resources:
+  Outputs:
+    ApiGatewayUrl:
+      Description: "API Gateway URL"
+      Value: !Sub "https://${ApiGatewayRestApi}.execute-api.${AWS::Region}.amazonaws.com/${sls:stage}"
+  Resources:
+    ApiUrlParameter:
+      Type: AWS::SSM::Parameter
+      Properties:
+        Name: /${self:service}/${sls:stage}/api-url
+        Type: String
+        Value: !Sub "https://${ApiGatewayRestApi}.execute-api.${AWS::Region}.amazonaws.com/${sls:stage}"
+        Description: API Gateway URL
+
+    ApiGatewayCloudWatchRole:
+      Type: AWS::IAM::Role
+      Properties:
+        AssumeRolePolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service:
+                  - apigateway.amazonaws.com
+              Action: sts:AssumeRole
+        ManagedPolicyArns:
+          - arn:aws:iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs
+        Path: "/"
+
+    ApiGatewayAccount:
+      Type: AWS::ApiGateway::Account
+      Properties:
+        CloudWatchRoleArn: !GetAtt ApiGatewayCloudWatchRole.Arn
 
 plugins:
   - serverless-offline

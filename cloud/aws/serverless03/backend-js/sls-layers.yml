@@ -16,7 +16,8 @@ package:
 
 layers:
   layerCommonJs:
-    name: ${self:service}-CommonJsLayer
+    # バージョン付きのレイヤーを作成する
+    name: ${self:service}-CommonJsLayer-v${self:custom.cmn.layer.version}
     path: .serverless-wrok/layers
     compatibleRuntimes:
       - ${self:custom.cmn.backend-js.runtime}
@@ -33,6 +34,7 @@ layers:
         - "nodejs/node_modules/axios/**"
         - "nodejs/node_modules/binary-case/**"
         - "nodejs/node_modules/body-parser/**"
+        - "nodejs/node_modules/buffer-equal-constant-time/**"
         - "nodejs/node_modules/buffer-from/**"
         - "nodejs/node_modules/busboy/**"
         - "nodejs/node_modules/bytes/**"
@@ -49,6 +51,7 @@ layers:
         - "nodejs/node_modules/delayed-stream/**"
         - "nodejs/node_modules/depd/**"
         - "nodejs/node_modules/destroy/**"
+        - "nodejs/node_modules/ecdsa-sig-formatter/**"
         - "nodejs/node_modules/ee-first/**"
         - "nodejs/node_modules/encodeurl/**"
         - "nodejs/node_modules/es-define-property/**"
@@ -73,6 +76,16 @@ layers:
         - "nodejs/node_modules/inherits/**"
         - "nodejs/node_modules/ipaddr.js/**"
         - "nodejs/node_modules/isarray/**"
+        - "nodejs/node_modules/jsonwebtoken/**"
+        - "nodejs/node_modules/jwa/**"
+        - "nodejs/node_modules/jws/**"
+        - "nodejs/node_modules/lodash.includes/**"
+        - "nodejs/node_modules/lodash.isboolean/**"
+        - "nodejs/node_modules/lodash.isinteger/**"
+        - "nodejs/node_modules/lodash.isnumber/**"
+        - "nodejs/node_modules/lodash.isplainobject/**"
+        - "nodejs/node_modules/lodash.isstring/**"
+        - "nodejs/node_modules/lodash.once/**"
         - "nodejs/node_modules/media-typer/**"
         - "nodejs/node_modules/merge-descriptors/**"
         - "nodejs/node_modules/methods/**"
@@ -98,6 +111,7 @@ layers:
         - "nodejs/node_modules/readable-stream/**"
         - "nodejs/node_modules/safe-buffer/**"
         - "nodejs/node_modules/safer-buffer/**"
+        - "nodejs/node_modules/semver/**"
         - "nodejs/node_modules/send/**"
         - "nodejs/node_modules/serve-static/**"
         - "nodejs/node_modules/set-function-length/**"
@@ -121,4 +135,5 @@ resources:
       Description: "The ARN of the Lambda Layer"
       Value: !Ref LayerCommonJsLambdaLayer
       Export:
-        Name: ${self:service}-LayerCommonJsArn
+        # Name of the export in the CloudFormation stack
+        Name: ${self:service}-LayerCommonJsArn-v${self:custom.cmn.layer.version}

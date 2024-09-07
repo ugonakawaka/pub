@@ -1,0 +1,26 @@
+import awsServerlessExpress from "aws-serverless-express";
+import {
+  APIGatewayProxyHandler,
+  APIGatewayProxyResult,
+  APIGatewayEvent,
+  Context,
+} from "aws-lambda";
+import app from "../app";
+
+const server = awsServerlessExpress.createServer(app);
+
+// 環境変数から許可するオリジンを取得
+const allowedOrigins = process.env.ALLOWED_ORIGINS
+  ? process.env.ALLOWED_ORIGINS.split(",")
+  : ["http://localhost:3000"]; // デフォルト値
+
+const corsHeaders = {
+  "Access-Control-Allow-Headers":
+    "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
+  "Access-Control-Allow-Methods": "OPTIONS,GET,POST,PUT,DELETE",
+};
+
+// Lambdaハンドラーを定義
+export const handler = (event: any, context: any) => {
+  awsServerlessExpress.proxy(server, event, context);
+};
