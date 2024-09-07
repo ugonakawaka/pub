@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ホーム</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h2>ログイン成功</h2>
+      <p>ようこそ、ログインに成功しました！</p>
+    </div>
+    <button id="logoutButton">ログアウト</button>
+
+    <!-- API Check 用のボタンを追加 -->
+    <button id="apiCheckButton">API Check</button>
+
+    <!-- 結果を表示するための要素 -->
+    <div id="apiResult"></div>
+
+    <script>
+      document.getElementById("logoutButton").addEventListener("click", () => {
+        if (confirm("本当にログアウトしますか？")) {
+          localStorage.removeItem("authToken");
+          window.location.href = "index.html";
+        }
+      });
+
+      // API Check ボタンのクリックイベント
+      document
+        .getElementById("apiCheckButton")
+        .addEventListener("click", () => {
+          // script.mjs に定義された関数を呼び出す
+          import("./scripts/api-check.mjs").then((module) => {
+            module.apiCheck().then((result) => {
+              // 結果を表示
+              const apiResultDiv = document.getElementById("apiResult");
+              if (result.error) {
+                apiResultDiv.innerHTML = `<p style="color: red;">エラー: ${result.error}</p>`;
+              } else {
+                apiResultDiv.innerHTML = `<p>API結果: ${JSON.stringify(
+                  result
+                )}</p>`;
+              }
+            });
+          });
+        });
+    </script>
+  </body>
+</html>
