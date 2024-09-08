@@ -1,6 +1,9 @@
 # Serverless Framework のバージョンを指定
 frameworkVersion: "3"
 
+# サービス名を設定
+service: ${self:custom.cmn.services.baseName}-cloudfront
+
 # プロジェクトのサービス名とステージに応じた設定を読み込み
 custom:
   cmn: ${file(../config/common.yml)} # 共通設定を読み込み
@@ -17,7 +20,15 @@ custom:
   minTTL: ${self:custom.minTTLValue}
 
   # API GatewayのURLを取得する
-  apiGatewayUrl: "{{resolve:ssm:/${self:custom.cmn.services.baseName}-${opt:stage}-funcs-js/${opt:stage}/api-url}}"
+  apiGatewayUrl: ${ssm:/${self:custom.cmn.services.baseName}-funcs-js/${opt:stage}/api-url}
+
+  # Build or Copy Command
+  buildCommand: "cp -r src/* dist/"
+
+  # Update Config Command
+  updateConfigCommand: >
+    sed -i.bak 's|apiUrl:.*|apiUrl: "${self:custom.apiGatewayUrl}",|' dist/scripts/config.mjs && 
+    rm dist/scripts/config.mjs.bak
 
   # 以下、プラグイン
   # serverless-s3-sync プラグインの設定
@@ -30,11 +41,15 @@ custom:
       items:
         - "/*"
   # API GatewayのURLを取得してconfig.jsonに書き込む
-  scriptHooks:
-    after:package:createDeploymentArtifacts: 'echo "{ \\\\"apiUrl\\\\": \\\\"${self:custom.apiGatewayUrl}\\\\" }" > config.json'
-    after:deploy:finalize: "aws s3 cp config.json s3://${self:custom.targetBucketName}/config.json"
+  scriptable:
+    hooks:
+      before:package:createDeploymentArtifacts:
+        - "${self:custom.buildCommand}"
+        - "${self:custom.updateConfigCommand}"
+      after:deploy:finalize: "aws s3 cp config.json s3://${self:custom.targetBucketName}/scripts/config.json"
 
-service: ${self:custom.cmn.services.baseName}-cloudfront # サービス名を設定
+# ====================================
+# ====================================
 
 provider:
   name: aws # 使用するクラウドプロバイダーを指定
@@ -56,7 +71,7 @@ resources:
           IgnorePublicAcls: true
           RestrictPublicBuckets: true
         WebsiteConfiguration:
-          IndexDocument: index.html
+          IndexDocument: home.html
           ErrorDocument: error.html
 
     # CloudFront オリジンアクセスコントロール (OAC) の作成
@@ -97,7 +112,7 @@ resources:
       Properties:
         DistributionConfig:
           Enabled: true # ディストリビューションを有効化
-          DefaultRootObject: index.html # デフォルトのルートオブジェクトを指定
+          DefaultRootObject: home.html # デフォルトのルートオブジェクトを指定
           PriceClass: PriceClass_100 # 使用するCloudFrontエッジロケーションの範囲を指定
           HttpVersion: http2and3 # HTTP/2とHTTP/3を有効化
           Origins:
@@ -140,6 +155,8 @@ resources:
     CloudFrontUrl:
       Value: !Sub "https://${FrontCloudFrontDistribution.DomainName}"
       Description: CloudFront Distribution URL
+# ====================================
+# ====================================
 
 plugins:
   - serverless-s3-sync # S3バケットとローカルディレクトリの同期プラグイン

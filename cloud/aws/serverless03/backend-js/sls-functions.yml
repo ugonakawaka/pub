@@ -1,9 +1,12 @@
+# Serverless Framework のバージョンを指定
+frameworkVersion: "3"
+
 # カスタム設定
 custom:
   cmn: ${file(../config/common.yml)}
   env: ${file(../config/${opt:stage}.yml)}
   layerArn:
-    Fn::ImportValue: ${self:custom.cmn.services.baseName}-${opt:stage}-layerJs-LayerCommonJsArn-v${self:custom.cmn.layer.version}
+    Fn::ImportValue: ${self:custom.cmn.services.baseName}-layerJs-LayerCommonJsArn-v${self:custom.cmn.layer.version}
   corsSetting:
     dev:
       origin: ${ssm:/${self:custom.cmn.services.baseName}-cloudfront/${opt:stage}/cloudfront-url, '*'}
@@ -18,7 +21,12 @@ custom:
         - Authorization
       allowCredentials: true
 
-service: ${self:custom.cmn.services.baseName}-${opt:stage}-funcs-js
+      # serverless-scriptable-plugin でスクリプトを実行
+      scriptable:
+        hooks:
+          before:package:createDeploymentArtifacts: "npm run build"
+
+service: ${self:custom.cmn.services.baseName}-funcs-js
 
 provider:
   name: aws
@@ -120,3 +128,5 @@ resources:
 
 plugins:
   - serverless-offline
+  - serverless-scriptable-plugin # スクリプトを実行するプラグイン
+

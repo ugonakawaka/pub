@@ -1,5 +1,6 @@
 import { apiClient } from "./api-client.mjs";
 import { auth } from "./auth.mjs";
+import { config } from "./config.mjs";
 
 function formatJSTTimestamp(date) {
   const options = {
@@ -21,6 +22,8 @@ export async function apiCheck() {
   }
 
   const token = auth.getToken();
+  const getUrl = `${config.apiUrl}${config.routes.check}`;
+  const postUrl = `${config.apiUrl}${config.routes.check}`;
 
   try {
     const getStartTime = new Date();
@@ -40,12 +43,14 @@ export async function apiCheck() {
         data: getResult,
         requestTime: getEndTime - getStartTime,
         startTimestamp: formatJSTTimestamp(getStartTime),
+        url: getUrl,
       },
       post: {
         success: true,
         data: postResult,
         requestTime: postEndTime - postStartTime,
         startTimestamp: formatJSTTimestamp(postStartTime),
+        url: postUrl,
       },
     };
   } catch (error) {
@@ -56,12 +61,14 @@ export async function apiCheck() {
         error: error.message,
         requestTime: 0,
         startTimestamp: formatJSTTimestamp(new Date()),
+        url: getUrl,
       },
       post: {
         success: false,
         error: error.message,
         requestTime: 0,
         startTimestamp: formatJSTTimestamp(new Date()),
+        url: postUrl,
       },
     };
   }

@@ -5,25 +5,26 @@ export const auth = {
     localStorage.setItem("authToken", accessToken);
     localStorage.setItem("refreshToken", refreshToken);
   },
-
   getToken() {
     return localStorage.getItem("authToken");
   },
-
   removeTokens() {
     localStorage.removeItem("authToken");
     localStorage.removeItem("refreshToken");
   },
-
   isAuthenticated() {
     return !!this.getToken();
   },
-
   redirectToLogin() {
-    window.location.href = config.routes.index;
+    window.location.href = config.routes.loginPage;
+  },
+  redirectToHome() {
+    window.location.href = config.routes.homePage;
   },
 
-  redirectToHome() {
-    window.location.href = config.routes.home;
+  // =======
+  logout() {
+    this.removeTokens();
+    this.redirectToLogin();
   },
 };

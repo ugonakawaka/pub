@@ -10,41 +10,53 @@
     <div class="container">
       <h2>ログイン成功</h2>
       <p>ようこそ、ログインに成功しました！</p>
+      <div class="button-container">
+        <button id="logoutButton" aria-label="ログアウト">ログアウト</button>
+        <button id="apiCheckButton" aria-label="APIチェック">API Check</button>
+      </div>
+      <div id="apiResult"></div>
     </div>
-    <button id="logoutButton">ログアウト</button>
 
-    <!-- API Check 用のボタンを追加 -->
-    <button id="apiCheckButton">API Check</button>
+    <script type="module">
+      import { auth } from "./scripts/auth.mjs";
+      import { apiCheck } from "./scripts/api-check.mjs";
 
-    <!-- 結果を表示するための要素 -->
-    <div id="apiResult"></div>
-
-    <script>
       document.getElementById("logoutButton").addEventListener("click", () => {
         if (confirm("本当にログアウトしますか？")) {
-          localStorage.removeItem("authToken");
-          window.location.href = "index.html";
+          auth.logout();
         }
       });
 
-      // API Check ボタンのクリックイベント
       document
         .getElementById("apiCheckButton")
-        .addEventListener("click", () => {
-          // script.mjs に定義された関数を呼び出す
-          import("./scripts/api-check.mjs").then((module) => {
-            module.apiCheck().then((result) => {
-              // 結果を表示
-              const apiResultDiv = document.getElementById("apiResult");
-              if (result.error) {
-                apiResultDiv.innerHTML = `<p style="color: red;">エラー: ${result.error}</p>`;
+        .addEventListener("click", async () => {
+          const apiResultDiv = document.getElementById("apiResult");
+          apiResultDiv.innerHTML = "処理中...";
+          try {
+            const result = await apiCheck();
+            let htmlContent = "";
+
+            for (const [method, response] of Object.entries(result)) {
+              htmlContent += `<h3>${method.toUpperCase()} リクエスト</h3>`;
+              htmlContent += `<p>リクエスト開始時刻: ${response.startTimestamp}</p>`;
+              htmlContent += `<p>リクエスト時間: ${response.requestTime}ms</p>`;
+              htmlContent += `<p>${response.url}</p>`;
+              if (response.success) {
+                htmlContent += `<p style="color: green;">成功</p>`;
+                htmlContent += `<pre>${JSON.stringify(
+                  response.data,
+                  null,
+                  2
+                )}</pre>`;
               } else {
-                apiResultDiv.innerHTML = `<p>API結果: ${JSON.stringify(
-                  result
-                )}</p>`;
+                htmlContent += `<p style="color: red;">失敗: ${response.error}</p>`;
               }
-            });
-          });
+            }
+
+            apiResultDiv.innerHTML = htmlContent;
+          } catch (error) {
+            apiResultDiv.innerHTML = `<p style="color: red;">エラー: ${error.message}</p>`;
+          }
         });
     </script>
   </body>

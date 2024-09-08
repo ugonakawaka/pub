@@ -5,7 +5,7 @@ region: ap-northeast-1
 
 # サービス共通のベースネーム
 services:
-  baseName: my3
+  baseName: apigatewaysample
 
 # ステージごとのサフィックス定義
 # stages:

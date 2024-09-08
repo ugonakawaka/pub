@@ -4,7 +4,6 @@ class ApiClient {
   constructor(baseUrl) {
     this.baseUrl = baseUrl;
   }
-
   async request(endpoint, method = "GET", body = null, token = null) {
     const url = `${this.baseUrl}${endpoint}`;
     const headers = {
@@ -14,7 +13,7 @@ class ApiClient {
     if (token) {
       headers["Authorization"] = `Bearer ${token}`;
     }
-    console.log("********* ");
+
     const options = {
       method,
       headers,

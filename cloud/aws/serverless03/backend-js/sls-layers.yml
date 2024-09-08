@@ -2,7 +2,7 @@ custom:
   cmn: ${file(../config/common.yml)}
   env: ${file(../config/${opt:stage}.yml)}
 
-service: ${self:custom.cmn.services.baseName}-${opt:stage}-layerJs
+service: ${self:custom.cmn.services.baseName}-layerJs
 
 provider:
   name: aws

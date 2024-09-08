@@ -1,9 +1,10 @@
 export const config = {
-  apiUrl: "https://vsolzow6f6.execute-api.ap-northeast-1.amazonaws.com/dev",
+  apiUrl: "https://bg49337l19.execute-api.ap-northeast-1.amazonaws.com/dev",
   routes: {
     login: "/login",
     check: "/check",
-    home: "home.html",
-    index: "index.html",
+    homePage: "home.html",
+    indexPage: "index.html",
+    loginPage: "login.html",
   },
 };
