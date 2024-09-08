@@ -23,7 +23,7 @@ custom:
   apiGatewayUrl: ${ssm:/${self:custom.cmn.services.baseName}-funcs-js/${opt:stage}/api-url}
 
   # Build or Copy Command
-  buildCommand: "cp -r src/* dist/"
+  buildCommand: "mkdir -p dist && cp -r src/* dist/"
 
   # Update Config Command
   updateConfigCommand: >

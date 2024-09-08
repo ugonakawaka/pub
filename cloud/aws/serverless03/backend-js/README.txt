@@ -38,10 +38,13 @@ aws apigateway get-method --rest-api-id <API ID> --resource-id <RESOURCE ID> --h
 aws apigateway get-method --rest-api-id 8bupepispf --resource-id q0t9ez --http-method OPTIONS
 
 ==================
+REMOVE
 
 npx sls remove -c sls-layers.yml --stage dev --aws-profile  admin0
 npx sls remove -c sls-functions.yml --stage dev --aws-profile  admin0
 
+==================
+DEPLOY
 
 npx sls deploy -c sls-layers.yml --stage dev --aws-profile  admin0
 npx sls deploy -c sls-functions.yml --stage dev --aws-profile  admin0

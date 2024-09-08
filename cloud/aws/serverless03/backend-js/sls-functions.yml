@@ -13,12 +13,14 @@ custom:
       headers:
         - Content-Type
         - Authorization
+        # - New-Token
       allowCredentials: true
     prod:
       origin: ${ssm:/${self:custom.cmn.services.baseName}-cloudfront/${opt:stage}/cloudfront-url, 'https://example.com'}
       headers:
         - Content-Type
         - Authorization
+        # - New-Token
       allowCredentials: true
 
       # serverless-scriptable-plugin でスクリプトを実行

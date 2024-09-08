@@ -17,7 +17,10 @@ function formatJSTTimestamp(date) {
 }
 
 export async function apiCheck() {
-  if (!auth.isAuthenticated()) {
+  const tokenStatus = auth.getTokenStatus();
+  console.log("Token status before request:", tokenStatus);
+
+  if (!tokenStatus.exists) {
     throw new Error("認証トークンがありません。ログインしてください。");
   }
 
@@ -33,11 +36,13 @@ export async function apiCheck() {
     const postStartTime = new Date();
     const postResult = await apiClient.checkPost(
       token,
-      "API Check POST Request"
+      "API Check POST Request",
+      tokenStatus
     );
     const postEndTime = new Date();
 
     return {
+      tokenStatus,
       get: {
         success: true,
         data: getResult,
@@ -56,6 +61,7 @@ export async function apiCheck() {
   } catch (error) {
     console.error("API リクエスト中にエラーが発生しました:", error);
     return {
+      tokenStatus,
       get: {
         success: false,
         error: error.message,

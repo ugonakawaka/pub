@@ -12,13 +12,15 @@ export const handler = async (
   event: APIGatewayRequestAuthorizerEvent
 ): Promise<APIGatewayAuthorizerResult> => {
   try {
-    // console.log("event:", event);
+    console.log("event:", event);
     const authHeader = event.headers?.Authorization;
     console.log("Authorization header:", authHeader);
     const token = extractTokenFromHeader(authHeader);
     const decoded = verifyToken(token);
     console.log("Token verification succeeded:", decoded);
+    // const a = "arn:aws:execute-api:*";
     const resourceArn = generateResourceArn(event);
+    // return generatePolicy(decoded.username, "Allow", event.methodArn);
     return generatePolicy(decoded.username, "Allow", resourceArn);
   } catch (err) {
     console.error("Authorization failed:", err);
@@ -60,6 +62,7 @@ const generatePolicy = (
       },
     ],
   };
+
   return {
     principalId,
     policyDocument,
@@ -69,10 +72,15 @@ const generatePolicy = (
 const generateResourceArn = (
   event: APIGatewayRequestAuthorizerEvent
 ): string => {
+  // methodArn から必要な情報を抽出
   const arnParts = event.methodArn.split(":");
   const region = arnParts[3];
   const accountId = arnParts[4];
+
+  // stage を抽出 (通常、methodArn の最後の部分に含まれています)
   const resourceParts = arnParts[5].split("/");
   const stage = resourceParts[1];
+
+  // 動的な ARN を構築
   return `arn:aws:execute-api:${region}:${accountId}:*/${stage}/*/*`;
 };

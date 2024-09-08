@@ -10,6 +10,7 @@
     <div class="container">
       <h2>ログイン成功</h2>
       <p>ようこそ、ログインに成功しました！</p>
+      <div id="tokenStatus">トークンステータス: 確認中...</div>
       <div class="button-container">
         <button id="logoutButton" aria-label="ログアウト">ログアウト</button>
         <button id="apiCheckButton" aria-label="APIチェック">API Check</button>
@@ -20,6 +21,20 @@
     <script type="module">
       import { auth } from "./scripts/auth.mjs";
       import { apiCheck } from "./scripts/api-check.mjs";
+
+      function updateTokenStatus() {
+        const tokenStatus = auth.getTokenStatus();
+        const tokenStatusDiv = document.getElementById("tokenStatus");
+        tokenStatusDiv.innerHTML = `
+      <h3>トークンステータス</h3>
+      <p>存在: ${tokenStatus.exists}</p>
+      <p>期限切れ: ${tokenStatus.expired}</p>
+      <p>発行日時: ${tokenStatus.issuedAt}</p>
+      <p>有効期限: ${tokenStatus.expiresAt}</p>
+    `;
+      }
+
+      updateTokenStatus(); // ページロード時にトークンステータスを更新
 
       document.getElementById("logoutButton").addEventListener("click", () => {
         if (confirm("本当にログアウトしますか？")) {
@@ -36,7 +51,17 @@
             const result = await apiCheck();
             let htmlContent = "";
 
+            updateTokenStatus();
+
+            htmlContent += `<h3>トークンステータス</h3>`;
+            htmlContent += `<pre>${JSON.stringify(
+              result.tokenStatus,
+              null,
+              2
+            )}</pre>`;
+
             for (const [method, response] of Object.entries(result)) {
+              if (method === "tokenStatus") continue; // tokenStatus は既に表示済みなのでスキップ
               htmlContent += `<h3>${method.toUpperCase()} リクエスト</h3>`;
               htmlContent += `<p>リクエスト開始時刻: ${response.startTimestamp}</p>`;
               htmlContent += `<p>リクエスト時間: ${response.requestTime}ms</p>`;

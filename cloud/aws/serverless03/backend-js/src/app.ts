@@ -1,60 +1,139 @@
 import express, { Request, Response, NextFunction } from "express";
 import multer from "multer";
+import jwt from "jsonwebtoken";
+import { IncomingMessage } from "http";
 
 const app = express();
 
-// 環境変数から許可するオリジンを取得
+// 定数とコンフィグ
+const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
+const TOKEN_EXPIRATION = "15m";
 const allowedOrigins = process.env.ALLOWED_ORIGINS
   ? process.env.ALLOWED_ORIGINS.split(",")
-  : ["http://localhost:3000"]; // デフォルト値
+  : ["http://localhost:3000"];
 
-// 共通のCORSヘッダー
-const corsHeaders = {
-  "Access-Control-Allow-Headers":
-    "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
-  "Access-Control-Allow-Methods": "OPTIONS,GET,POST,PUT,DELETE",
-};
+// ヘルパー関数
+function extractTokenFromHeader(authHeader: string | undefined): string {
+  if (!authHeader) {
+    throw new Error("Authorization header is missing");
+  }
+  const [bearer, token] = authHeader.split(" ");
+  if (bearer !== "Bearer" || !token) {
+    throw new Error("Invalid Authorization header format");
+  }
+  return token;
+}
 
-// CORSミドルウェア
-app.use((req: Request, res: Response, next: NextFunction) => {
+function getAuthorizationHeader(req: IncomingMessage): string | undefined {
+  // 1. 標準的なヘッダーオブジェクトをチェック
+  const authHeader = req.headers["authorization"];
+  if (authHeader) {
+    if (Array.isArray(authHeader)) {
+      return authHeader[0];
+    }
+    return authHeader;
+  }
+
+  // 2. rawHeaders をチェック
+  const rawHeaders = req.rawHeaders;
+  for (let i = 0; i < rawHeaders.length; i += 2) {
+    if (rawHeaders[i].toLowerCase() === "authorization") {
+      return rawHeaders[i + 1];
+    }
+  }
+
+  // 3. デバッグ情報を出力
+  console.log("All headers:", req.headers);
+  console.log("Raw headers:", req.rawHeaders);
+
+  // ヘッダーが見つからない場合
+  return undefined;
+}
+
+function generateToken(payload: jwt.JwtPayload): string {
+  const newExp = Math.floor(Date.now() / 1000) + 15 * 60; // 現在時刻 + 15分
+  return jwt.sign({ ...payload, exp: newExp }, JWT_SECRET);
+}
+
+// ミドルウェア
+const corsMiddleware = (req: Request, res: Response, next: NextFunction) => {
   const origin = req.headers.origin;
   if (origin && allowedOrigins.includes(origin)) {
     res.setHeader("Access-Control-Allow-Origin", origin);
   }
-  Object.entries(corsHeaders).forEach(([key, value]) => {
-    res.setHeader(key, value);
-  });
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token"
+  );
+  res.setHeader("Access-Control-Allow-Methods", "OPTIONS,GET,POST,PUT,DELETE");
+  // res.setHeader("Access-Control-Expose-Headers", "New-Token");
+
   if (req.method === "OPTIONS") {
     res.sendStatus(200);
   } else {
     next();
   }
-});
+};
 
-// JSON形式のリクエストボディを解析
+const verifyAndRefreshToken = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const authHeader = getAuthorizationHeader(req);
+    const token = extractTokenFromHeader(authHeader);
+    const decoded = jwt.verify(token, JWT_SECRET) as jwt.JwtPayload;
+
+    const newToken = generateToken(decoded);
+    res.setHeader("New-Token", newToken);
+
+    (req as any).userId = decoded.userId;
+    next();
+  } catch (error) {
+    console.error("Token verification failed:", error);
+    if (error instanceof jwt.TokenExpiredError) {
+      try {
+        const authHeader = getAuthorizationHeader(req);
+        const token = extractTokenFromHeader(authHeader);
+        const decoded = jwt.decode(token) as jwt.JwtPayload;
+        if (!decoded || !decoded.userId) {
+          throw new Error("Invalid token");
+        }
+        const newToken = generateToken(decoded);
+        res.setHeader("New-Token", newToken);
+        (req as any).userId = decoded.userId;
+        next();
+      } catch (refreshError) {
+        res.status(401).json({ message: "Token refresh failed" });
+      }
+    } else {
+      res.status(401).json({ message: "Invalid token" });
+    }
+  }
+};
+
+// ミドルウェアの適用
+app.use(corsMiddleware);
+app.use(verifyAndRefreshToken);
 app.use(express.json());
 
-console.log("####################################");
+// ファイルアップロード設定
+const upload = multer({ storage: multer.memoryStorage() });
 
+// ルート
 app.get("/hello", (req: Request, res: Response) => {
   res.send("Hello, this is a GET response from Lambda!");
 });
 
-// ファイルアップロード用のmulter設定
-const upload = multer({ storage: multer.memoryStorage() });
-
-// multipart/form-data 用のルート (ファイルアップロード)
 app.post("/upload", upload.single("file"), (req: Request, res: Response) => {
-  const name = req.body.name; // formのnameフィールドのデータ
-  const file = req.file; // アップロードされたファイルのデータ
+  const { name } = req.body;
+  const file = req.file;
 
-  // JSONも同時に含まれる可能性があるため、リクエストがJSON形式か確認
   if (req.is("application/json")) {
-    const jsonData = req.body; // JSON データもここで処理
-    console.log("JSON データ:", jsonData);
+    console.log("JSON データ:", req.body);
   }
 
-  // アップロードされたファイルがある場合
   if (file) {
     console.log(`アップロードされたファイル: ${file.originalname}`);
     console.log(`ファイルサイズ: ${file.size} bytes`);
@@ -67,29 +146,22 @@ app.post("/upload", upload.single("file"), (req: Request, res: Response) => {
   });
 });
 
-// JSON専用のルート
 app.post("/json", (req: Request, res: Response) => {
-  const jsonData = req.body; // JSON データ
   res.json({
     message: "JSON データが受信されました",
-    data: jsonData,
+    data: req.body,
   });
 });
 
-// GET メソッドの処理
 app.get("/check", (req, res) => {
   res.json({ message: "GET request successful", status: "OK" });
 });
 
-// POST メソッドの処理
 app.post("/check", (req, res) => {
   const { message } = req.body;
-  console.log("**************************** postmessage:", message);
-
   if (!message) {
     return res.status(400).json({ message: "Message is missing in the body" });
   }
-
   res.json({
     message: `POST request received with message: ${message}`,
     status: "OK",

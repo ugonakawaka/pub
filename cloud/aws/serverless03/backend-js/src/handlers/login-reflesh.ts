@@ -3,6 +3,7 @@ import * as jwt from "jsonwebtoken";
 
 interface AuthResponse {
   accessToken: string;
+  refreshToken: string;
 }
 
 const authenticateUser = (username: string, password: string): boolean => {
@@ -11,6 +12,10 @@ const authenticateUser = (username: string, password: string): boolean => {
 
 const createAccessToken = (username: string): string => {
   return jwt.sign({ username }, "your-secret-key", { expiresIn: "15m" });
+};
+
+const createRefreshToken = (username: string): string => {
+  return jwt.sign({ username }, "your-refresh-secret-key", { expiresIn: "7d" });
 };
 
 const corsHeaders = {
@@ -44,6 +49,7 @@ export const handler = async (
     }
 
     const { username, password } = JSON.parse(event.body || "{}");
+
     console.log("username:", username);
     console.log("password:", password);
 
@@ -57,7 +63,10 @@ export const handler = async (
 
     if (authenticateUser(username, password)) {
       const accessToken = createAccessToken(username);
-      const response: AuthResponse = { accessToken };
+      const refreshToken = createRefreshToken(username);
+
+      const response: AuthResponse = { accessToken, refreshToken };
+
       return {
         statusCode: 200,
         headers: corsHeaders,

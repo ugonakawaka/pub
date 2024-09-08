@@ -1,4 +1,5 @@
 import { config } from "./config.mjs";
+import { auth } from "./auth.mjs";
 
 class ApiClient {
   constructor(baseUrl) {
@@ -21,6 +22,13 @@ class ApiClient {
     };
 
     const response = await fetch(url, options);
+
+    // 新しいトークンをチェックして更新
+    const newToken = response.headers.get("New-Token");
+    if (newToken) {
+      auth.updateToken(newToken);
+    }
+
     if (!response.ok) {
       throw new Error(`API request failed: ${response.statusText}`);
     }
