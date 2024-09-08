@@ -14,7 +14,7 @@ class ApiClient {
     if (token) {
       headers["Authorization"] = `Bearer ${token}`;
     }
-
+    console.log("********* ");
     const options = {
       method,
       headers,

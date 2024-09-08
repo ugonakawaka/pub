@@ -3,7 +3,8 @@ export const config = {
   routes: {
     login: "/login",
     check: "/check",
-    home: "home.html",
-    index: "index.html",
+    homePage: "home.html",
+    indexPage: "index.html",
+    loginPage: "login.html",
   },
 };
