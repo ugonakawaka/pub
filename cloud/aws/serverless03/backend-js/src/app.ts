@@ -33,6 +33,7 @@ function getAuthorizationHeader(req: IncomingMessage): string | undefined {
     }
     return authHeader;
   }
+  // ok
 
   // 2. rawHeaders をチェック
   const rawHeaders = req.rawHeaders;

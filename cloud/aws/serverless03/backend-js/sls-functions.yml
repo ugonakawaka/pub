@@ -23,10 +23,10 @@ custom:
         # - New-Token
       allowCredentials: true
 
-      # serverless-scriptable-plugin でスクリプトを実行
-      scriptable:
-        hooks:
-          before:package:createDeploymentArtifacts: "npm run build"
+  # serverless-scriptable-plugin でスクリプトを実行
+  scriptable:
+    hooks:
+      before:package:createDeploymentArtifacts: "npm run build"
 
 service: ${self:custom.cmn.services.baseName}-funcs-js
 
