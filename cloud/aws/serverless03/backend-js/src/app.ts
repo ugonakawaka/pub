@@ -66,7 +66,7 @@ const corsMiddleware = (req: Request, res: Response, next: NextFunction) => {
     "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token"
   );
   res.setHeader("Access-Control-Allow-Methods", "OPTIONS,GET,POST,PUT,DELETE");
-  // res.setHeader("Access-Control-Expose-Headers", "New-Token");
+  res.setHeader("Access-Control-Expose-Headers", "New-Token");
 
   if (req.method === "OPTIONS") {
     res.sendStatus(200);
