@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + Svelte</title>
+  </head>
+  <body>
+    <quiz-component>
+      <question-component text="問題文"></question-component>
+      
+      <ul slot="ops">
+          <li slot="op">選択肢1<button>回答する</button></li>
+          <li slot="op" correct>選択肢2<button correct>回答する</button></li>
+          <li slot="op">選択肢3<button>回答する</button></li>
+          <li slot="op">選択肢4<button>回答する</button></li>
+      </select>
+  </quiz-component>
+
+    <parent-component></parent-component>
+    <wc-hello-world name="test"></wc-hello-world>
+    <wc-hello-world name="test"></wc-hello-world>
+    <wc-hello-world name="test"></wc-hello-world>
+    <wc-hello-world name="test1">
+      ここにいろいろ
+
+    </wc-hello-world>
+    <wc-hello-world name="test2"></wc-hello-world>
+    <my-counter></my-counter>
+
+
+
+    <script type="module" src="/src/main.ts"></script>
+    <script type="module" src="/src/wc-hello-world.svelte"></script>
+    <script type="module" src="/src/lib/Counter.svelte"></script>
+  </body>
+</html>

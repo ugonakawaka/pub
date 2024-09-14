@@ -1,0 +1,44 @@
+apply plugin: 'java'
+
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.codehaus.groovy:groovy-all:3.0.10'
+	compileClasspath 'org.apache.maven:maven-embedder:3.8.5'
+	compileClasspath 'org.openapitools:openapi-generator-cli:5.1.1'
+	implementation gradleApi()
+}
+
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath "org.openapitools:openapi-generator-gradle-plugin:6.0.1"
+		classpath group: 'org.openapitools', name: 'openapi-generator-cli', version: '6.0.1'
+		// https://mvnrepository.com/artifact/org.openapitools/openapi-generator-cli
+		classpath 'org.openapitools:openapi-generator-cli:5.1.1'
+		classpath 'commons-cli:commons-cli:1.5.0'
+		classpath 'org.apache.maven:maven-embedder:3.8.5'
+	}
+}
+
+apply plugin: 'org.openapi.generator'
+
+openApiGenerate {
+	generatorName = "java-micronaut-server"
+	inputSpec = "$rootDir/specs/5G_APIs-master/TS29521_Nbsf_Management.yaml".toString()
+	outputDir = "$buildDir/generated".toString()
+	apiPackage = "org.openapi.example.api"
+	invokerPackage = "org.openapi.example.invoker"
+	modelPackage = "org.openapi.example.model"
+	configOptions = [
+		dateLibrary: "java8"
+	]
+}
+
+
+

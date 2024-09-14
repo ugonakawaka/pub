@@ -1,4 +1,4 @@
-package main;
+package main2;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -31,7 +31,7 @@ public class TestDontLogging4_success2 {
 	static {
 		System.out.println("*** static init");
 		// ためしに、何もしないレジストリを設定みると
-		System.setProperty("log4j.shutdownCallbackRegistry", "main.TestDontLogging4_success2$Shutdown");
+		System.setProperty("log4j.shutdownCallbackRegistry", "main2.TestDontLogging4_success2$Shutdown");
 
 	}
 	static final Logger logger = LogManager.getLogger("Logger");

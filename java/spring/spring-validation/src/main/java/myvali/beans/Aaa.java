@@ -22,6 +22,7 @@ public class Aaa {
 	Integer i1;
 
 	Integer i2;
+	
 
 	Integer i3;
 

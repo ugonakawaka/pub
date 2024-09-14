@@ -13,3 +13,5 @@ minikube status
 minikube start --driver=docker  
 minikube start --force --driver=docker  
 
+
+

@@ -4,7 +4,7 @@
 https://github.com/katohideyuki/JavaGold  
 
 自分がJavaプログラマの資格に受かったのは数十年前(おおげさ)...
-僕のHava知識は数十年前(おおげさ)のものとなってしまったので、上記のサイトにインスパイアされてJava知識をアップデートしようという試みです。
+僕のjava知識は数十年前(おおげさ)のものとなってしまったので、上記のサイトにインスパイアされてJava知識をアップデートしようという試みです。
 
 2022年現在、まだJava17まで資格のアップデートはされていないみたいだけど、ちょっとがんばってみたいと思ったのでした。
 
@@ -13,4 +13,7 @@ https://github.com/katohideyuki/JavaGold
 https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html
 
 
+
+### 仕様書は都度調べたいところ
+https://docs.oracle.com/javase/specs/ 
 

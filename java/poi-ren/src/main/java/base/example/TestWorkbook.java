@@ -41,11 +41,7 @@ public class TestWorkbook {
 			}
 		}
 		{
-			var book = base.resolve("book.xlsx");
-			{
-				var wb = new XSSFWorkbook(Files.newInputStream(book));
-
-			}
+			
 
 		}
 
