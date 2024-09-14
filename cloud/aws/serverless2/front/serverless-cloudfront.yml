@@ -9,11 +9,17 @@ custom:
   # バケット名をステージごとに設定
   targetBucketName: ${self:service}-${self:custom.cmn.region}-${opt:stage}-bucket 
 
+  # MinTTLの設定
   minTTLValue: ${self:custom.minTTLMap.${opt:stage, 'dev'}}
   minTTLMap:
     prod: 3600
     dev: 0
   minTTL: ${self:custom.minTTLValue}
+
+  # API GatewayのURLを取得する
+  apiGatewayUrl: test
+    # Fn::ImportValue: ApiGatewayUrl-${opt:stage}
+
   # 以下、プラグイン
   # serverless-s3-sync プラグインの設定
   s3Sync:
@@ -24,6 +30,11 @@ custom:
     - distributionIdKey: DistributionId
       items:
         - "/*"
+  # API GatewayのURLを取得してconfig.jsonに書き込む
+  scriptHooks:
+    after:package:createDeploymentArtifacts: 'echo "{ \\\\"apiUrl\\\\": \\\\"${self:custom.apiGatewayUrl}\\\\" }" > config.json'
+    after:deploy:finalize: 'aws s3 cp config.json s3://${self:custom.targetBucketName}/config.json'
+
 
 service: ${self:custom.cmn.services.baseName}-cloudfront  # サービス名を設定
 
@@ -60,7 +71,6 @@ resources:
           OriginAccessControlOriginType: s3  # オリジンのタイプを指定 (S3バケットの場合は 's3')
           SigningBehavior: always  # 必ず署名を使用
           SigningProtocol: sigv4  # Sigv4署名プロトコルを使用
-
 
     # S3バケットポリシーの設定
     FrontS3BucketPolicy:
@@ -124,3 +134,5 @@ resources:
 
 plugins:
   - serverless-s3-sync  # S3バケットとローカルディレクトリの同期プラグイン
+  - serverless-scriptable-plugin # スクリプトを実行するプラグイン
+  - serverless-cloudfront-invalidate # CloudFrontのキャッシュを無効化するプラグイン
