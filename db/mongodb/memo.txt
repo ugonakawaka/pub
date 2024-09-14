@@ -1,0 +1,14 @@
+ db.version()
+
+use Xxxx
+
+show collections
+
+show dbs
+
+db.createCollection('(任意のコレクション名)');
+db.(コレクション名).drop();
+
+db.(コレクション名).insert({ name:'(任意のキー名)', (任意のバリュー名): '(任意の値)' });
+
+db.(コレクション名).find();

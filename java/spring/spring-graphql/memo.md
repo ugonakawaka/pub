@@ -7,8 +7,8 @@
 
 ====
 
-[https://www.logicbig.com/tutorials/spring-framework/spring-web-mvc/parameter-name-discoverer.html](https://www.logicbig.com/tutorials/spring-framework/spring-web-mvc/parameter-name-discoverer.html)
-
+[https://www.logicbig.com/tutorials/spring-framework/spring-web-mvc/parameter-name-discoverer.html](https://www.logicbig.com/tutorials/spring-framework/spring-web-mvc/parameter-name-discoverer.html)  
+[https://www.logicbig.com/how-to/java-command/java-class-default-debug-info.html](https://www.logicbig.com/how-to/java-command/java-class-default-debug-info.html)  
  
 
 eclipseでこのようなエラーがでた場合、コンパイル時のオプションがたりないかもしれない、リフレクションの情報がクラスについていない？からかもしれない。

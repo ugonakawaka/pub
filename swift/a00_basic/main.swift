@@ -62,7 +62,7 @@ do { // http通信?
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         let task = URLSession.shared.dataTask(with: request, completionHandler: { data, _, _ in
-            if let data = data {
+            if let data {
                 dump(data)
             }
         })
@@ -81,12 +81,12 @@ if false {
         request.httpMethod = "POST"
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             print("*** ok 2")
-            if let error = error {
+            if let error {
                 print("クライアントエラー: \(error.localizedDescription) \n")
                 return
             }
 
-            guard let data = data, let response = response as? HTTPURLResponse else {
+            guard let data, let response = response as? HTTPURLResponse else {
                 print("no data or no response")
                 return
             }

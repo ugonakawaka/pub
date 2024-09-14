@@ -1,5 +1,8 @@
-2022-07-30
+2022-10-15
+=====
+https://developer.apple.com/forums/thread/680554
 
+2022-07-30
 =====
 
 openssl ecparam -genkey -name secp256r1 -out keypair.pem

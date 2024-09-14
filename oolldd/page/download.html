@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="jp">
+	<head>
+		<meta charset="utf-8">
+		<style>
+			tr:nth-child(even) {
+    			background:#ffffe0;
+			}
+			tr:nth-child(odd) {
+    			background:#b0e0e6;
+			}
+			
+		</style>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script>
+			// firefox
+			console.log("start");
+			$(document).on("click", "#a", function(){
+				var title = $( "#t" ).contents().find( "pre" ).html();
+				var pdf = $( "#p" ).contents().find( "pre" ).html();
+				var sd = $( "#sd" ).contents().find( "pre" ).html();
+				// console.log(typeof(title));
+				var ts = title.split("\n");
+				var pdfs = pdf.split("\n");
+				var sds = sd.split("\n");
+				var ss  = [];
+
+				console.log("len:" + ts.length);
+				$(ts).each(function(){
+					// console.log(this);
+					var spt = this.split(":");
+					ss[spt[0]] = { no:spt[0], title:spt[1] };
+				});
+				
+				$(pdfs).each(function(){
+					var match = this.match(/.*\/(\d+)\.pdf.*/);
+					if(match != null) {
+						// console.log("match! " + match[1]);
+						var o = ss[match[1]];
+						if(o){ o.pdf = this.toString(); }
+					}
+				});
+				$(sds).each(function(){
+					var match = this.match(/.*\/(\d+)-SD\.mov.*/);
+					if(match != null) {
+						console.log("match! " + match[1]);
+						var o = ss[match[1]];
+						if(o){ o.sd = this.toString(); }
+					}
+				});
+				// console.log(ss);
+				// output
+				for(k in ss){
+					var o = ss[k];
+					var lnkpdf = "<a href='" + o.pdf + "'>pdf</a>";
+					var lnksd = "<a href='" + o.sd + "'>sd</a>";
+					$("#tbl").append("<tr><td>" + o.no + "</td><td>" +  lnkpdf + "</td><td>"  + lnksd + "</td><td>"  + o.title + "</td><td></td></tr>");
+				}
+			});
+		</script>
+	</head>
+	<body>
+<button id="a">make link </button>
+		<div id="contents"></div>
+		<table id="tbl"><tr><th>no</th><td>pdf</td><td>sd</td><td>title</td><td>hd</td></tr></table>
+		<iframe id="t" src="TITLE.txt" style="width: 0;height: 0;"></iframe>
+		<iframe id="p" src="PDF.txt" style="width: 0;height: 0;"></iframe>
+		<iframe id="sd" src="SD.txt" style="width: 0;height: 0;"></iframe>
+		<iframe id="hd" src="HD.txt" style="width: 0;height: 0;"></iframe>
+	</body>
+</html>

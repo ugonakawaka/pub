@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shadow DOM Access Sample</title>
+</head>
+<body>
+
+<!-- aaa要素のテンプレート -->
+<template id="aaa-template">
+  <div>
+    <slot></slot>
+  </div>
+</template>
+
+<!-- bbb要素のテンプレート -->
+<template id="bbb-template">
+  <span>
+    <slot></slot>
+  </span>
+</template>
+
+<script>
+  class AaaElement extends HTMLElement {
+    constructor() {
+      super();
+      const template = document.getElementById('aaa-template').content;
+      this.attachShadow({mode: 'open'}).appendChild(template.cloneNode(true));
+    }
+  }
+
+  class BbbElement extends HTMLElement {
+    constructor() {
+      super();
+      const template = document.getElementById('bbb-template').content;
+      this.attachShadow({mode: 'open'}).appendChild(template.cloneNode(true));
+    }
+  }
+
+  customElements.define('aaa-element', AaaElement);
+  customElements.define('bbb-element', BbbElement);
+
+  function changeShadowText() {
+    const bbbElem = document.getElementById('b1');
+    const spanInShadow = bbbElem.shadowRoot.querySelector('span');
+    spanInShadow.textContent = "Shadow内部テキスト変更";
+  }
+
+</script>
+
+<!-- 使用例 -->
+<aaa-element><bbb-element id="b1">あいうえお</bbb-element></aaa-element>
+<button onclick="changeShadowText()">Shadow内部テキスト変更</button>
+
+</body>
+</html>

@@ -63,3 +63,21 @@ do {
     let result = a(1)
     print(result)
 }
+
+do { // 結果をタプルで返せる
+    enum Aaa {
+        case A1, A2
+    }
+
+    let a: Aaa = .A1
+    print("\(a)")
+
+    let (b, c) = switch a {
+    case .A1:
+        ("ok1", 1)
+    case .A2:
+        ("ok2", 2)
+    }
+
+    print("\(b), \(c)")
+}

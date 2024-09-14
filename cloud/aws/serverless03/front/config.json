@@ -1,0 +1,1 @@
+{ \apiUrl\: \{{resolve:ssm:/my3-dev-funcs-js/dev/api-url}}\ }

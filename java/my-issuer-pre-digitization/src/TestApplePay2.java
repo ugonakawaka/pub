@@ -59,7 +59,8 @@ public class TestApplePay2 {
 
 		// Step 1: Extract Public Key from Leaf Certificate
 		var publickey = step1();
-
+System.out.println(publickey.getEncoded().length);
+		
 		// Step 2: Ephemeral Key Pairs: On the issuer server, generate the Ephemeral Key
 		// Pairs.
 

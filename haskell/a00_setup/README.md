@@ -11,3 +11,9 @@ stack setup
 
 
 stack ghci. 
+
+===
+vscodeを使う
+brewの更新はこまめに
+brew update
+brew upgrade

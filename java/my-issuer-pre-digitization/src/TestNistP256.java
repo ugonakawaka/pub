@@ -37,10 +37,12 @@ public class TestNistP256 {
 	static void printHex(byte[] bytes) {
 		{// The formatted string is: "#00, #01, #02, #03, #7c, #7d, #7e, #7f"
 			HexFormat commaFormat = HexFormat.ofDelimiter(" ").withPrefix("0x");
+			HexFormat hexFormat = HexFormat.of().withUpperCase();
+			var str = commaFormat.formatHex(bytes);
 
-			String str = commaFormat.formatHex(bytes);
-
+			System.out.println(hexFormat.formatHex(bytes));
 			System.out.println(str);
+			
 			byte[] parsed = commaFormat.parseHex(str);
 			assert (Arrays.equals(bytes, parsed));
 
@@ -50,7 +52,7 @@ public class TestNistP256 {
 	static void a() throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidAlgorithmParameterException,
 			IOException, GSSException {
 
-		// NIST（米国立標準技術研究所）推奨パラメータ 
+		// NIST（米国立標準技術研究所）推奨パラメータ
 		// P-256
 		// secp256r1
 		var keyPairGenerator = KeyPairGenerator.getInstance("EC");
@@ -58,7 +60,6 @@ public class TestNistP256 {
 		var ecGenParameterSpec = new ECGenParameterSpec("NIST P-256");
 		keyPairGenerator.initialize(ecGenParameterSpec);
 		var keyPair = keyPairGenerator.generateKeyPair();
-
 
 		// castしないといけない...
 		var privateKey = (ECPrivateKey) keyPair.getPrivate();
@@ -72,7 +73,21 @@ public class TestNistP256 {
 			byte[] bs = Arrays.copyOf(encoded, encoded.length - 2 * (256 / Byte.SIZE));
 			System.out.println(bs.length);
 			ECPoint ecPoint = publicKey.getW();
-
+			System.out.printf(" %d - %d = %d   %n", encoded.length, bs.length, encoded.length - bs.length);
+			
+			
+			{
+				var name = "NIST P-256";
+				var size = 256;
+				byte[] head = createHeadForNamedCurve(name, size);
+				// head分をひく
+				byte[] bs2 = Arrays.copyOfRange(encoded, head.length, encoded.length);
+				System.out.println("-----> " + bs2.length);
+			
+				
+			}
+			
+			
 			System.out.println("***");
 			System.out.println(publicKey.getW().getAffineX().toByteArray().length);
 			System.out.println(publicKey.getW().getAffineY().toByteArray().length);
@@ -80,14 +95,13 @@ public class TestNistP256 {
 			printHex(publicKey.getW().getAffineY().toByteArray());
 			System.out.println("***");
 			printHex(bs);
+			System.out.println("*** OID");
 			printHex(new Oid("1.2.840.10045.2.1").getDER());
 			printHex(new Oid("1.2.840.10045.3.1.7").getDER());
 			printHex(encoded);
 			printBase64(encoded);// final byte[] pubBytes = ecPoint
 
-			
-			
-			//		 Arrays.copyOfRange(pubBytes, 1, pubBytes.length);
+			// Arrays.copyOfRange(pubBytes, 1, pubBytes.length);
 			System.out.println("========");
 			{
 				KeyFactory kf = KeyFactory.getInstance("EC");
@@ -108,10 +122,10 @@ public class TestNistP256 {
 				System.out.println(new Oid("1.2.840.10045.3.1.7").toString());
 				System.out.println(new Oid("1").getDER());
 				printHex(new Oid("1.2.840.10045.3.1.7").getDER());
-				
+
 				System.out.println("=======");
 				printHex(new Oid("1.2.840.10045.4").getDER());
-				
+
 			}
 
 		}

@@ -1,8 +1,7 @@
 #!/bin/bash
 
-
 # SWIFT_VERSION=$(swift -version)
-SWIFT_VERSION=5.9.0
+SWIFT_VERSION=5.10.0
 MAIN=main
 
 echo $SWIFT_VERSION

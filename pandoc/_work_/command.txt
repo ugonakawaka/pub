@@ -1,0 +1,19 @@
+pandoc \
+      -s ${インプットファイル.md} \
+      -f markdown \
+      --metadata title="Practical Data Science & Engineering Vol.1" \
+      -c ${シンタックスハイライト.css} \
+      -o ${出力ファイル名.html}
+
+
+pandoc \
+blog/a.md \
+-o  blog/a.html \
+--template template.html \
+--include-in-header header.html \
+--include-before-body navbar.html \
+--include-after-body footer.html \
+--standalone --mathjax --toc --toc-depth 2
+
+
+pandoc -f markdown -t html5 -o blog/a.html  blog/a.md

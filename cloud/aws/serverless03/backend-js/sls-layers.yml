@@ -2,30 +2,132 @@ custom:
   cmn: ${file(../config/common.yml)}
   env: ${file(../config/${opt:stage}.yml)}
 
-service: ${self:custom.cmn.services.baseName}-${opt:stage}-layerJs
+service: ${self:custom.cmn.services.baseName}-layerJs
 
 provider:
   name: aws
   runtime: ${self:custom.cmn.backend-js.runtime}
   region: ${self:custom.cmn.region}
   stackName: ${self:service}
-  deploymentBucket: ${self:custom.cmn.deploymentBucket} 
+  deploymentBucket: ${self:custom.cmn.deploymentBucket}
 
 package:
   individually: true
 
 layers:
   layerCommonJs:
-    name: ${self:service}-CommonJsLayer
-    path: .serverless-work/
+    # バージョン付きのレイヤーを作成する
+    name: ${self:service}-CommonJsLayer-v${self:custom.cmn.layer.version}
+    path: .serverless-wrok/layers
     compatibleRuntimes:
       - ${self:custom.cmn.backend-js.runtime}
     package:
       patterns:
-        - "!node_modules/**"
-        - "node_modules/aws-serverless-express/**"
-        - "node_modules/axios/**"
-
+        - "!nodejs/node_modules/**"
+        - "nodejs/node_modules/@codegenie/serverless-express/**"
+        - "nodejs/node_modules/@vendia/serverless-express/**"
+        - "nodejs/node_modules/accepts/**"
+        - "nodejs/node_modules/append-field/**"
+        - "nodejs/node_modules/array-flatten/**"
+        - "nodejs/node_modules/asynckit/**"
+        - "nodejs/node_modules/aws-serverless-express/**"
+        - "nodejs/node_modules/axios/**"
+        - "nodejs/node_modules/binary-case/**"
+        - "nodejs/node_modules/body-parser/**"
+        - "nodejs/node_modules/buffer-equal-constant-time/**"
+        - "nodejs/node_modules/buffer-from/**"
+        - "nodejs/node_modules/busboy/**"
+        - "nodejs/node_modules/bytes/**"
+        - "nodejs/node_modules/call-bind/**"
+        - "nodejs/node_modules/combined-stream/**"
+        - "nodejs/node_modules/concat-stream/**"
+        - "nodejs/node_modules/content-disposition/**"
+        - "nodejs/node_modules/content-type/**"
+        - "nodejs/node_modules/cookie/**"
+        - "nodejs/node_modules/cookie-signature/**"
+        - "nodejs/node_modules/core-util-is/**"
+        - "nodejs/node_modules/debug/**"
+        - "nodejs/node_modules/define-data-property/**"
+        - "nodejs/node_modules/delayed-stream/**"
+        - "nodejs/node_modules/depd/**"
+        - "nodejs/node_modules/destroy/**"
+        - "nodejs/node_modules/ecdsa-sig-formatter/**"
+        - "nodejs/node_modules/ee-first/**"
+        - "nodejs/node_modules/encodeurl/**"
+        - "nodejs/node_modules/es-define-property/**"
+        - "nodejs/node_modules/es-errors/**"
+        - "nodejs/node_modules/escape-html/**"
+        - "nodejs/node_modules/etag/**"
+        - "nodejs/node_modules/express/**"
+        - "nodejs/node_modules/finalhandler/**"
+        - "nodejs/node_modules/follow-redirects/**"
+        - "nodejs/node_modules/form-data/**"
+        - "nodejs/node_modules/forwarded/**"
+        - "nodejs/node_modules/fresh/**"
+        - "nodejs/node_modules/function-bind/**"
+        - "nodejs/node_modules/get-intrinsic/**"
+        - "nodejs/node_modules/gopd/**"
+        - "nodejs/node_modules/has-property-descriptors/**"
+        - "nodejs/node_modules/has-proto/**"
+        - "nodejs/node_modules/has-symbols/**"
+        - "nodejs/node_modules/hasown/**"
+        - "nodejs/node_modules/http-errors/**"
+        - "nodejs/node_modules/iconv-lite/**"
+        - "nodejs/node_modules/inherits/**"
+        - "nodejs/node_modules/ipaddr.js/**"
+        - "nodejs/node_modules/isarray/**"
+        - "nodejs/node_modules/jsonwebtoken/**"
+        - "nodejs/node_modules/jwa/**"
+        - "nodejs/node_modules/jws/**"
+        - "nodejs/node_modules/lodash.includes/**"
+        - "nodejs/node_modules/lodash.isboolean/**"
+        - "nodejs/node_modules/lodash.isinteger/**"
+        - "nodejs/node_modules/lodash.isnumber/**"
+        - "nodejs/node_modules/lodash.isplainobject/**"
+        - "nodejs/node_modules/lodash.isstring/**"
+        - "nodejs/node_modules/lodash.once/**"
+        - "nodejs/node_modules/media-typer/**"
+        - "nodejs/node_modules/merge-descriptors/**"
+        - "nodejs/node_modules/methods/**"
+        - "nodejs/node_modules/mime/**"
+        - "nodejs/node_modules/mime-db/**"
+        - "nodejs/node_modules/mime-types/**"
+        - "nodejs/node_modules/minimist/**"
+        - "nodejs/node_modules/mkdirp/**"
+        - "nodejs/node_modules/ms/**"
+        - "nodejs/node_modules/multer/**"
+        - "nodejs/node_modules/negotiator/**"
+        - "nodejs/node_modules/object-assign/**"
+        - "nodejs/node_modules/object-inspect/**"
+        - "nodejs/node_modules/on-finished/**"
+        - "nodejs/node_modules/parseurl/**"
+        - "nodejs/node_modules/path-to-regexp/**"
+        - "nodejs/node_modules/process-nextick-args/**"
+        - "nodejs/node_modules/proxy-addr/**"
+        - "nodejs/node_modules/proxy-from-env/**"
+        - "nodejs/node_modules/qs/**"
+        - "nodejs/node_modules/range-parser/**"
+        - "nodejs/node_modules/raw-body/**"
+        - "nodejs/node_modules/readable-stream/**"
+        - "nodejs/node_modules/safe-buffer/**"
+        - "nodejs/node_modules/safer-buffer/**"
+        - "nodejs/node_modules/semver/**"
+        - "nodejs/node_modules/send/**"
+        - "nodejs/node_modules/serve-static/**"
+        - "nodejs/node_modules/set-function-length/**"
+        - "nodejs/node_modules/setprototypeof/**"
+        - "nodejs/node_modules/side-channel/**"
+        - "nodejs/node_modules/statuses/**"
+        - "nodejs/node_modules/streamsearch/**"
+        - "nodejs/node_modules/string_decoder/**"
+        - "nodejs/node_modules/toidentifier/**"
+        - "nodejs/node_modules/type-is/**"
+        - "nodejs/node_modules/typedarray/**"
+        - "nodejs/node_modules/unpipe/**"
+        - "nodejs/node_modules/util-deprecate/**"
+        - "nodejs/node_modules/utils-merge/**"
+        - "nodejs/node_modules/vary/**"
+        - "nodejs/node_modules/xtend/**"
 
 resources:
   Outputs:
@@ -33,4 +135,5 @@ resources:
       Description: "The ARN of the Lambda Layer"
       Value: !Ref LayerCommonJsLambdaLayer
       Export:
-        Name: ${self:service}-LayerCommonJsArn
+        # Name of the export in the CloudFormation stack
+        Name: ${self:service}-LayerCommonJsArn-v${self:custom.cmn.layer.version}

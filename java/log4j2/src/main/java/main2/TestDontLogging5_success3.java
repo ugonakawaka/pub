@@ -1,4 +1,4 @@
-package main;
+package main2;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -51,7 +51,7 @@ public class TestDontLogging5_success3 {
 		// System.out.printf("%s%n",
 		// System.getProperty(ShutdownCallbackRegistry.SHUTDOWN_CALLBACK_REGISTRY));
 		// ためしに、何もしないレジストリを設定みると
-		System.setProperty("log4j.shutdownCallbackRegistry", "main.TestDontLogging5_success3$Shutdown");
+		System.setProperty("log4j.shutdownCallbackRegistry", "main2.TestDontLogging5_success3$Shutdown");
 //		System.setProperty("log4j.shutdownCallbackRegistry",
 //				"org.apache.logging.log4j.core.util.DefaultShutdownCallbackRegistry");
 		// org.apache.logging.log4j.core.util.DefaultShutdownCallbackRegistry
