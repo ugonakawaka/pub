@@ -1,0 +1,50 @@
+custom:
+  cm: ${file(./config/common.yml)}
+  env: ${file(./config/${opt:stage}.yml)}
+  scriptable:
+    hooks:
+      before:package:createDeploymentArtifacts: 
+        - mkdir -p .serverless-work/nodejs/node_modules
+        - unlink .serverless-work/nodejs/node_modules || true
+        - ln -s "$(pwd)/stepfunc/node_modules" ".serverless-work/nodejs/"
+
+
+
+service: ${self:custom.cm.baseName}-${opt:stage}-layerJs
+
+provider:
+  name: aws
+  runtime: ${self:custom.cm.backend-js.runtime}
+  region: ${self:custom.cm.region}
+  stackName: ${self:service}
+  deploymentBucket: ${self:custom.cm.deploymentBucket} 
+
+plugins:
+  - serverless-scriptable-plugin
+
+package:
+  individually: true
+
+layers:
+  layerCommon:
+    name: ${self:service}-CommonLayer
+    path: .serverless-work
+    compatibleRuntimes:
+      - ${self:custom.cm.backend-js.runtime}
+    package:
+      patterns:
+        - "!**/*" # まず全てを除外
+        - "nodejs/node_modules/**" # その後、特定のフォルダを含める
+        - "!nodejs/node_modules/.bin/**" # .bin フォルダを再度除外
+        - "!nodejs/node_modules/aws-sdk/**" # aws-sdk フォルダを再度除外
+        - "!nodejs/node_modules/@types/**" # @types フォルダを再度除外
+        - "!nodejs/node_modules/@serverless/**" # @types フォルダを再度除外
+
+
+resources:
+  Outputs:
+    LayerCommonArn:
+      Description: "The ARN of the Lambda Layer"
+      Value: !Ref LayerCommonLambdaLayer
+      Export:
+        Name: ${self:service}-LayerCommonArn

@@ -1,0 +1,116 @@
+frameworkVersion: '3'
+custom:
+  cm: ${file(../config/common.yml)}
+  env: ${file(../config/${opt:stage}.yml)}
+  layerArn:
+    Fn::ImportValue: ${self:custom.cm.baseName}-${opt:stage}-layerJs-LayerCommonArn
+  s3BucketName: ${self:custom.cm.baseName}-${opt:stage}-csv-bucket
+service: ${self:custom.cm.baseName}-${opt:stage}-wf-funcs-js
+provider:
+  name: aws
+  runtime: ${self:custom.cm.backend-js.runtime}
+  region: ${self:custom.cm.region}
+  stackName: ${self:service}
+  deploymentBucket: ${self:custom.cm.deploymentBucket}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - ssm:GetParameter
+          Resource:
+            - "arn:aws:ssm:${self:provider.region}:*:parameter/${self:custom.cm.baseName}/${opt:stage}/*"
+        - Effect: Allow
+          Action:
+            - states:StartExecution
+          Resource:
+            - "arn:aws:states:${self:provider.region}:*:stateMachine:*"
+        - Effect: Allow
+          Action:
+            - s3:PutObject
+            - s3:GetObject
+            - s3:ListBucket
+          Resource:
+            - "arn:aws:s3:::${self:custom.s3BucketName}"
+            - "arn:aws:s3:::${self:custom.s3BucketName}/*"
+package:
+  patterns:
+    - "!**/*"
+    - "src/**"
+functions:
+  triggerLambda:
+    handler: src/handler/trigger.handler
+    environment:
+      STATE_MACHINE_NAME: /${self:custom.cm.baseName}/${opt:stage}/STATE_MACHINE_NAME
+      S3_BUCKET_NAME: ${self:custom.s3BucketName}
+    name: ${self:service}-trigger
+    memorySize: 128
+    timeout: 30
+    description: ""
+    layers:
+      - ${self:custom.layerArn}
+  entryCsv:
+    handler: src/handler/entry.handler
+    name: ${self:service}-entry
+    memorySize: 128
+    timeout: 30
+    description: "(ステップファンクション) エントリ"
+    layers:
+      - ${self:custom.layerArn}
+    environment:
+      S3_BUCKET_NAME: ${self:custom.s3BucketName}
+  processCsv:
+    handler: src/handler/process.handler
+    name: ${self:service}-process
+    memorySize: 128
+    timeout: 30
+    description: "(ステップファンクション) プロセス"
+    layers:
+      - ${self:custom.layerArn}
+    environment:
+      S3_BUCKET_NAME: ${self:custom.s3BucketName}
+  aggregation:
+    handler: src/handler/aggregation.handler
+    name: ${self:service}-aggregation
+    memorySize: 128
+    timeout: 30
+    description: "(ステップファンクション) 結合"
+    layers:
+      - ${self:custom.layerArn}
+    environment:
+      S3_BUCKET_NAME: ${self:custom.s3BucketName}
+environment:
+  REGION: ${self:provider.region}
+  STAGE: ${opt:stage, 'dev'}
+  SES_EMAIL_SOURCE: "noreply@example.com"
+resources:
+  Resources:
+    CsvBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:custom.s3BucketName}
+        BucketEncryption:
+          ServerSideEncryptionConfiguration:
+            - ServerSideEncryptionByDefault:
+                SSEAlgorithm: AES256
+  Outputs:
+    EntryLambdaArn:
+      Description: "ARN of the entry Lambda function"
+      Value: !GetAtt EntryCsvLambdaFunction.Arn
+      Export:
+        Name: ${self:custom.cm.baseName}-${opt:stage}-entryCsvLambdaArn
+    ProcessCsvLambdaArn:
+      Description: "ARN of the process csv Lambda function"
+      Value: !GetAtt ProcessCsvLambdaFunction.Arn
+      Export:
+        Name: ${self:custom.cm.baseName}-${opt:stage}-processCsvLambdaArn
+    AggregationLambdaArn:
+      Description: "ARN of aggregation Lambda function"
+      Value: !GetAtt AggregationLambdaFunction.Arn
+      Export:
+        Name: ${self:custom.cm.baseName}-${opt:stage}-aggregationLambdaArn
+    S3BucketName:
+      Description: "Name of the S3 bucket for CSV files"
+      Value: ${self:custom.s3BucketName}
+      Export:
+        Name: ${self:custom.cm.baseName}-${opt:stage}-csvBucketName

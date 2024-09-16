@@ -1,0 +1,59 @@
+
+service: csv-processing-stepfunctions
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  region: ap-northeast-1
+  environment:
+    BUCKET_NAME: your-s3-bucket-name
+
+functions:
+  csvEntryLambda:
+    handler: csvEntryLambda.handler
+    package:
+      artifact: path/to/csvEntryLambda.zip
+
+  processCsvLambda:
+    handler: processCsvLambda.handler
+    package:
+      artifact: path/to/processCsvLambda.zip
+
+  aggregationLambda:
+    handler: aggregationLambda.handler
+    package:
+      artifact: path/to/aggregationLambda.zip
+
+stepFunctions:
+  stateMachines:
+    CsvProcessingStateMachine:
+      definition:
+        Comment: 'CSV Processing State Machine'
+        StartAt: CsvEntry
+        States:
+          CsvEntry:
+            Type: Task
+            Resource: ${self:provider.environment.CSV_ENTRY_LAMBDA_ARN}
+            Next: ProcessCsv
+          ProcessCsv:
+            Type: Map
+            ItemsPath: $.records
+            Parameters:
+              'index.$': '$$.Map.Item.Value.index'
+              'data.$': '$$.Map.Item.Value'
+            Iterator:
+              StartAt: ProcessRecord
+              States:
+                ProcessRecord:
+                  Type: Task
+                  Resource: ${self:provider.environment.PROCESS_CSV_LAMBDA_ARN}
+                  End: true
+            Next: Aggregation
+          Aggregation:
+            Type: Task
+            Resource: ${self:provider.environment.AGGREGATION_LAMBDA_ARN}
+            End: true
+
+plugins:
+  - serverless-step-functions

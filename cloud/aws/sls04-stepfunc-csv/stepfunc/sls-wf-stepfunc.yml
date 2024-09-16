@@ -1,0 +1,87 @@
+service: ${self:custom.cm.baseName}-${opt:stage}-stepf
+provider:
+  name: aws
+  region: ${self:custom.cm.region}
+  stackName: ${self:service}
+  deploymentBucket: ${self:custom.cm.deploymentBucket}
+custom:
+  cm: ${file(../config/common.yml)}
+  env: ${file(../config/${opt:stage}.yml)}
+  entryArn:
+    Fn::ImportValue: ${self:custom.cm.baseName}-${opt:stage}-entryCsvLambdaArn
+  processArn:
+    Fn::ImportValue: ${self:custom.cm.baseName}-${opt:stage}-processCsvLambdaArn
+  aggregationArn:
+    Fn::ImportValue: ${self:custom.cm.baseName}-${opt:stage}-aggregationLambdaArn
+plugins:
+  - serverless-step-functions
+  
+stepFunctions:
+  stateMachines:
+    CsvProcessingStateMachine:
+      name: CsvProcessingStateMachine
+      definition:
+        Comment: 'CSV Processing State Machine'
+        StartAt: EntryCsv
+        States:
+          EntryCsv:
+            Type: Task
+            Resource: ${self:custom.entryArn}
+            Parameters:
+              inputFileName.$: $.inputFileName
+              outputFileName.$: $.outputFileName
+            ResultPath: "$.entryResult"
+            Next: ProcessCsvBatches
+          ProcessCsvBatches:
+            Type: Map
+            ItemsPath: "$.entryResult.batchDataLocation"
+            Parameters:
+              bucketName.$: $.entryResult.bucketName
+              batchDataKey.$: $$.Map.Item.Value
+              outputPrefix.$: $.entryResult.outputPrefix
+            Iterator:
+              StartAt: GetBatchData
+              States:
+                GetBatchData:
+                  Type: Task
+                  Resource: "arn:aws:states:::aws-sdk:s3:getObject"
+                  Parameters:
+                    Bucket.$: $.bucketName
+                    Key.$: $.batchDataKey
+                  ResultPath: "$.s3Object"
+                  Next: ProcessBatch
+                ProcessBatch:
+                  Type: Task
+                  Resource: ${self:custom.processArn}
+                  Parameters:
+                    bucketName.$: $.bucketName
+                    batchData.$: $.s3Object.Body
+                    outputPrefix.$: $.outputPrefix
+                  End: true
+            ResultPath: "$.processedResults"
+            Next: Aggregation
+          Aggregation:
+            Type: Task
+            Resource: ${self:custom.aggregationArn}
+            Parameters:
+              processedResults.$: $.processedResults
+              outputFileName.$: $.outputFileName
+              bucketName.$: $.entryResult.bucketName
+            End: true
+
+resources:
+  Outputs:
+    CsvProcessingStateMachineArn:
+      Description: The ARN of the CSV processing state machine
+      Value:
+        Ref: CsvProcessingStateMachine
+      Export:
+        Name: CsvProcessingArn-${opt:stage}
+  Resources:
+    StoreStateMachinelParameter:
+      Type: AWS::SSM::Parameter
+      Properties:
+        Name: /${self:custom.cm.baseName}/${opt:stage}/STATE_MACHINE_NAME
+        Type: String
+        Value:
+          Ref: CsvProcessingStateMachine
