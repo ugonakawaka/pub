@@ -1,0 +1,214 @@
+custom:
+  cm: ${file(./config/common.yml)}
+  env: ${file(./config/${opt:stage}.yml)}
+  # 署名で使うよ
+  encryptionKey: your-encryption-key-here
+  bucketName: ${self:service}-bucket
+  sesEmail: test@test.com # または適切なメールアドレス
+
+  cloudfrontKeyGroupName: ${self:service}-key-group
+  cloudfrontPublicKeyParam: "/${self:custom.cm.baseName}/${opt:stage}/cloudfrontPublicKey"
+  cloudfrontPrivateKeyParam: "/${self:custom.cm.baseName}/${opt:stage}/cloudfrontPrivateKey"
+
+  scriptable:
+    hooks:
+      before:package:createDeploymentArtifacts:
+        - rm -rf .serverless-work/nodejs/node_modules
+        - mkdir -p .serverless-work/nodejs
+        - ln -s "$(pwd)/node_modules" ".serverless-work/nodejs/"
+        - npx tsc --build --clean && npx tsc --build
+
+service: ${self:custom.cm.baseName}
+
+provider:
+  name: aws
+  runtime: ${self:custom.cm.backend-js.runtime}
+  region: ${self:custom.cm.region}
+  memorySize: 256
+  timeout: 30
+  stackName: ${self:service}
+  deploymentBucket: ${self:custom.cm.deploymentBucket}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:PutObject
+        - ses:SendEmail
+        - cloudfront:CreateInvalidation
+        - cloudfront:GetDistribution
+        - "ses:SendEmail"
+        - "ses:SendRawEmail"
+        - "ssm:PutParameter"
+        - "ssm:GetParameter" # SSMパラメータ取得権限を追加
+      Resource: "*"
+  environment:
+    BUCKET_NAME: ${self:custom.bucketName}
+    CLOUDFRONT_DISTRIBUTION_ID: !Ref CloudFrontDistribution
+
+# 必要ないかもしれないけど、あとで必要になると困るので残しておく
+layers:
+  layerCommon:
+    name: ${self:service}-CommonLayer
+    path: .serverless-work
+    compatibleRuntimes:
+      - ${self:custom.cm.backend-js.runtime}
+    package:
+      patterns:
+        - "!**/*" # まず全てを除外
+        - "nodejs/node_modules/**" # その後、特定のフォルダを含める
+        - "!nodejs/node_modules/.bin/**" # .bin フォルダを再度除外
+        - "!nodejs/node_modules/aws-sdk/**" # aws-sdk フォルダを再度除外
+        - "!nodejs/node_modules/@types/**" # @types フォルダを再度除外
+        - "!nodejs/node_modules/@serverless/**" # @types フォルダを再度除外
+package:
+  individually: true
+  patterns:
+    - "!**/*"
+    - "dist/**"
+
+functions:
+  generateKeyPair:
+    handler: dist/generateKeyPair.handler
+    timeout: 30 # タイムアウト時間
+    layers:
+      - !Ref LayerCommonLambdaLayer
+    environment:
+      PUBLIC_KEY_PARAM: ${self:custom.cloudfrontPublicKeyParam}
+      PRIVATE_KEY_PARAM: ${self:custom.cloudfrontPrivateKeyParam}
+
+  sendTestEmail:
+    handler: dist/sendTestEmail.handler
+    layers:
+      - !Ref LayerCommonLambdaLayer
+    events:
+      - http:
+          path: send-test-email
+          method: post
+    environment:
+      SES_EMAIL: test@test.com
+
+  receiveTestEvent:
+    handler: dist/receiveTestEvent.handler
+    layers:
+      - !Ref LayerCommonLambdaLayer
+    events:
+      - http:
+          path: receive-test-event
+          method: get
+
+resources:
+  Resources:
+    S3Bucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:provider.environment.BUCKET_NAME}
+        AccessControl: Private
+        CorsConfiguration:
+          CorsRules:
+            - AllowedOrigins:
+                - "*"
+              AllowedHeaders:
+                - "*"
+              AllowedMethods:
+                - GET
+                - HEAD
+              MaxAge: 3000
+    # 新しく追加: S3バケットポリシー
+    S3BucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket: !Ref S3Bucket
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service: cloudfront.amazonaws.com
+              Action: "s3:GetObject"
+              Resource: !Join
+                - ""
+                - - "arn:aws:s3:::"
+                  - !Ref S3Bucket
+                  - "/*"
+              Condition:
+                StringEquals:
+                  AWS:SourceArn: !Join
+                    - ""
+                    - - "arn:aws:cloudfront::"
+                      - !Ref AWS::AccountId
+                      - ":distribution/"
+                      - !Ref CloudFrontDistribution
+
+    CloudFrontDistribution:
+      Type: AWS::CloudFront::Distribution
+      DependsOn: CloudFrontKeyGroup # 追加: キーグループへの依存関係
+      # DependsOn:
+      #   - CloudFrontKeyGroup
+      #   - S3BucketPolicy
+      Properties:
+        DistributionConfig:
+          DefaultCacheBehavior:
+            ViewerProtocolPolicy: redirect-to-https
+            TargetOriginId: S3Origin
+            ForwardedValues:
+              QueryString: false
+            TrustedKeyGroups: # 追加: 信頼されたキーグループ
+              - !Ref CloudFrontKeyGroup
+          Enabled: true
+          HttpVersion: http2
+          Origins:
+            - DomainName: ${self:provider.environment.BUCKET_NAME}.s3.amazonaws.com
+              Id: S3Origin
+              S3OriginConfig: {}
+    # 新しく追加: CloudFront Origin Access Control
+    CloudFrontOriginAccessControl:
+      Type: AWS::CloudFront::OriginAccessControl
+      Properties:
+        OriginAccessControlConfig:
+          Name: ${self:service}-oac
+          OriginAccessControlOriginType: s3
+          SigningBehavior: always
+          SigningProtocol: sigv4
+
+    # 新しく追加: CloudFront キーグループ
+    CloudFrontKeyGroup:
+      Type: AWS::CloudFront::KeyGroup
+      DependsOn: CloudFrontPublicKey # 追加: パブリックキーへの依存関係
+      Properties:
+        KeyGroupConfig:
+          Items:
+            - !Ref CloudFrontPublicKey
+          Name: ${self:custom.cloudfrontKeyGroupName}
+
+    # 新しく追加: CloudFront パブリックキー
+    CloudFrontPublicKey:
+      Type: AWS::CloudFront::PublicKey
+      DependsOn: GenerateKeyPairCustomResource # 追加: カスタムリソースへの依存関係
+      Properties:
+        PublicKeyConfig:
+          CallerReference: !Ref AWS::StackName
+          Name: ${self:service}-public-key
+          EncodedKey: !GetAtt GenerateKeyPairCustomResource.PublicKey
+
+    GenerateKeyPairCustomResource:
+      Type: Custom::GenerateKeyPair
+      Properties:
+        ServiceToken: !GetAtt GenerateKeyPairLambdaFunction.Arn
+        CallerReference: !Ref AWS::StackName # これが必要です
+    # SesEmailIdentity:
+    #   Type: AWS::SES::EmailIdentity
+    #   Condition: CreateSesIdentity
+    #   Properties:
+    #     EmailIdentity: ${self:custom.sesEmail}
+
+  Outputs:
+    # 新しく追加: CloudFront キーグループ ID の出力
+    # CloudFrontKeyGroupId:
+    #   Value: !Ref CloudFrontKeyGroup
+    # 新しく追加: CloudFront パブリックキー ID の出力
+    # CloudFrontPublicKeyId:
+    #   Value: !Ref CloudFrontPublicKey
+    CloudFrontPrivateKeyParam:
+      Value: ${self:custom.cloudfrontPrivateKeyParam}
+
+plugins:
+  - serverless-scriptable-plugin
