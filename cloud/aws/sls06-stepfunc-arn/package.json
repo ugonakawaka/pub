@@ -1,0 +1,20 @@
+{
+	"name": "my-serverless-project",
+	"version": "1.0.0",
+	"description": "Serverless project with Node.js and Bun",
+	"main": "src/handler.ts",
+	"scripts": {
+		"build": "bun build src/handler.ts --outdir dist",
+		"deploy": "npm run build && serverless deploy"
+	},
+	"dependencies": {
+		"@aws-sdk/client-ssm": "^3.x.x"
+	},
+	"devDependencies": {
+		"@types/aws-lambda": "^8.10.x",
+		"bun-types": "latest",
+		"serverless": "^3.x.x",
+		"serverless-step-functions": "^3.21.1",
+		"typescript": "^5.x.x"
+	}
+}

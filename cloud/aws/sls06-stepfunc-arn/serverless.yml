@@ -1,0 +1,54 @@
+service: my-step-function-service
+
+plugins:
+  - ./plugins/store-arns-plugin.mjs
+  - serverless-step-functions
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'ap-northeast-1'}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - ssm:PutParameter
+            - ssm:GetParameter
+            - kms:Decrypt
+          Resource: 
+            - arn:aws:ssm:${self:provider.region}:*:parameter/my-service/*
+            - arn:aws:kms:${self:provider.region}:*:key/*
+
+package:
+  individually: true
+
+functions:
+  myFunction:
+    handler: dist/handler.handler
+    package:
+      patterns:
+        - 'dist/**'
+
+stepFunctions:
+  stateMachines:
+    myStateMachine:
+      name: my-state-machine-${self:provider.stage}
+      definition:
+        StartAt: MyTask
+        States:
+          MyTask:
+            Type: Task
+            Resource:
+              Fn::GetAtt: [myFunction, Arn]
+            End: true
+
+custom:
+  storeArns:
+    - name: /my-service/${self:provider.stage}/lambda-arn
+      value:
+        Ref: MyFunctionLambdaFunction
+    - name: /my-service/${self:provider.stage}/step-function-arn
+      value:
+        Ref: MyStateMachine
