@@ -17,7 +17,8 @@ public class ExcelProcessorGUI extends JFrame implements ExcelProcessorCallback 
 	private JComboBox<String> excelFileComboBox;
 	private JTextArea resultTextArea;
 	private JButton executeButton;
-
+	private JButton clearButton;
+	
 	// データベース関連コンポーネント
 	private JTextField connectionInfoTextField;
 	private JTextField schemaTextField;
@@ -83,7 +84,8 @@ public class ExcelProcessorGUI extends JFrame implements ExcelProcessorCallback 
 		resultTextArea.setEditable(false);
 		resultTextArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
 		executeButton = new JButton("実行");
-
+		clearButton = new JButton("クリア");
+		
 		// データベース関連コンポーネント
 		connectionInfoTextField = new JTextField(30);
 		schemaTextField = new JTextField(30);
@@ -283,6 +285,7 @@ public class ExcelProcessorGUI extends JFrame implements ExcelProcessorCallback 
 		// 下部パネル（実行ボタン）
 		JPanel buttonPanel = new JPanel(new FlowLayout());
 		buttonPanel.add(executeButton);
+		buttonPanel.add(clearButton);
 		add(buttonPanel, BorderLayout.SOUTH);
 	}
 
@@ -294,6 +297,13 @@ public class ExcelProcessorGUI extends JFrame implements ExcelProcessorCallback 
 			}
 		});
 
+		clearButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				clearTextArea();
+			}
+		});
+		
 		searchButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -456,6 +466,10 @@ public class ExcelProcessorGUI extends JFrame implements ExcelProcessorCallback 
 				suddenDeath);
 	}
 
+	private void clearTextArea() {
+		this.resultTextArea.setText("");
+	}
+	
 	// ExcelProcessorCallbackの実装
 	@Override
 	public void onMessage(String message) {
