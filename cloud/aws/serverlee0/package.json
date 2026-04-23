@@ -1,8 +1,8 @@
 {
   "devDependencies": {
-    "@aws-sdk/client-cloudformation": "^3.624.0",
+    "@aws-sdk/client-cloudformation": "^3.1035.0",
     "dotenv": "^16.4.5",
-    "serverless": "^3.39.0",
+    "serverless": "^4.34.0",
     "serverless-offline": "^14.3.4"
   }
 }
