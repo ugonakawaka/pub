@@ -1,5 +1,7 @@
 module github.com/ugonakawaka/PacketSockDgram
 
-go 1.15
+go 1.25.0
 
-require golang.org/x/net v0.0.0-20201224014010-6772e930b67b
+require golang.org/x/net v0.55.0
+
+require golang.org/x/sys v0.45.0 // indirect
