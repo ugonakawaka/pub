@@ -1,1 +1,0 @@
-export * from './lib/my-custom-element.svelte';
